@@ -14,12 +14,13 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 public class Main {
 	protected static final int cor = 0x9e42f5;
 	protected static JDA jda;
-	protected static final boolean isTesting = true;
+	protected static final boolean isTesting = false;
 	
 	public static void main(String[] args) throws Exception {
 		
 		String status = "Gerry 1.6.2 | !updates";
 		
+		//Instance builder
 		jda = JDABuilder.createDefault(Token.getToken())
 	    				.addEventListeners(new Comandos())
 	    				.addEventListeners(new Comandos_shaped())
