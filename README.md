@@ -3,7 +3,6 @@ A personal +18 discord bot
 
 #Features
 
-+Dice Roller
+-Dice Roller
 
-
-+Daily +18 Mangas update
+-Daily +18 Mangas update
