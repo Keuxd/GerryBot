@@ -9,12 +9,25 @@ import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class PV extends ListenerAdapter{
+	
 	private static PrivateChannel myChannel;
+	
 	public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
+		if(event.getAuthor().isBot()) return;
 		
 		String[] args = event.getMessage().getContentRaw().split("\\s+");
 		
 		switch(args[0].toLowerCase()) {
+			case(".help"): {
+				event.getChannel().sendMessage(".set -> Para dar set no user a receber as informacoes.\n"
+											 + ".send _numbers_ -> Enviar um nHentai aos canais 'henta'.\n"
+											 + ".clear -> Limpar os canais 'henta'.\n"
+											 + ".say -> Dizer algo nos canais 'geral'."
+											  ).queue();
+				break;
+			}
+		
+		
 			case(".set"):{
 				if(myChannel == null) {
 					myChannel = event.getChannel();
@@ -49,7 +62,6 @@ public class PV extends ListenerAdapter{
 				}
 				break;
 			}
-			
 			
 //TODO Otimizar isso depois :kek:
 			case(".say"):{

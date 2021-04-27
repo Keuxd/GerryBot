@@ -40,7 +40,7 @@ public class Main {
 		
 		jda.awaitReady();
 		
-		if(isTesting) new Stonks().start();
+		if(!isTesting) new Stonks().start();
 		
 		try {
 			jda.getGuilds().get(0).getAudioManager().openAudioConnection(jda.getGuilds().get(0).getVoiceChannels().get(0));

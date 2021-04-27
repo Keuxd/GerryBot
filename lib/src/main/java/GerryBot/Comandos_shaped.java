@@ -65,7 +65,7 @@ public class Comandos_shaped extends ListenerAdapter {
 				int i = 1;
 				while(hentai == null) {					
 					try {
-						hentai = Comandos.nHentai(String.valueOf(new Dices(1,999999).getDados()[0]));
+						hentai = Hentai.nHentai(String.valueOf(new Dices(1,999999).getDados()[0]));
 					}catch (Exception e) {}
 					i++;
 				}
@@ -93,7 +93,7 @@ public class Comandos_shaped extends ListenerAdapter {
 						dataNum += String.valueOf(data[i] + "" + data[i+1]);
 					}					
 					
-					Hentai hentai = Comandos.nHentai(dataNum);
+					Hentai hentai = Hentai.nHentai(dataNum);
 					hentai.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> message.addReaction("U+1F51E").queue());
 				}
 				catch (SocketTimeoutException e) {

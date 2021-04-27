@@ -1,8 +1,16 @@
 package GerryBot;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
+
+import org.jsoup.HttpStatusException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -55,6 +63,56 @@ final class Hentai {
 		}
 	}
 	
+	static Hentai nHentai(String number) throws IOException, SocketTimeoutException, HttpStatusException{
+		try {
+			Hentai hentaiDoDia = new Hentai();
+			String link = "https://nhentai.to/g/" + number;
+			hentaiDoDia.setNumbers(number);
+			
+			Document doc = Jsoup.connect(link).timeout(45*1000).get();
+			hentaiDoDia.setLink(link);
+			
+			Elements imagens = doc.select("img[src~=(?i)\\.(png|jpe?g|gif)]");
+			hentaiDoDia.setImagem(imagens.get(1).attr("src"));
+			
+			Element titulo = doc.getElementById("info");
+			Elements tituloS = titulo.getElementsByTag("h1");
+			String tituloString = tituloS.toString().replace("<h1>", "").replace("</h1>", "");
+				   tituloString = tituloString.replaceAll("(.*?"+"<a href=" + ")" + "(.*?)" + "(" + "</a>" + ".*)", "$1$3");
+				   tituloString = tituloString.replace("<a href=", "").replace("</a>", "");
+			hentaiDoDia.setTitle(tituloString);	
+				
+			Element tags = doc.getElementById("tags");
+			Elements tagsS = tags.getElementsByClass("tags").select("a[href]"); 
+			
+			//clona a lista de elementos tagsS para que seja possivel o "for" remover os elementos que nao sao tags
+			Elements tagsClone = tagsS.clone();
+			int index = 0;
+			for(Element tag : tagsS) {
+				if(!tag.toString().contains("<a href=\"/tag/")) {
+					tagsClone.remove(index);
+					index--; //aqui voltamos um no ponteiro(index) pois ao .remove() todos os elementos posteriores voltam 1 casa
+				}
+				index++;
+			}
+			
+			//converte o ".text()" de um tipo Elements em um vetor de Strings.
+			int counter = 0;			
+			String[] bbTags = new String[index];
+			for(Element tag : tagsClone) {
+				bbTags[counter] = tag.text().toString();
+				counter++;
+			}
+			counter = 0;
+			hentaiDoDia.setTags(bbTags);		
+			
+			return hentaiDoDia;
+			
+		}finally {}
+		
+		
+	}
+	
 	
 	protected MessageAction sendEmbedHentai(MessageChannel channel) {
 		return sendEmbedHentai(channel, "Hentai " + this.numbers);
@@ -85,11 +143,11 @@ final class Hentai {
 		
 	}
 
-	protected String getTitulo() {
+	protected String getTitle() {
 		return title;
 	}
 
-	protected void setTitulo(String titulo) {
+	protected void setTitle(String titulo) {
 		this.title = titulo;
 	}
 
