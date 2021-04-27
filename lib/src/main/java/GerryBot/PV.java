@@ -26,21 +26,6 @@ public class PV extends ListenerAdapter{
 				break;
 			}
 			case(".send"):{
-//				try {
-//					Hentai henta = Comandos.nHentai(args[1]);
-//				
-//				List<Guild> guildas = Main.jda.getGuilds();
-//				for(Guild server : guildas) {
-//					List<TextChannel> canais = server.getTextChannelsByName("henta", true);
-//					for(TextChannel tc : canais) {
-//						henta.sendEmbedHentai(tc).queue();
-//					}
-//					event.getMessage().getPrivateChannel().sendMessage("Hentai enviado.").queue();
-//				}
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
 				List<TextChannel> canais = Main.jda.getTextChannelsByName("henta", true);
 				for(TextChannel tc : canais) {
 					tc.sendMessage("!hn " + args[1]).queue();
