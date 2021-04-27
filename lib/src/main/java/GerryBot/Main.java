@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 public class Main {
 	protected static final int cor = 0x9e42f5;
 	protected static JDA jda;
-	protected static final boolean isTesting = true;
+	protected static final boolean isTesting = false;
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -40,10 +40,7 @@ public class Main {
 		
 		jda.awaitReady();
 		
-		if(!isTesting) {
-			Thread t1 = new Stonks();
-			t1.start();
-		}
+		if(isTesting) new Stonks().start();
 		
 		try {
 			jda.getGuilds().get(0).getAudioManager().openAudioConnection(jda.getGuilds().get(0).getVoiceChannels().get(0));
@@ -57,7 +54,7 @@ public class Main {
 	}
 }
 
-//TODO chama o !henta de tempos em tempos
+//TODO !henta timer
 class Stonks extends Thread {
 	
 	@Override

@@ -24,13 +24,8 @@ public class Comandos extends ListenerAdapter {
 		User autor = event.getAuthor();
 		
 		
-		//rolador de dados
-		if((args[0].length() >= 3 && String.valueOf(args[0].charAt(0)).matches("[0-9]*") && (args[0].charAt(1) == 'd' || args[0].charAt(2) == 'd'))) {
-			
-			//if last character isnt a number(0~9) -> return;
-			if(!String.valueOf(args[0].charAt(args[0].length()-1)).matches("[0-9]*")) {
-				return;
-			}
+		//dice roller -> at least lentgh 3 | first char be a number | last char be a number | the "middle" char must be 'd'
+		if((args[0].length() >= 3 && String.valueOf(args[0].charAt(0)).matches("[0-9]*") && String.valueOf(args[0].charAt(args[0].length()-1)).matches("[0-9]*") &&  (args[0].charAt(1) == 'd' || args[0].charAt(2) == 'd'))) {
 			try {
 				String[] argumentos = args[0].split("d");
 				String[] modificadores = null;
