@@ -25,5 +25,8 @@ hs_err_pid*
 # Ignore Gradle project-specific cache directory
 .gradle
 
+#Token
+Token.java
+
 # Ignore Gradle build output directory
 build
