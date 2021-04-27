@@ -154,49 +154,6 @@ public class Comandos_shaped extends ListenerAdapter {
 				break;
 			}
 			
-//			case ("!test"):{
-//				List<Message> mensagens = event.getChannel().getHistory().retrievePast(5).complete();
-//				System.out.println(mensagens.size());
-//				String link = null;
-//				InputStream file = null;
-//				
-//				link = mensagens.get(1).getEmbeds().get(0).getImage().getUrl();
-//				System.out.println(link);
-//				
-//				try {
-//					file = new URL(link).openStream();
-//				} catch (Exception e) {}
-//				
-//				
-//				EmbedBuilder eb = new EmbedBuilder();
-//					eb.setTitle("Jhonsons e Jhonsons");
-//					eb.setImage("attachment://cover.jpg");
-//				
-//
-//				channel.sendFile(file, "cover.jpg").embed(eb.build()).queue();
-//				break;
-//			}
-			
-			/*
-			case ("takkk"):{
-				List<Guild> guildas = Main.jda.getGuilds();
-				List<Member> membros = guildas.get(0).getMembers();
-				EnumSet<Permission> permisao = membros.get(0).getPermissions();
-				
-				for(Permission permissao : permisao) {
-					System.out.println(permissao.getName());
-				}
-				
-				
-				
-				//Member user = event.getGuild().getMemberByTag("Gerry#0314");
-				//event.getGuild().kick(user).queue();
-				//membros.get(0).ban(1).queue();
-				break;
-			}
-			*/
-			
-			
 		}
 		
 	}
