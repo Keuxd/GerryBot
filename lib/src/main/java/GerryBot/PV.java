@@ -1,0 +1,101 @@
+package GerryBot;
+
+import java.util.List;
+
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
+public class PV extends ListenerAdapter{
+	private static PrivateChannel myChannel;
+	public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
+		
+		String[] args = event.getMessage().getContentRaw().split("\\s+");
+		
+		switch(args[0].toLowerCase()) {
+			case(".set"):{
+				if(myChannel == null) {
+					myChannel = event.getChannel();
+					myChannel.sendMessage(myChannel.getUser().getAsTag() + " setted").queue();
+				}
+				else {
+					event.getMessage().getPrivateChannel().sendMessage(myChannel.getUser().getAsTag() + " already setted").queue();
+				}
+				break;
+			}
+			case(".send"):{
+//				try {
+//					Hentai henta = Comandos.nHentai(args[1]);
+//				
+//				List<Guild> guildas = Main.jda.getGuilds();
+//				for(Guild server : guildas) {
+//					List<TextChannel> canais = server.getTextChannelsByName("henta", true);
+//					for(TextChannel tc : canais) {
+//						henta.sendEmbedHentai(tc).queue();
+//					}
+//					event.getMessage().getPrivateChannel().sendMessage("Hentai enviado.").queue();
+//				}
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+				List<TextChannel> canais = Main.jda.getTextChannelsByName("henta", true);
+				for(TextChannel tc : canais) {
+					tc.sendMessage("!hn " + args[1]).queue();
+				}		
+				event.getMessage().getPrivateChannel().sendMessage("Hentai enviado.").queue();			
+				
+				break;
+			}
+			
+			case(".clear"):{
+				try {
+					List<TextChannel> canais = Main.jda.getTextChannelsByName("henta", true);
+					
+					for(TextChannel canal : canais) {
+						List<Message> mensagens = canal.getHistory().retrievePast(30).complete();
+						canal.purgeMessages(mensagens);
+					}
+					event.getMessage().getPrivateChannel().sendMessage("Canais 'henta' limpos.").queue();
+				}catch(Exception e) {
+					event.getMessage().getPrivateChannel().sendMessage("Erro ao limpar canais.").queue();
+				}
+				break;
+			}
+			
+			
+//TODO Otimizar isso depois :kek:
+			case(".say"):{
+				if(args.length == 1) return;
+				
+				String finalWord = "";
+				
+				for(int i = 1; i < args.length; i++) {
+					finalWord += args[i];
+				}
+				
+				try {
+					List<TextChannel> ch = Main.jda.getTextChannelsByName("geral", true);
+					
+					for(TextChannel tx : ch) {
+						tx.sendMessage(finalWord).queue();
+					}
+					
+				event.getChannel().sendMessage("_" + finalWord + "_" + " **Sended**").queue();
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+	
+	public static void updateHentaState(String lastHenta) {
+		if(myChannel == null) return;
+		myChannel.sendMessage(lastHenta).queue();
+	}
+	
+}
