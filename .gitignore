@@ -24,7 +24,6 @@ hs_err_pid*
 
 # Token
 Token.java
-Token.class
 
 # Ignore Gradle project-specific cache directory
 .gradle
