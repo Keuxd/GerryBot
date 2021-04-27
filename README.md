@@ -1,7 +1,7 @@
 # GerryBot
 A personal +18 discord bot
 
-#Features
+# Features
 
 -Dice Roller
 
