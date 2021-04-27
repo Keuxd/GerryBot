@@ -84,7 +84,7 @@ public class Comandos_shaped extends ListenerAdapter {
 					data = String.valueOf(data).replace("-", "").toCharArray();
 					String dataNum = new String();
 					
-					//a data est� em formato americano, esse looping coloca os numeros na string dataNum ao contr�rio
+					//a data esta em formato americano, esse looping coloca os numeros na string dataNum ao contrario
 					for(int i = 4; i >= 0; i-=2) {
 						if(i == 4 && Integer.parseInt(String.valueOf(data[i] + "" + data[i+1])) < 10) {
 							dataNum += String.valueOf(data[i+1]);
@@ -144,7 +144,7 @@ public class Comandos_shaped extends ListenerAdapter {
 							+ "- Algoritmo de aleatoriedade de dados melhorado, suporte a modificadores adicionado.\n\n"
 							+ "- Corrigido bug onde links apareciam no meio do titulo do !henta/!hn.\n\n"
 							+ "- Corrigido bug de mal funcionamento do botao cursed em 'henta'.\n\n"
-							+ "- Corrigido bug onde a capa de alguns hentais n�o carregava.\n\n"
+							+ "- Corrigido bug onde a capa de alguns hentais nao carregava.\n\n"
 							+ "- !cm, !hn/!rhn e !blazblue adicionados.\n\n"
 							+ "- !zoe, !dl e !desgraca removidos."
 							
