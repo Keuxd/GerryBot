@@ -1,5 +1,5 @@
 # GerryBot
-A personal +18 discord bot
+A personal +18 discord bot made in JDA
 
 # Features
 
