@@ -18,16 +18,14 @@ public class PV extends ListenerAdapter{
 		String[] args = event.getMessage().getContentRaw().split("\\s+");
 		
 		switch(args[0].toLowerCase()) {
-			case(".help"): {
+			case(".help"):{
 				event.getChannel().sendMessage(".set -> Para dar set no user a receber as informacoes.\n"
-											 + ".send _numbers_ -> Enviar um nHentai aos canais 'henta'.\n"
+											 + ".send '_numbers_' -> Enviar um nHentai aos canais 'henta'.\n"
 											 + ".clear -> Limpar os canais 'henta'.\n"
 											 + ".say -> Dizer algo nos canais 'geral'."
 											  ).queue();
 				break;
 			}
-		
-		
 			case(".set"):{
 				if(myChannel == null) {
 					myChannel = event.getChannel();
