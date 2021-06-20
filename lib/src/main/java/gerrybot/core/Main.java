@@ -3,6 +3,7 @@ package gerrybot.core;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import gerrybot.league.League;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -53,6 +54,9 @@ public class Main {
 		int newMinutesTillNow = Comandos.newMinutesFormat();
 		
 		System.out.println("OLD -> " + minutesTillNow + "\nNEW -> " + newMinutesTillNow);
+		
+		League liga = new League("ashe");
+		liga.getRunes();
 	}
 }
 
