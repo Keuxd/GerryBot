@@ -1,4 +1,4 @@
-package GerryBot;
+package gerrybot.core;
 
 import java.io.IOException;
 import java.io.InputStream;

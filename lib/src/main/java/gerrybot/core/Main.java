@@ -1,4 +1,4 @@
-package GerryBot;
+package gerrybot.core;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
