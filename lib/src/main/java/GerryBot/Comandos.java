@@ -89,14 +89,20 @@ public class Comandos extends ListenerAdapter {
 
 	}
 	
-	
+	static int newMinutesFormat() {
+		LocalDateTime now = LocalDateTime.now();
+		if(!Main.isTesting) now = now.minusHours(3);
+		
+		System.out.println(now.getHour());
+		return (now.getHour() * 60) + now.getMinute();
+	}
 	
 	static int minutesFormat() {		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		if(!Main.isTesting) now = now.minusHours(3);
 		  
-		String[] timeNow = dtf.format(now).split("\\s+")[1].split(":");		
+		String[] timeNow = dtf.format(now).split("\\s+")[1].split(":");	
 		return (Integer.parseInt(timeNow[0]) * 60) + Integer.parseInt(timeNow[1]);
 	}
 
@@ -118,7 +124,6 @@ public class Comandos extends ListenerAdapter {
 			}
 		}
 		
-		System.out.println("Minutos Restantes -> " + contador);
 		return contador;
 	}
 

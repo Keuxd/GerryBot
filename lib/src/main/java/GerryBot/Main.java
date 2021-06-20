@@ -49,6 +49,10 @@ public class Main {
 			System.out.println("Erro ao conectar no canal de voz.");
 		}
 		
+		int minutesTillNow = Comandos.minutesFormat();
+		int newMinutesTillNow = Comandos.newMinutesFormat();
+		
+		System.out.println("OLD -> " + minutesTillNow + "\nNEW -> " + newMinutesTillNow);
 		
 		
 	}
