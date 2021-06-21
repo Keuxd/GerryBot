@@ -35,7 +35,7 @@ public final class Hentai {
 	
 	public Hentai(MessageChannel channel, String numbers) {
 		this.channel = channel;
-		loadNHentai(numbers);
+		loadNHentaiTo(numbers);
 	}
 	
 	protected String concatTags() {
@@ -71,19 +71,16 @@ public final class Hentai {
 		}
 	}
 	
-	protected void loadNHentai(String number) {
+	protected void loadNHentaiTo(String number) {
 		this.setNumbers(number);
 		
 		String link = "https://nhentai.to/g/" + number;
 		this.setLink(link);
 		
 		if(!validateLink()) {
-			this.setLink(this.link.replace(".to", ".net"));
-			if(!validateLink()) {
-				this.channel.sendMessage("Esses numeros nao levam a nenhum hentai.").queue();
-				this.channel.sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
-				return;
-			}
+			this.channel.sendMessage("Esses numeros nao levam a nenhum hentai.").queue();
+			this.channel.sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
+			return;
 		}
 			
 		Elements imagens = this.hentaiPageHTML.select("img[src~=(?i)\\.(png|jpe?g|gif)]");
@@ -140,24 +137,21 @@ public final class Hentai {
 				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	protected void randomHentai() {
 		try {
 			int numbers = 0;
 			
-			while(this.hentaiPageHTML == null) {
-				numbers = new Dices(1,999999).getDados()[0];		
+			while(true) {
+				numbers = new Dices(1,999999).getDados()[0];
 				this.setLink("https://nhentai.to/g/" + numbers);
-				if(!validateLink()) {
-					this.setLink(this.link.replace(".to", ".net"));
-					if(!validateLink()) {
-						continue;
-					}
+				if(validateLink()) {
+					break;
 				}
 			}
-			loadNHentai(String.valueOf(numbers));
+			loadNHentaiTo(String.valueOf(numbers));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

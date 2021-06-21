@@ -59,7 +59,8 @@ public class Comandos_shaped extends ListenerAdapter {
 			case("!rhn"):{
 				Hentai rhn = new Hentai(channel);
 				rhn.randomHentai();
-				rhn.sendEmbedHentai(channel);
+				rhn.sendEmbedHentai(channel).queue();
+				break;
 			}
 			
 			case ("!henta"):{
