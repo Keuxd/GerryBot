@@ -143,6 +143,25 @@ public final class Hentai {
 		return false;
 	}
 
+	protected void randomHentai() {
+		try {
+			int numbers = 0;
+			
+			while(this.hentaiPageHTML == null) {
+				numbers = new Dices(1,999999).getDados()[0];		
+				this.setLink("https://nhentai.to/g/" + numbers);
+				if(!validateLink()) {
+					this.setLink(this.link.replace(".to", ".net"));
+					if(!validateLink()) {
+						continue;
+					}
+				}
+			}
+			loadNHentai(String.valueOf(numbers));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	protected MessageAction sendEmbedHentai(MessageChannel channel) {
 		return sendEmbedHentai(channel, "Hentai " + this.numbers);

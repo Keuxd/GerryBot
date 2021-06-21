@@ -1,10 +1,6 @@
 package gerrybot.core;
 
 
-import java.net.SocketTimeoutException;
-
-import org.jsoup.HttpStatusException;
-
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -61,54 +57,28 @@ public class Comandos_shaped extends ListenerAdapter {
 			}
 			
 			case("!rhn"):{
-				Hentai hentai = null;
-				int i = 1;
-				while(hentai == null) {					
-					try {
-						hentai = Hentai.nHentai(String.valueOf(new Dices(1,999999).getDados()[0]));
-					}catch (Exception e) {}
-					i++;
-				}
-				
-				PV.updateHentaState("Try -> " + i);
-				hentai.sendEmbedHentai(channel).queue();
-				break;
+				Hentai rhn = new Hentai(channel);
+				rhn.randomHentai();
+				rhn.sendEmbedHentai(channel);
 			}
-
-			
 			
 			case ("!henta"):{
-				try {
-					char[] data = java.time.LocalDate.now().toString().toCharArray();
-					data[0] = '-'; data[1] = '-';
-					data = String.valueOf(data).replace("-", "").toCharArray();
-					String dataNum = new String();
+				char[] data = java.time.LocalDate.now().toString().toCharArray();
+				data[0] = '-'; data[1] = '-';
+				data = String.valueOf(data).replace("-", "").toCharArray();
+				String dataNum = new String();
 					
-					//a data esta em formato americano, esse looping coloca os numeros na string dataNum ao contrario
-					for(int i = 4; i >= 0; i-=2) {
-						if(i == 4 && Integer.parseInt(String.valueOf(data[i] + "" + data[i+1])) < 10) {
-							dataNum += String.valueOf(data[i+1]);
-							continue;
-						}
-						dataNum += String.valueOf(data[i] + "" + data[i+1]);
-					}					
+				//a data esta em formato americano, esse looping coloca os numeros na string dataNum ao contrario
+				for(int i = 4; i >= 0; i-=2) {
+					if(i == 4 && Integer.parseInt(String.valueOf(data[i] + "" + data[i+1])) < 10) {
+						dataNum += String.valueOf(data[i+1]);
+						continue;
+					}
+					dataNum += String.valueOf(data[i] + "" + data[i+1]);
+				}					
 					
-					Hentai hentai = Hentai.nHentai(dataNum);
-					hentai.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> message.addReaction("U+1F51E").queue());
-				}
-				catch (SocketTimeoutException e) {
-					channel.sendMessage("Erro no carregamento, tente novamente mais tarde.").queue();
-					channel.sendMessage("https://cdn.discordapp.com/emojis/753301782288924702.png").queue();
-				}
-				catch (HttpStatusException e) {
-					channel.sendMessage("O dia de hoje nao tem hentai").queue();
-					channel.sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
-				}
-				catch (Exception e) {
-					//e.printStackTrace();
-					System.out.println("Comandos_shaped -> !henta " + e);
-					channel.sendMessage("**DEBUG**\n(Informe os moderadores)").queue();
-				}
+				Hentai hentai = new Hentai(channel, dataNum);
+				hentai.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> message.addReaction("U+1F51E").queue());
 				break;
 			}
 			
