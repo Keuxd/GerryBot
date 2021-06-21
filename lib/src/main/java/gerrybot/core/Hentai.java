@@ -1,3 +1,7 @@
+/*	TODO
+- Implement nHentai.net;
+- sendEmbedHentai be void;
+*/
 package gerrybot.core;
 
 import java.io.IOException;
@@ -50,7 +54,6 @@ public final class Hentai {
 		
 		return hentaiTags += this.tags[sizeArray].substring(0,1).toUpperCase() + this.tags[sizeArray].substring(1) + ".";
 	}
-	
 	
 	protected MessageAction sendEmbedHentai(MessageChannel channel, String title) {
 		EmbedBuilder hentao = new EmbedBuilder()
@@ -145,14 +148,15 @@ public final class Hentai {
 			int numbers = 0;
 			
 			while(true) {
-				numbers = new Dices(1,999999).getDados()[0];
+				numbers = new Dices(1,999999).getDados()[0];	
 				this.setLink("https://nhentai.to/g/" + numbers);
 				if(validateLink()) {
 					break;
 				}
 			}
+			
 			loadNHentaiTo(String.valueOf(numbers));
-		} catch (Exception e) {
+		} catch (Exception e) {	
 			e.printStackTrace();
 		}
 	}
