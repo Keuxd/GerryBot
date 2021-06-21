@@ -1,10 +1,7 @@
 package gerrybot.core;
 
-import java.net.SocketTimeoutException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import org.jsoup.HttpStatusException;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -52,7 +49,6 @@ public class Comandos extends ListenerAdapter {
 						embed.setFooter(dados.getConcatDados() + " " + dados.modificador, autor.getAvatarUrl());
 					}
 					
-					
 				channel.sendMessage(embed.build()).queue();
 			}
 			catch(Exception e) {
@@ -63,23 +59,8 @@ public class Comandos extends ListenerAdapter {
 		
 		//hentai numbers
 		if(args.length == 2 && args[0].equals("!hn")) {
-			try {
-				Hentai hentai = Hentai.nHentai(args[1]);
-				
-				hentai.sendEmbedHentai(channel).queue();
-			}
-			catch(SocketTimeoutException e){
-				event.getChannel().sendMessage("Erro no carregamento, tente novamente mais tarde.").queue();
-				event.getChannel().sendMessage("https://cdn.discordapp.com/emojis/753301782288924702.png").queue();
-			}
-			catch (HttpStatusException e) {
-				event.getChannel().sendMessage("Esses numeros nao levam a nenhum hentai.").queue();
-				event.getChannel().sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
-			}
-			catch (Exception e) {
-				System.out.println("Comandos_shaped -> !henta " + e);
-				event.getChannel().sendMessage("**DEBUG**\n(Informe os moderadores)").queue();
-			}
+			Hentai hentai = new Hentai(channel, args[1]);
+			hentai.sendEmbedHentai(channel).queue();
 		}
 		
 		if(args[0].equals("!cm") && args.length == 2) {

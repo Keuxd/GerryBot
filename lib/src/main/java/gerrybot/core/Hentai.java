@@ -16,18 +16,26 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
-final class Hentai {	
-	private String image;
+public final class Hentai {	
+	private String imageLink;
 	private String title;
 	private String link;
 	private String[] tags;
 	private String numbers;
 	
 	private InputStream imageFile;
-	protected final String fileDic = "cover.jpg";
+	private final String fileDir = "cover.jpg";
 	
-	Hentai(){
-		
+	private Document hentaiPageHTML;
+	private MessageChannel channel;
+	
+	public Hentai(MessageChannel channel) {
+		this.channel = channel;
+	}
+	
+	public Hentai(MessageChannel channel, String numbers) {
+		this.channel = channel;
+		loadNHentai(numbers);
 	}
 	
 	protected String concatTags() {
@@ -55,64 +63,86 @@ final class Hentai {
 		
 		if(this.imageFile != null) {
 			hentao.setImage("attachment://cover.jpg");
-			return channel.sendFile(this.imageFile, this.fileDic).embed(hentao.build());
+			return channel.sendFile(this.imageFile, this.fileDir).embed(hentao.build());
 		}
 		else {
-			hentao.setImage(this.image);
+			hentao.setImage(this.imageLink);
 			return channel.sendMessage(hentao.build());
 		}
 	}
 	
-	static Hentai nHentai(String number) throws IOException, SocketTimeoutException, HttpStatusException{
-		try {
-			Hentai hentaiDoDia = new Hentai();
-			String link = "https://nhentai.to/g/" + number;
-			hentaiDoDia.setNumbers(number);
-			
-			Document doc = Jsoup.connect(link).timeout(45*1000).get();
-			hentaiDoDia.setLink(link);
-			
-			Elements imagens = doc.select("img[src~=(?i)\\.(png|jpe?g|gif)]");
-			hentaiDoDia.setImagem(imagens.get(1).attr("src"));
-			
-			Element titulo = doc.getElementById("info");
-			Elements tituloS = titulo.getElementsByTag("h1");
-			String tituloString = tituloS.toString().replace("<h1>", "").replace("</h1>", "");
-				   tituloString = tituloString.replaceAll("(.*?"+"<a href=" + ")" + "(.*?)" + "(" + "</a>" + ".*)", "$1$3");
-				   tituloString = tituloString.replace("<a href=", "").replace("</a>", "");
-			hentaiDoDia.setTitle(tituloString);	
-				
-			Element tags = doc.getElementById("tags");
-			Elements tagsS = tags.getElementsByClass("tags").select("a[href]"); 
-			
-			//clona a lista de elementos tagsS para que seja possivel o "for" remover os elementos que nao sao tags
-			Elements tagsClone = tagsS.clone();
-			int index = 0;
-			for(Element tag : tagsS) {
-				if(!tag.toString().contains("<a href=\"/tag/")) {
-					tagsClone.remove(index);
-					index--; //aqui voltamos um no ponteiro(index) pois ao .remove() todos os elementos posteriores voltam 1 casa
-				}
-				index++;
+	protected void loadNHentai(String number) {
+		this.setNumbers(number);
+		
+		String link = "https://nhentai.to/g/" + number;
+		this.setLink(link);
+		
+		if(!validateLink()) {
+			this.setLink(this.link.replace(".to", ".net"));
+			if(!validateLink()) {
+				this.channel.sendMessage("Esses numeros nao levam a nenhum hentai.").queue();
+				this.channel.sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
+				return;
 			}
+		}
 			
-			//converte o ".text()" de um tipo Elements em um vetor de Strings.
-			int counter = 0;			
-			String[] bbTags = new String[index];
-			for(Element tag : tagsClone) {
+		Elements imagens = this.hentaiPageHTML.select("img[src~=(?i)\\.(png|jpe?g|gif)]");
+		this.setImagem(imagens.get(1).attr("src"));
+			
+		Element titulo = this.hentaiPageHTML.getElementById("info");
+		Elements tituloS = titulo.getElementsByTag("h1");
+		String tituloString = tituloS.toString().replace("<h1>", "").replace("</h1>", "");
+			//everything that is between '<a ref=' and '</a>' is deleted
+			tituloString = tituloString.replaceAll("(.*?"+"<a href=" + ")" + "(.*?)" + "(" + "</a>" + ".*)", "$1$3");
+			tituloString = tituloString.replace("<a href=", "").replace("</a>", "");
+		this.setTitle(tituloString);
+				
+		Element tags = this.hentaiPageHTML.getElementById("tags");
+		Elements tagsS = tags.getElementsByClass("tags").select("a[href]"); 
+			
+		//clona a lista de elementos tagsS para que seja possivel o "for" remover os elementos que nao sao tags
+		Elements tagsClone = tagsS.clone();
+		int index = 0;
+		for(Element tag : tagsS) {
+			if(!tag.toString().contains("<a href=\"/tag/")) {
+				tagsClone.remove(index);
+				index--; //aqui voltamos um no ponteiro(index) pois ao .remove() todos os elementos posteriores voltam 1 casa
+			}
+			index++;
+		}
+			
+		//converte o ".text()" de um tipo Elements em um vetor de Strings.
+		int counter = 0;			
+		String[] bbTags = new String[index];
+		for(Element tag : tagsClone) {
 				bbTags[counter] = tag.text().toString();
 				counter++;
-			}
-			counter = 0;
-			hentaiDoDia.setTags(bbTags);		
-			
-			return hentaiDoDia;
-			
-		}finally {}
-		
-		
+		}
+		counter = 0;
+		this.setTags(bbTags);
 	}
 	
+	private boolean validateLink() {
+		// while/if this page doesnt load continue trying loading it
+		while(this.hentaiPageHTML == null) {
+			try {
+				this.hentaiPageHTML = Jsoup.connect(this.link).timeout(45*1000).get();
+				return true;
+				
+			} catch(SocketTimeoutException e) {
+				continue;
+			
+			} catch(HttpStatusException e) {
+				return false;
+				
+			} catch(IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
+	}
+
 	
 	protected MessageAction sendEmbedHentai(MessageChannel channel) {
 		return sendEmbedHentai(channel, "Hentai " + this.numbers);
@@ -124,11 +154,11 @@ final class Hentai {
 	
 	
 	protected String getImagem() {
-		return image;
+		return imageLink;
 	}
 
 	protected void setImagem(String imagem) {
-		this.image = imagem;
+		this.imageLink = imagem;
 		
 		try {
 			URLConnection connection = new URL(imagem).openConnection();
@@ -174,7 +204,4 @@ final class Hentai {
 	protected void setNumbers(String numbers) {
 		this.numbers = numbers;
 	}
-	
-
-
 }
