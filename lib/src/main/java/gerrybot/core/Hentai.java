@@ -1,5 +1,6 @@
 /*	TODO
 - Implement nHentai.net; i guess
+- Change all system to a HentaiFactory
 */
 package gerrybot.core;
 
@@ -75,7 +76,6 @@ public final class Hentai {
 
 		this.setLink(this.hentaiPageHTML.baseUri());
 		this.setNumbers(this.link.substring(21));
-		System.out.println(this.numbers);
 		
 		Elements imagens = this.hentaiPageHTML.select("img[src~=(?i)\\.(png|jpe?g|gif)]");
 		this.setImagem(imagens.get(1).attr("src"));
