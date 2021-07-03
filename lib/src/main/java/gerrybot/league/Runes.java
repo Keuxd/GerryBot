@@ -46,7 +46,7 @@ public class Runes {
 	
 	public void sendRunes(MessageChannel channel) {
 		for(String rune : this.runes) {
-			channel.sendMessage(rune).queue();;
+			channel.sendMessage(rune).queue();
 		}
 	}
 
