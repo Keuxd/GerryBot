@@ -39,16 +39,17 @@ public class Dices {
 	
 	//TODO optimize it using StringBuilder instead of String
 	public String getConcatDados() {
-		String resultadoDadosSTR = new String();
-		resultadoDadosSTR += "[ " + this.dados[0];
+		StringBuilder resultadoDadosSTR = new StringBuilder();
+		resultadoDadosSTR.append("[ " + dados[0]);
 		
-		//for comeca em 1 pois o elemento 0 foi colocado diretamente por motivos de formatacao do texto.
-		for(int i = 1; i < this.dados.length; i++) {
-			resultadoDadosSTR += " | " + this.dados[i];
-		}
+		int size = dados.length;
 		
-		resultadoDadosSTR += " ]";
-		return resultadoDadosSTR;
+		for(int i = 1; i < size; i++)
+			resultadoDadosSTR.append(" | " + dados[i]);
+		
+		resultadoDadosSTR.append(" ]");
+		
+		return resultadoDadosSTR.toString();
 	}
 	
 	public int getTotal() {
