@@ -59,8 +59,12 @@ public class Comandos extends ListenerAdapter {
 		
 		//hentai numbers
 		if(args.length == 2 && args[0].equals("!hn")) {
-			Hentai hentai = new Hentai(channel, args[1]);
-			hentai.sendEmbedHentai(channel).queue();
+			try {
+				new Hentai(args[1]).sendEmbedHentai(channel).queue();
+			} catch (Exception e) {
+				channel.sendMessage("Esses numeros nao levam a nenhum nHentai.").queue();
+				channel.sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
+			}
 		}
 		
 		if(args[0].equals("!cm") && args.length == 2) {

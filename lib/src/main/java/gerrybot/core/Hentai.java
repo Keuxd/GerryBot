@@ -1,6 +1,5 @@
 /*	TODO
-- Implement nHentai.net;
-- sendEmbedHentai be void;
+- Implement nHentai.net; i guess
 */
 package gerrybot.core;
 
@@ -20,7 +19,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
-public final class Hentai {	
+public final class Hentai {
 	private String imageLink;
 	private String title;
 	private String link;
@@ -31,14 +30,10 @@ public final class Hentai {
 	private final String fileDir = "cover.jpg";
 	
 	private Document hentaiPageHTML;
-	private MessageChannel channel;
 	
-	public Hentai(MessageChannel channel) {
-		this.channel = channel;
-	}
+	public Hentai() {}
 	
-	public Hentai(MessageChannel channel, String numbers) {
-		this.channel = channel;
+	public Hentai(String numbers) throws Exception {
 		loadNHentaiTo(numbers);
 	}
 	
@@ -74,17 +69,14 @@ public final class Hentai {
 		}
 	}
 	
-	protected void loadNHentaiTo(String number) {
+	protected void loadNHentaiTo(String number) throws Exception {
 		this.setNumbers(number);
 		
 		String link = "https://nhentai.to/g/" + number;
 		this.setLink(link);
 		
-		if(!validateLink()) {
-			this.channel.sendMessage("Esses numeros nao levam a nenhum hentai.").queue();
-			this.channel.sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
-			return;
-		}
+		if(!validateLink())
+			throw new Exception("Invalid hentai");
 			
 		Elements imagens = this.hentaiPageHTML.select("img[src~=(?i)\\.(png|jpe?g|gif)]");
 		this.setImagem(imagens.get(1).attr("src"));
@@ -142,23 +134,14 @@ public final class Hentai {
 		}
 		return true;
 	}
-
+	
 	protected void randomHentai() {
-		try {
-			int numbers = 0;
-			
-			while(true) {
-				numbers = new Dices(1,999999).getDados()[0];	
-				this.setLink("https://nhentai.to/g/" + numbers);
-				if(validateLink()) {
-					break;
-				}
-			}
-			
-			loadNHentaiTo(String.valueOf(numbers));
-		} catch (Exception e) {	
-			e.printStackTrace();
-		}
+		while(true) {
+			try {
+				loadNHentaiTo(String.valueOf(new Dices(1,999999).getDados()[0]));
+				break;
+			} catch (Exception e) {}
+		}		
 	}
 	
 	protected MessageAction sendEmbedHentai(MessageChannel channel) {

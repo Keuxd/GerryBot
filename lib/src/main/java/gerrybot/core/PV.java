@@ -22,7 +22,6 @@ public class PV extends ListenerAdapter{
 				event.getChannel().sendMessage(".set -> Para dar set no user a receber as informacoes.\n"
 											 + ".send '_numbers_' -> Enviar um nHentai aos canais 'henta'.\n"
 											 + ".clear -> Limpar os canais 'henta'.\n"
-											 + ".say -> Dizer algo nos canais 'geral'."
 											  ).queue();
 				break;
 			}
@@ -60,32 +59,7 @@ public class PV extends ListenerAdapter{
 				}
 				break;
 			}
-			
-//TODO Otimizar isso depois :kek:
-			case(".say"):{
-				if(args.length == 1) return;
-				
-				String finalWord = "";
-				
-				for(int i = 1; i < args.length; i++) {
-					finalWord += args[i];
-				}
-				
-				try {
-					List<TextChannel> ch = Main.jda.getTextChannelsByName("geral", true);
-					
-					for(TextChannel tx : ch) {
-						tx.sendMessage(finalWord).queue();
-					}
-					
-				event.getChannel().sendMessage("_" + finalWord + "_" + " **Sended**").queue();
-					
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
 		}
-
 	}
 	
 	public static void updateHentaState(String lastHenta) {

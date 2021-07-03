@@ -57,7 +57,7 @@ public class Comandos_shaped extends ListenerAdapter {
 			}
 			
 			case("!rhn"):{
-				Hentai rhn = new Hentai(channel);
+				Hentai rhn = new Hentai();
 				rhn.randomHentai();
 				rhn.sendEmbedHentai(channel).queue();
 				break;
@@ -77,9 +77,13 @@ public class Comandos_shaped extends ListenerAdapter {
 					}
 					dataNum += String.valueOf(data[i] + "" + data[i+1]);
 				}					
-					
-				Hentai hentai = new Hentai(channel, dataNum);
-				hentai.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> message.addReaction("U+1F51E").queue());
+				
+				try {
+					new Hentai(dataNum).sendEmbedHentai(channel, "Hentai do Dia").queue(message -> message.addReaction("U+1F51E").queue());
+				} catch (Exception e) {
+					channel.sendMessage("O dia de hoje não tem hentai.").queue();
+					channel.sendMessage("https://image.prntscr.com/image/0rMqADlyTRGyAJ-q36RyXw.png");
+				}
 				break;
 			}
 			
