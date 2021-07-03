@@ -1,6 +1,6 @@
 /*	TODO
 - Implement nHentai.net; i guess
-- Change all system to a HentaiFactory
+- Change all system to a Hentai Factory
 */
 package gerrybot.core;
 
