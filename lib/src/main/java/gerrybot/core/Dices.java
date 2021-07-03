@@ -37,7 +37,6 @@ public class Dices {
 		return this.dados;
 	}
 	
-	//TODO optimize it using StringBuilder instead of String
 	public String getConcatDados() {
 		StringBuilder resultadoDadosSTR = new StringBuilder();
 		resultadoDadosSTR.append("[ " + dados[0]);

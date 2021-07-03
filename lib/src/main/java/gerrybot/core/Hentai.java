@@ -34,7 +34,7 @@ public final class Hentai {
 	public Hentai() {}
 	
 	public Hentai(String numbers) throws Exception {
-		loadNHentaiTo(numbers);
+		loadNHentaiTo("https://nhentai.to/g/" + numbers);
 	}
 	
 	protected String concatTags() {
@@ -69,15 +69,14 @@ public final class Hentai {
 		}
 	}
 	
-	protected void loadNHentaiTo(String number) throws Exception {
-		this.setNumbers(number);
-		
-		String link = "https://nhentai.to/g/" + number;
-		this.setLink(link);
-		
-		if(!validateLink())
+	private void loadNHentaiTo(String link) throws Exception {		
+		if(!validateLink(link))
 			throw new Exception("Invalid hentai");
-			
+
+		this.setLink(this.hentaiPageHTML.baseUri());
+		this.setNumbers(this.link.substring(21));
+		System.out.println(this.numbers);
+		
 		Elements imagens = this.hentaiPageHTML.select("img[src~=(?i)\\.(png|jpe?g|gif)]");
 		this.setImagem(imagens.get(1).attr("src"));
 			
@@ -114,11 +113,11 @@ public final class Hentai {
 		this.setTags(bbTags);
 	}
 	
-	private boolean validateLink() {
+	private boolean validateLink(String link) {
 		// while/if this page doesnt load continue trying loading it
 		while(this.hentaiPageHTML == null) {
 			try {
-				this.hentaiPageHTML = Jsoup.connect(this.link).timeout(45*1000).get();
+				this.hentaiPageHTML = Jsoup.connect(link).timeout(45*1000).get();
 				return true;
 				
 			} catch(SocketTimeoutException e) {
@@ -135,13 +134,8 @@ public final class Hentai {
 		return true;
 	}
 	
-	protected void randomHentai() {
-		while(true) {
-			try {
-				loadNHentaiTo(String.valueOf(new Dices(1,999999).getDados()[0]));
-				break;
-			} catch (Exception e) {}
-		}		
+	protected void randomHentai() throws Exception {
+		loadNHentaiTo("https://nhentai.to/random/");
 	}
 	
 	protected MessageAction sendEmbedHentai(MessageChannel channel) {
