@@ -13,7 +13,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Main {
 	protected static final int cor = 0x9e42f5;
-	protected static JDA jda;
+	public static JDA jda;
 	protected static final boolean isTesting = true;
 	
 	public static void main(String[] args) throws Exception {

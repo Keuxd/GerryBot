@@ -3,6 +3,7 @@ package gerrybot.core;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import gerrybot.league.Runes;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -70,6 +71,15 @@ public class Comandos extends ListenerAdapter {
 		if(args[0].equals("!cm") && args.length == 2) {
 			double cm = sizeD(Integer.parseInt(args[1]));
 			channel.sendMessage("Essa personagem aguenta ate " + String.format("%.1f", cm) + "cm.").queue();
+		}
+		
+		if(args.length == 3 && args[0].equals("!runa")) {
+			try {
+				Runes runePage = new Runes(args[1], args[2]);
+				runePage.sendRunes(channel);
+			} catch (Exception e) {
+				channel.sendMessage("Campeao invalido.");
+			}
 		}
 
 	}

@@ -129,8 +129,7 @@ public class Comandos_shaped extends ListenerAdapter {
 					
 					channel.sendMessage(embed.build()).queue();
 				break;
-			}
-			
+			}			
 		}
 		
 	}

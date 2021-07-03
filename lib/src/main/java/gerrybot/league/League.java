@@ -1,22 +1,20 @@
 package gerrybot.league;
 
-import java.io.IOException;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 public class League {
 	private String champion;
+	private String role;
 	
-	public League(String champion) {
+	public League(String champion, String role) {
 		this.champion = champion;
+		this.role = role;
 	}
 	
-	
-	public void getRunes() throws IOException {
-		String url = "https://br.op.gg/champion/"+ this.champion +"/statistics/";
-		Document doc = Jsoup.connect(url).get();
-		
-		System.out.println(doc);
+	public void runeTest() {
+		try {
+			new Runes(this.champion, this.role);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
