@@ -41,11 +41,11 @@ public final class Hentai {
 		if(this.tags.length == 0) return "";
 		
 		String hentaiTags = new String();
+		
 		int sizeArray = this.tags.length-1;
 		
-		for(int i = 0; i < sizeArray; i++) {
+		for(int i = 0; i < sizeArray; i++)
 			hentaiTags += this.tags[i].substring(0,1).toUpperCase() + this.tags[i].substring(1) + ", ";
-		}
 		
 		return hentaiTags += this.tags[sizeArray].substring(0,1).toUpperCase() + this.tags[sizeArray].substring(1) + ".";
 	}
