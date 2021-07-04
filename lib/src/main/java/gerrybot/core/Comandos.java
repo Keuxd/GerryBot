@@ -78,7 +78,8 @@ public class Comandos extends ListenerAdapter {
 				Runes runePage = new Runes(args[1], args[2]);
 				runePage.sendRunes(channel);
 			} catch (Exception e) {
-				channel.sendMessage("Campeao invalido.");
+				channel.sendMessage("Campeao invalido.").queue();
+				e.printStackTrace();
 			}
 		}
 
