@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 public class Runes {
 	private Document doc;
 	private String[][] runes;
+	private int loadedPages;
 	
 	//connect
 	public Runes(String champion, String role) throws Exception {
@@ -19,12 +20,12 @@ public class Runes {
 		if(doc.baseUri().equals("https://br.op.gg/champion/statistics"))
 			throw new Exception("Invalid Champion");
 
-		getRunes();
+		loadedPages = getRunes();
 		decreaseRunesSize();
 	}
 
-	private void decreaseRunesSize() {
-		for(int i = 0; i < 2; i++) {
+	private void decreaseRunesSize() {		
+		for(int i = 0; i < this.loadedPages; i++) {
 			for(int j = 0; j < 11; j++) {
 				this.runes[i][j] = this.runes[i][j].replace("q_auto:", "w_30,h_30&");
 			}
@@ -32,7 +33,7 @@ public class Runes {
 	}
 	
 	public void sendRunes(MessageChannel channel) {		
-		for(int i = 0; i < 2; i++) {
+		for(int i = 0; i < this.loadedPages; i++) {
 			channel.sendMessage("Rune Page 0" + (i+1)).queue();
 			
 			for(int j = 0; j < 11; j++)
@@ -40,22 +41,28 @@ public class Runes {
 		}
 	}
 	
-	private void getRunes() {
+	private int getRunes() {
 		Elements runePage;
-		this.runes = new String[2][11];
 		int counter;
+		this.runes = new String[2][];
 		
 		for(int i = 0; i < 2; i++) {
-			runePage = doc.getElementsByClass("tabItem ChampionKeystoneRune-" + (i+1)).select("div.perk-page-wrap").first().select("img[src~=(?i)\\.(png|jpe?g|gif)]");
-			counter = 0;
-					
-			for(Element runes : runePage) {
-				if(!runes.attr("src").contains("grayscale")) {
-					this.runes[i][counter] = "https:" + runes.attr("src");
-					counter++;
-				}
-			}
+			try {
+				runePage = doc.getElementsByClass("tabItem ChampionKeystoneRune-" + (i+1)).select("div.perk-page-wrap").first().select("img[src~=(?i)\\.(png|jpe?g|gif)]");
+				this.runes[i] = new String[11];
+				counter = 0;
+						
+				for(Element runes : runePage) {
+					if(!runes.attr("src").contains("grayscale")) {
+						this.runes[i][counter] = "https:" + runes.attr("src");
+						counter++;
+					}
+				}	
+			} catch(Exception e) {
+				return 1;
+			}			
 		}
+		return 2;
 	}
 	
 }
