@@ -32,7 +32,7 @@ public class Runes {
 		}
 	}
 	
-	public void sendRunes(MessageChannel channel) {		
+	public void sendRunes(MessageChannel channel) {
 		for(int i = 0; i < this.loadedPages; i++) {
 			channel.sendMessage("Rune Page 0" + (i+1)).queue();
 			
