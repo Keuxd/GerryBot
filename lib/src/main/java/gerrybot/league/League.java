@@ -1,5 +1,10 @@
 package gerrybot.league;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -36,9 +41,10 @@ public class League {
 		this.builds = new Builds(this.doc);
 	}
 	
-
-	public void sendRunes(MessageChannel channel) {
-		this.runes.sendRunes(channel);
+	public void sendRunes(MessageChannel channel) throws IOException {		
+		File outputFile = new File("cover.png");
+		ImageIO.write(new Draw().drawRunes(this.runes.getImages()), "png", outputFile);
+		channel.sendFile(outputFile, "cover.png").queue();
 	}
 	
 	public void sendBuilds(MessageChannel channel) {

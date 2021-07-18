@@ -1,58 +1,47 @@
 package gerrybot.league;
 
+import java.awt.image.BufferedImage;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import net.dv8tion.jda.api.entities.MessageChannel;
-
 public class Runes {
-	private String[][] runes;
-	private int loadedPages;
+	
+	private ArrayList<BufferedImage> images;
 	
 	public Runes(Document doc) {
-		loadedPages = loadRunes(doc);
-		decreaseRunesSize();
+		images = new ArrayList<BufferedImage>();
+		downloadRunes(doc);
 	}
 	
-	private int loadRunes(Document doc) {
-		Elements runePage;
-		int counter;
-		this.runes = new String[2][];
+	private void downloadRunes(Document doc) {
+		Elements elements = null;
 		
-		for(int i = 0; i < 2; i++) {
-			try {
-				runePage = doc.getElementsByClass("tabItem ChampionKeystoneRune-" + (i+1)).select("div.perk-page-wrap").first().select("img[src~=(?i)\\.(png|jpe?g|gif)]");
-				this.runes[i] = new String[11];
-				counter = 0;
-						
-				for(Element runes : runePage) {
-					if(!runes.attr("src").contains("grayscale")) {
-						this.runes[i][counter] = "https:" + runes.attr("src");
-						counter++;
+		//load n download all images on tabItem(runePage) 1 and 2, also adds them in images list
+		for(int i = 1; i <= 2; i++) {
+			elements = doc.getElementsByClass("tabItem ChampionKeystoneRune-" + i).select("div.perk-page-wrap").select("img[src~=(?i)\\.(png|jpe?g|gif)]");
+
+			for(Element rune : elements) {
+				if(!rune.attr("src").contains("grayscale")) {
+					try {	
+						URLConnection connection = new URL("https:" + rune.attr("src").replace("q_auto:", "w_50,h_50&")).openConnection();
+						connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
+						images.add(ImageIO.read(connection.getInputStream()));
+					} catch(Exception e) {
+						e.printStackTrace();
 					}
-				}	
-			} catch(Exception e) {
-				return 1;
-			}			
-		}
-		return 2;
-	}
-	
-	private void decreaseRunesSize() {
-		for(int i = 0; i < this.loadedPages; i++) {
-			for(int j = 0; j < 11; j++) {
-				this.runes[i][j] = this.runes[i][j].replace("q_auto:", "w_30,h_30&");
+				}
 			}
 		}
 	}
 	
-	public void sendRunes(MessageChannel channel) {
-		for(int i = 0; i < this.loadedPages; i++) {
-			channel.sendMessage("Rune Page 0" + (i+1)).queue();
-			
-			for(int j = 0; j < 11; j++)
-				channel.sendMessage(this.runes[i][j]).queue();
-		}
+	protected ArrayList<BufferedImage> getImages() {
+		return this.images;
 	}
 }

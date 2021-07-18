@@ -78,6 +78,7 @@ public class Comandos extends ListenerAdapter {
 				League champion = new League(args[1], args[2]);
 				champion.loadRunes();
 				champion.sendRunes(channel);
+				
 			} catch (Exception e) {
 				channel.sendMessage("Campeao invalido.").queue();
 				e.printStackTrace();
