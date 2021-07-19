@@ -19,11 +19,14 @@ public class Draw {
 		return finalImage;
 	}
 	
-	protected BufferedImage drawBuilds(ArrayList<BufferedImage> items) {
+	protected BufferedImage drawBuilds(BufferedImage[][] builds) {
 		BufferedImage buildPage = new BufferedImage(1,1,2);
 		
-		for(BufferedImage item : items) {
-			buildPage = concatImagesHorizontally(buildPage, item);
+		for(BufferedImage[] row : builds) {
+			for(BufferedImage item : row) {
+				buildPage = concatImagesHorizontally(buildPage, item);
+			}
+			buildPage = concatImageVertically(buildPage, new BufferedImage(1,1,2));
 		}
 		
 		return buildPage;
