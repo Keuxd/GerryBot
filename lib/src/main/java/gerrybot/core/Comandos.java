@@ -74,7 +74,7 @@ public class Comandos extends ListenerAdapter {
 		}
 		
 		if(args.length == 3 && args[0].equals("!runa")) {
-			try {
+			try {				
 				League champion = new League(args[1], args[2]);
 				champion.loadRunes();
 				champion.sendRunes(channel);

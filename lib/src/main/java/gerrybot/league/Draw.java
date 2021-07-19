@@ -100,6 +100,7 @@ public class Draw {
 		g2.drawImage(image1, null, 0, 0);
 		g2.drawImage(image2, null, image1.getWidth() + hGap, 0);
 		g2.dispose();
+		
 		return newImage;
 	}
 	
@@ -117,6 +118,7 @@ public class Draw {
 		g2.drawImage(image1, null, 0, 0);
 		g2.drawImage(image2, null, 0, image1.getHeight() + vGap);
 		g2.dispose();
+		
 		return newImage;
 	}
 
@@ -127,7 +129,7 @@ public class Draw {
 	    Graphics2D g2d = dimg.createGraphics();
 	    g2d.drawImage(tmp, 0, 0, null);
 	    g2d.dispose();
-
+	    
 	    return dimg;
 	}
 }

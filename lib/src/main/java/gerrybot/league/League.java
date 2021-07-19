@@ -21,6 +21,10 @@ public class League {
 	
 	public League(String champion, String role) throws Exception {
 		this.champion = champion;
+		
+		if(role.equalsIgnoreCase("jg")) role = "jungle";
+		else if(role.equalsIgnoreCase("sup")) role = "support";
+		
 		this.role = role;
 		connect();
 	}
@@ -40,7 +44,7 @@ public class League {
 	public void loadBuilds() throws Exception {
 		this.builds = new Builds(this.doc);
 	}
-	
+
 	public void sendRunes(MessageChannel channel) throws IOException {		
 		File outputFile = new File("cover.png");
 		ImageIO.write(new Draw().drawRunes(this.runes.getImages()), "png", outputFile);
