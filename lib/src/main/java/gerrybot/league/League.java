@@ -47,7 +47,9 @@ public class League {
 		channel.sendFile(outputFile, "cover.png").queue();
 	}
 	
-	public void sendBuilds(MessageChannel channel) {
-		this.builds.sendBuilds(channel);
+	public void sendBuilds(MessageChannel channel) throws IOException {
+		File outputFile = new File("cover.png");
+		ImageIO.write(new Draw().drawBuilds(this.builds.getImages()), "png", outputFile);
+		channel.sendFile(outputFile, "covecr.png").queue();
 	}
 }

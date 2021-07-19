@@ -29,7 +29,7 @@ public class Runes {
 
 			for(Element rune : elements) {
 				if(!rune.attr("src").contains("grayscale")) {
-					try {	
+					try {
 						URLConnection connection = new URL("https:" + rune.attr("src").replace("q_auto:", "w_50,h_50&")).openConnection();
 						connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
 						images.add(ImageIO.read(connection.getInputStream()));

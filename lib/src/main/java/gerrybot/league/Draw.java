@@ -19,11 +19,17 @@ public class Draw {
 		return finalImage;
 	}
 	
-	protected BufferedImage drawBuilds(ArrayList<BufferedImage> runes) {
-		return null;
+	protected BufferedImage drawBuilds(ArrayList<BufferedImage> items) {
+		BufferedImage buildPage = new BufferedImage(1,1,2);
+		
+		for(BufferedImage item : items) {
+			buildPage = concatImagesHorizontally(buildPage, item);
+		}
+		
+		return buildPage;
 	}
 	
-	protected BufferedImage drawAll(ArrayList<BufferedImage> runes) {
+	protected BufferedImage drawAll(ArrayList<BufferedImage> runes, ArrayList<BufferedImage> builds) {
 		return null;
 	}
 	

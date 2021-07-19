@@ -1,37 +1,29 @@
 package gerrybot.league;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import org.jsoup.nodes.Document;
 
-import net.dv8tion.jda.api.entities.MessageChannel;
-
 public class Builds {
-//	private String builds[];
-	private ArrayList<String> al;
+
+	private ArrayList<BufferedImage> items;
 	
 	public Builds(Document doc) {
-//		this.builds = new String[3];
-		al = new ArrayList<String>();
-		loadBuilds(doc);
+		items = new ArrayList<BufferedImage>();
+		downloadBuilds(doc);
 	}
 	
-	private void loadBuilds(Document doc) {
+	private void downloadBuilds(Document doc) {
 		doc.getElementsByClass("champion-overview__row champion-overview__row--first").select("img[src~=(?i)\\.(png|jpe?g|gif)]").forEach(element -> {
 			if(element.attr("src").contains("item")) {
-				al.add("https:" + element.attr("src"));
+				
 			}
 		});
 
 	}
 	
-	private void decreaseBuildsSize() {
-		
-	}
-	
-	protected void sendBuilds(MessageChannel channel) {
-		for(String a : al) {
-			channel.sendMessage(a).queue();
-		}
+	protected ArrayList<BufferedImage> getImages() {
+		return this.items;
 	}
 }
