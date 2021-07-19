@@ -20,13 +20,15 @@ public class Draw {
 	}
 	
 	protected BufferedImage drawBuilds(BufferedImage[][] builds) {
+		int rows = builds.length;
 		BufferedImage buildPage = new BufferedImage(1,1,2);
 		
-		for(BufferedImage[] row : builds) {
-			for(BufferedImage item : row) {
-				buildPage = concatImagesHorizontally(buildPage, item);
+		for(int i = 0; i < rows; i++) {
+			BufferedImage uniqueBuild = new BufferedImage(1,1,2);
+			for(int j = 0; j < builds[i].length; j++) {
+				uniqueBuild = concatImagesHorizontally(uniqueBuild, builds[i][j]);
 			}
-			buildPage = concatImageVertically(buildPage, new BufferedImage(1,1,2));
+			buildPage = concatImageVertically(buildPage, uniqueBuild);
 		}
 		
 		return buildPage;
