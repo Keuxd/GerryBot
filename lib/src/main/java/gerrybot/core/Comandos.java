@@ -100,7 +100,7 @@ public class Comandos extends ListenerAdapter {
 		LocalDateTime now = LocalDateTime.now();
 		if(!Main.isTesting) now = now.minusHours(3);
 		
-		System.out.println(now.getHour());
+		System.out.println("NewHourIdentifier: " + now.getHour());
 		return (now.getHour() * 60) + now.getMinute();
 	}
 	
