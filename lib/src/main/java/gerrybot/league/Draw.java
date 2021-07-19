@@ -6,38 +6,17 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Draw {
-	//Symbol == 25 / 23
- 	//pRunes == 50
-	//sRunes == 30 / 28
-	//mRunes == 10(i guess)
-	
-	
+public class Draw {	
 	protected BufferedImage drawRunes(ArrayList<BufferedImage> runes) {
-		int loadedRunePages = runes.size() / 11;
-		BufferedImage finalImage = new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
+		int loadedPages = runes.size() / 11;
 		
-		for(int i = 0; i < loadedRunePages; i++) {
-			BufferedImage runePage = new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
-			
-			for(int j = 0 + (11*i); j < 11*(i+1); j++) {
-				if(j % 11 == 0 || j == 5 || j == 16 || j == 27 || j == 38) {
-					runes.set(j, resize(runes.get(j), 25,25));
-				}
-				else if(j == 1 || j == 12 || j == 23 || j == 34) {
-					runes.set(j, resize(runes.get(j), 50,50));
-				}
-				else {
-					runes.set(j, resize(runes.get(j),30,30));
-				}
-				
-				runePage = concatImagesHorizontally(runePage, runes.get(j));
-			}
-
-			finalImage = concatImageVertically(finalImage, runePage);
+		BufferedImage finalImage = new BufferedImage(1,1,2);
+		
+		for(int i = 0; i < loadedPages; i++) {
+			finalImage = concatImageVertically(finalImage, drawRunePage(runes, i*11));
 		}
 		
-		return concatImagesHorizontally(finalImage, new BufferedImage(5,1,2));
+		return finalImage;
 	}
 	
 	protected BufferedImage drawBuilds(ArrayList<BufferedImage> runes) {
@@ -46,6 +25,59 @@ public class Draw {
 	
 	protected BufferedImage drawAll(ArrayList<BufferedImage> runes) {
 		return null;
+	}
+	
+	private BufferedImage drawRunePage(ArrayList<BufferedImage> runes, int firstElement) {
+		int width = 300;
+		int height = 75;
+		
+		BufferedImage runePage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		
+		Graphics2D g2 = runePage.createGraphics();
+		Color oldColor = g2.getColor();
+		g2.setPaint(Color.BLACK);
+		g2.fillRect(0, 0, width, height);
+		g2.setColor(oldColor);
+		
+		//Symbol rune 01
+		g2.drawImage(resize(runes.get(firstElement), 25), null, 0, 2);
+		
+		//pRune
+		g2.drawImage(runes.get(firstElement + 1), null, 24, 13);
+		
+
+		//sRune 01
+		g2.drawImage(resize(runes.get(firstElement + 2), 30), null, 74, 25);
+		
+		//sRune 02
+		g2.drawImage(resize(runes.get(firstElement + 3), 30), null, 106, 25);
+		
+		//sRune 03
+		g2.drawImage(resize(runes.get(firstElement + 4), 30), null, 138, 25);
+		
+		
+		//Symbol rune 02
+		g2.drawImage(resize(runes.get(firstElement + 5), 25),null, 178, 2);
+		
+		//sRune 04
+		g2.drawImage(resize(runes.get(firstElement + 6), 28), null, 207, 24);
+		
+		//sRune 05
+		g2.drawImage(resize(runes.get(firstElement + 7), 28), null, 237, 24);
+		
+		
+		//mRune 01
+		g2.drawImage(resize(runes.get(firstElement + 8), 20), null, 275, 3);
+		
+		//mRune 02
+		g2.drawImage(resize(runes.get(firstElement + 9), 20), null, 275, 25);
+		
+		//mRune 03
+		g2.drawImage(resize(runes.get(firstElement + 10), 20), null, 275, 47);
+		
+		g2.dispose();
+		
+		return runePage;
 	}
 	
 	private BufferedImage concatImagesHorizontally(BufferedImage image1, BufferedImage image2) {
@@ -66,7 +98,7 @@ public class Draw {
 	}
 	
 	private BufferedImage concatImageVertically(BufferedImage image1, BufferedImage image2) {
-		int vGap = 10;
+		int vGap = 3;
 		int width = Math.max(image1.getWidth(), image2.getWidth());
 		int height = image1.getHeight() + image2.getHeight();
 		BufferedImage newImage = new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
@@ -81,15 +113,15 @@ public class Draw {
 		g2.dispose();
 		return newImage;
 	}
-	
-	public static BufferedImage resize(BufferedImage img, int newW, int newH) { 
-	    Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-	    BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+	private BufferedImage resize(BufferedImage img, int newSize) { 
+	    Image tmp = img.getScaledInstance(newSize, newSize, Image.SCALE_SMOOTH);
+	    BufferedImage dimg = new BufferedImage(newSize, newSize, BufferedImage.TYPE_INT_ARGB);
 
 	    Graphics2D g2d = dimg.createGraphics();
 	    g2d.drawImage(tmp, 0, 0, null);
 	    g2d.dispose();
 
 	    return dimg;
-	}  
+	}
 }
