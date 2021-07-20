@@ -5,6 +5,8 @@ A personal +18 discord bot made in JDA
 
 - Dice Roller
 
+- League of Legends runes and builds.
+
 - Daily +18 Mangas update
 
 # Dependencies
