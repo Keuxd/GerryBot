@@ -61,6 +61,7 @@ public class League {
 			case "morg": return "morgana";
 			case "nida": return "nidalee";
 			case "noc": return "nocturne";
+			case "renek": return "renekton";
 			case "tk": return "tahmkench";
 			case "trynda": return "tryndamere";
 			case "tf": return "twistedfate";
