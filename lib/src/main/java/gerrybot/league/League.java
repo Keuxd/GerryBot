@@ -20,7 +20,7 @@ public class League {
 	private Builds builds;
 	
 	public League(String champion, String role) throws Exception {
-		this.champion = champion;
+		this.champion = nickNames(champion);
 		
 		if(role.equalsIgnoreCase("jg")) role = "jungle";
 		else if(role.equalsIgnoreCase("sup")) role = "support";
@@ -35,6 +35,42 @@ public class League {
 		
 		if(doc.baseUri().equals("https://br.op.gg/champion/statistics"))
 			throw new Exception("Invalid Champion");
+	}
+	
+	private String nickNames(String champion) {
+		switch(champion.toLowerCase()) {
+			case "aurelion": return "aurelionsol";
+			case "cait": return "caitlyn";
+			case "camile": return "camille";
+			case "cho": return "chogath";
+			case "mundo": return "drmundo";
+			case "evelyn":
+			case "evellyn": return "evelynn"; 
+			case "ez": return "ezreal";
+			case "fiddle": return "fiddlesticks";
+			case "gp": return "gangplank";
+			case "heca": return "hecarim";
+			case "heimer": return "heimerdinger";
+			case "j4":
+			case "jarvan": return "jarvaniv";
+			case "kog": return "kogmaw";
+			case "lb": return "leblanc";
+			case "lee": return "leesin";
+			case "master":
+			case "yi": return "masteryi";
+			case "mf": return "missfortune";
+			case "tk": return "tahmkench";
+			case "trynda": return "tryndamere";
+			case "tf": return "twistedfate";
+			case "vel": return "velkoz";
+			case "vlad": return "vladimir";
+			case "voli": return "volibear";
+			case "ww": return "warwick";
+			case "xin": return "xinzhao";
+			case "gata": return "yuumi";
+			case "minion": return "sona";
+			default: return champion;
+		}
 	}
 	
 	public void loadRunes() throws Exception {
