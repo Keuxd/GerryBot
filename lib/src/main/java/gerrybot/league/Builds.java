@@ -17,6 +17,7 @@ public class Builds {
 		downloadBuilds(getItemsSRC(doc));
 	}
 	
+	//returns all download item links divided by line in array
 	private String[][] getItemsSRC(Document doc) {
 		Elements row = doc.getElementsByClass("champion-overview__table").next().select("ul.champion-stats__list");
 		int rows = row.size();

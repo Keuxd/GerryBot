@@ -99,6 +99,15 @@ public class League {
 	public void sendBuilds(MessageChannel channel) throws IOException {
 		File outputFile = new File("cover.png");
 		ImageIO.write(new Draw().drawBuilds(this.builds.getImages()), "png", outputFile);
-		channel.sendFile(outputFile, "cover.png").queue();
+		channel.sendMessage(getSkillOrder()).addFile(outputFile, "cover.png").queue();
+	}
+	
+	private String getSkillOrder() {
+		String skillsPriority = this.doc.getElementsByClass("champion-stats__list").get(2).getElementsByTag("span").text();
+		String skillsByLevel = this.doc.getElementsByClass("champion-skill-build__table").text().substring(35);
+		
+		String finalString = new String("**" + skillsPriority + "**  -> " + skillsByLevel);
+		
+		return finalString;
 	}
 }
