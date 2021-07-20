@@ -73,6 +73,8 @@ public class League {
 			case "minion": return "sona";
 			case "cantora": return "seraphine";
 			case "eboy": return "viego";
+			case "sapo": return "tahmkench";
+			case "rato": return "twitch";
 			
 			default: return champion;
 		}
