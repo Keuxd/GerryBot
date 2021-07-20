@@ -53,6 +53,7 @@ public class League {
 			case "heimer": return "heimerdinger";
 			case "j4":
 			case "jarvan": return "jarvaniv";
+			case "kat": return "katarina";
 			case "kog": return "kogmaw";
 			case "lb": return "leblanc";
 			case "lee": return "leesin";
