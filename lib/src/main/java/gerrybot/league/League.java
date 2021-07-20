@@ -67,8 +67,12 @@ public class League {
 			case "voli": return "volibear";
 			case "ww": return "warwick";
 			case "xin": return "xinzhao";
+
 			case "gata": return "yuumi";
 			case "minion": return "sona";
+			case "cantora": return "seraphine";
+			case "eboy": return "viego";
+			
 			default: return champion;
 		}
 	}
