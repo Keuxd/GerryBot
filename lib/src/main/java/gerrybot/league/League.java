@@ -44,6 +44,7 @@ public class League {
 			case "camile": return "camille";
 			case "cho": return "chogath";
 			case "mundo": return "drmundo";
+			case "eve":
 			case "evelyn":
 			case "evellyn": return "evelynn"; 
 			case "ez": return "ezreal";
