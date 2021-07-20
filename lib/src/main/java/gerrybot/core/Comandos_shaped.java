@@ -90,24 +90,7 @@ public class Comandos_shaped extends ListenerAdapter {
 			}
 			
 			case("!comandos"):{
-				EmbedBuilder embed = new EmbedBuilder();
-					embed.setTitle("Comandos");
-					embed.setColor(Main.cor);
-			
-					embed.addField("Dados", "Digite diretamente o dado que quer rodar. Ex: 2d10+1 (limite de 99 dados)", false);
-					embed.addField("!hn", "Digite !hn XXXXXX e receba seu nHentao!", false);
-					embed.addField("!rhn", "Digite !rhn e receba um nHentao random !", false);
-					embed.addField("!cm", "Digite !cm (alturaEmCentimetros) e receba quantos cm aguentaria. **(Formula Feminina)**", false);
-					embed.addField("!yo","Comando Legado", false);
-					embed.addField("!prime", "So 9,90",false);
-					embed.addField("!blazblue","_bobleis_", false);
-					embed.addField("!tempo","Retorna o horario/data do host(dev only)",false);
-					embed.addField("wendy","OwO",false);
-					embed.addField("harry","_confia_",false);
-					embed.addField("montanha","nha :3",false);
-					embed.addField("naltan","ovO maTa U reRi",false);
-					
-				channel.sendMessage(embed.build()).queue();
+				channel.sendMessage("https://github.com/Keuxd/GerryBot/wiki").queue();
 				break;
 			}
 			
@@ -116,15 +99,11 @@ public class Comandos_shaped extends ListenerAdapter {
 					embed.setTitle("Gerry 1.6.2");
 					embed.setColor(Main.cor);
 					embed.setDescription(""
-							+ "- Adicionado lista de comandos(!comandos).\n\n"
-							+ "- Adicionado botao de reacao substituindo !cursed em 'henta'.\n\n"
-							+ "- Algoritmo de aleatoriedade de dados melhorado, suporte a modificadores adicionado.\n\n"
-							+ "- Corrigido bug onde links apareciam no meio do titulo do !henta/!hn.\n\n"
-							+ "- Corrigido bug de mal funcionamento do botao cursed em 'henta'.\n\n"
-							+ "- Corrigido bug onde a capa de alguns hentais nao carregava.\n\n"
-							+ "- !cm, !hn/!rhn e !blazblue adicionados.\n\n"
-							+ "- !zoe, !dl e !desgraca removidos."
-							
+							+ "- Lista de comandos movida para a wiki.\n\n"
+							+ "- !runa _champion_ _role_ adicionado.\n\n"
+							+ "- !build _champion_ _role_ adicionado.\n\n"
+							+ "- Dominio de busca das funções de hentai alterado(nHentai.to -> nHentai.net).\n\n"
+							+ "- Sistema de randomização de !rhn melhorado."
 							);
 					
 					channel.sendMessage(embed.build()).queue();
