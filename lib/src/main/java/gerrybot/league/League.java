@@ -41,12 +41,9 @@ public class League {
 		switch(champion.toLowerCase()) {
 			case "aurelion": return "aurelionsol";
 			case "cait": return "caitlyn";
-			case "camile": return "camille";
 			case "cho": return "chogath";
 			case "mundo": return "drmundo";
-			case "eve":
-			case "evelyn":
-			case "evellyn": return "evelynn"; 
+			case "eve": return "evelynn";
 			case "ez": return "ezreal";
 			case "fiddle": return "fiddlesticks";
 			case "gp": return "gangplank";
