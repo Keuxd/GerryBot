@@ -58,6 +58,7 @@ public class League {
 			case "master":
 			case "yi": return "masteryi";
 			case "mf": return "missfortune";
+			case "morg": return "morgana";
 			case "nida": return "nidalee";
 			case "noc": return "nocturne";
 			case "tk": return "tahmkench";
