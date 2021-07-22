@@ -12,13 +12,13 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Main {
-	protected static final int cor = 0x9e42f5;
+	public static final int cor = 0x9e42f5;
 	public static JDA jda;
 	protected static final boolean isTesting = true;
 	
 	public static void main(String[] args) throws Exception {
 		
-		String status = "Gerry 1.6.2 | !updates";
+		String status = "Gerry 1.7.0 | !updates";
 		
 		//Instance builder
 		jda = JDABuilder.createDefault(Token.getToken())

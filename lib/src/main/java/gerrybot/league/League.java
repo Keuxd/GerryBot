@@ -90,7 +90,7 @@ public class League {
 		this.builds = new Builds(this.doc);
 	}
 
-	public void sendRunes(MessageChannel channel) throws IOException {		
+	public void sendRunes(MessageChannel channel) throws IOException {	
 		File outputFile = new File("cover.png");
 		ImageIO.write(new Draw().drawRunes(this.runes.getImages()), "png", outputFile);
 		channel.sendFile(outputFile, "cover.png").queue();

@@ -3,6 +3,8 @@ package gerrybot.core;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import gerrybot.hentai.Hentai;
+import gerrybot.hentai.NHentaiNet;
 import gerrybot.league.League;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -61,7 +63,8 @@ public class Comandos extends ListenerAdapter {
 		//hentai numbers
 		if(args.length == 2 && args[0].equals("!hn")) {
 			try {
-				new Hentai(args[1]).sendEmbedHentai(channel).queue();
+				Hentai hentai = new NHentaiNet().genHentaiByNumber(args[1]);
+				hentai.sendEmbedHentai(channel).queue();
 			} catch (Exception e) {
 				channel.sendMessage("Esses numeros nao levam a nenhum nHentai.").queue();
 				channel.sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
@@ -104,7 +107,7 @@ public class Comandos extends ListenerAdapter {
 		return (now.getHour() * 60) + now.getMinute();
 	}
 	
-	static int minutesFormat() {		
+	static int minutesFormat() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		if(!Main.isTesting) now = now.minusHours(3);

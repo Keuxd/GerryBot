@@ -1,7 +1,3 @@
-/*	TODO
-- Implement nHentai.net; i guess
-- Change all system to a Hentai Factory
-*/
 package gerrybot.core;
 
 import java.io.IOException;
@@ -20,7 +16,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
-public final class Hentai {
+public final class HentaiLEGACY {
 	private String imageLink;
 	private String title;
 	private String link;
@@ -32,9 +28,9 @@ public final class Hentai {
 	
 	private Document hentaiPageHTML;
 	
-	public Hentai() {}
+	public HentaiLEGACY() {}
 	
-	public Hentai(String numbers) throws Exception {
+	public HentaiLEGACY(String numbers) throws Exception {
 		loadNHentaiTo("https://nhentai.to/g/" + numbers);
 	}
 	
@@ -70,7 +66,7 @@ public final class Hentai {
 		}
 	}
 	
-	private void loadNHentaiTo(String link) throws Exception {		
+	private void loadNHentaiTo(String link) throws Exception {
 		if(!validateLink(link))
 			throw new Exception("Invalid hentai");
 

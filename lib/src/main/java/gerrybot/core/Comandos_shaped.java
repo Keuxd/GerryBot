@@ -1,6 +1,8 @@
 package gerrybot.core;
 
 
+import gerrybot.hentai.Hentai;
+import gerrybot.hentai.NHentaiNet;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -58,9 +60,8 @@ public class Comandos_shaped extends ListenerAdapter {
 			
 			case("!rhn"):{
 				try {
-					Hentai rhn = new Hentai();
-					rhn.randomHentai();
-					rhn.sendEmbedHentai(channel).queue();
+					Hentai randomHentai = new NHentaiNet().genRandomHentai();
+					randomHentai.sendEmbedHentai(channel);
 				} catch (Exception e) {}
 				break;
 			}
@@ -81,7 +82,8 @@ public class Comandos_shaped extends ListenerAdapter {
 				}					
 				
 				try {
-					new Hentai(dataNum).sendEmbedHentai(channel, "Hentai do Dia").queue(message -> message.addReaction("U+1F51E").queue());
+					Hentai dailyHenta = new NHentaiNet().genHentaiByNumber(dataNum);
+					dailyHenta.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> message.addReaction("U+1F51E").queue());
 				} catch (Exception e) {
 					channel.sendMessage("O dia de hoje não tem hentai.").queue();
 					channel.sendMessage("https://image.prntscr.com/image/0rMqADlyTRGyAJ-q36RyXw.png");
@@ -96,13 +98,14 @@ public class Comandos_shaped extends ListenerAdapter {
 			
 			case("!updates"):{
 				EmbedBuilder embed = new EmbedBuilder();
-					embed.setTitle("Gerry 1.6.2");
+					embed.setTitle("Gerry 1.7.0");
 					embed.setColor(Main.cor);
 					embed.setDescription(""
-							+ "- Lista de comandos movida para a wiki.\n\n"
+							+ "- Lista de !comandos movida para a wiki.\n\n"
 							+ "- !runa _champion_ _role_ adicionado.\n\n"
 							+ "- !build _champion_ _role_ adicionado.\n\n"
 							+ "- Dominio de busca das funções de hentai alterado(nHentai.to -> nHentai.net).\n\n"
+							+ "- Os nomes dos grupos e extra tags não aparecem mais no começo/fim do titulo dos Hentais.\n\n"
 							+ "- Sistema de randomização de !rhn melhorado."
 							);
 					
