@@ -7,11 +7,12 @@ A personal +18 discord bot made in JDA
 
 - League of Legends runes and builds.
 
-- Daily +18 Mangas update
+- Daily +18 Mangas update.
 
 # Dependencies
+These are all used libraries in classpath.
 
-All dependencies will be dealt by gradle, but these are all used libraries.
+- [JDA 4.2.1_261](https://github.com/DV8FromTheWorld/JDA)
+- [jsoup 1.14.1](https://jsoup.org/)
 
-- JDA 4.2.1_261
-- jsoup 1.13.1
+*This project is built in Java 1.8*
