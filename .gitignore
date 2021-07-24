@@ -30,3 +30,6 @@ Token.java
 
 # Ignore Gradle build output directory
 build
+
+# Ignore processed image output
+*.png
