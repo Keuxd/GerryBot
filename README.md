@@ -12,7 +12,7 @@ A personal +18 discord bot made in JDA
 # Dependencies
 These are all used libraries in classpath.
 
-- [JDA 4.2.1_261](https://github.com/DV8FromTheWorld/JDA)
+- [JDA 4.3.0_277](https://github.com/DV8FromTheWorld/JDA)
 - [jsoup 1.14.1](https://jsoup.org/)
 
 *This project is built in Java 1.8*
