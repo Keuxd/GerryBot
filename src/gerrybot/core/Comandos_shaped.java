@@ -1,6 +1,5 @@
 package gerrybot.core;
 
-
 import gerrybot.hentai.Hentai;
 import gerrybot.hentai.NHentaiNet;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -61,7 +60,7 @@ public class Comandos_shaped extends ListenerAdapter {
 			case("!rhn"):{
 				try {
 					Hentai randomHentai = new NHentaiNet().genRandomHentai();
-					randomHentai.sendEmbedHentai(channel);
+					randomHentai.sendEmbedHentai(channel).queue();
 				} catch (Exception e) {}
 				break;
 			}
@@ -86,7 +85,7 @@ public class Comandos_shaped extends ListenerAdapter {
 					dailyHenta.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> message.addReaction("U+1F51E").queue());
 				} catch (Exception e) {
 					channel.sendMessage("O dia de hoje não tem hentai.").queue();
-					channel.sendMessage("https://image.prntscr.com/image/0rMqADlyTRGyAJ-q36RyXw.png");
+					channel.sendMessage("https://image.prntscr.com/image/0rMqADlyTRGyAJ-q36RyXw.png").queue();
 				}
 				break;
 			}
@@ -104,7 +103,7 @@ public class Comandos_shaped extends ListenerAdapter {
 							+ "- Lista de !comandos movida para a wiki.\n\n"
 							+ "- !runa _champion_ _role_ adicionado.\n\n"
 							+ "- !build _champion_ _role_ adicionado.\n\n"
-							+ "- Dominio de busca das funções de hentai alterado(nHentai.to -> nHentai.net).\n\n"
+							+ "- Dominio de busca dos comandos de hentai alterado(nHentai.to -> nHentai.net).\n\n"
 							+ "- Os nomes dos grupos e extra tags não aparecem mais no começo/fim do titulo dos Hentais.\n\n"
 							+ "- Sistema de randomização de !rhn melhorado."
 							);

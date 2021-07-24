@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 public class Main {
 	public static final int cor = 0x9e42f5;
 	public static JDA jda;
-	protected static final boolean isTesting = true;
+	protected static final boolean isTesting = false;
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -48,11 +48,6 @@ public class Main {
 		}catch(Exception e) {
 			System.out.println("Erro ao conectar no canal de voz.");
 		}
-		
-		int minutesTillNow = Comandos.minutesFormat();
-		int newMinutesTillNow = Comandos.newMinutesFormat();
-		
-		System.out.println("OLD -> " + minutesTillNow + "\nNEW -> " + newMinutesTillNow);
 	}
 }
 
@@ -82,13 +77,4 @@ class Stonks extends Thread {
 			
 		}		
 	}
-} 
-
-
-
-
-
-
-
-
-
+}

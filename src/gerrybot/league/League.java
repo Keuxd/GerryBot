@@ -103,11 +103,17 @@ public class League {
 	}
 	
 	private String getSkillOrder() {
-		String skillsPriority = this.doc.getElementsByClass("champion-stats__list").get(2).getElementsByTag("span").text();
-		String skillsByLevel = this.doc.getElementsByClass("champion-skill-build__table").text().substring(35);
+		try {
+			String skillsPriority = this.doc.getElementsByClass("champion-stats__list").get(2).getElementsByTag("span").text();
+			String skillsByLevel = this.doc.getElementsByClass("champion-skill-build__table").text().substring(35);
 		
-		String finalString = new String("**" + skillsPriority + "**  -> " + skillsByLevel);
+			String finalString = new String("**" + skillsPriority + "**  -> " + skillsByLevel);
 		
-		return finalString;
+			return finalString;	
+		} catch(Exception e) {
+			e.printStackTrace();
+			return " ";
+		}
+
 	}
 }
