@@ -25,7 +25,7 @@ hs_err_pid*
 # Ignore Gradle project-specific cache directory
 .gradle
 
-#Token
+# Token
 Token.java
 
 # Ignore Gradle build output directory
@@ -33,3 +33,6 @@ build
 
 # Ignore processed image output
 *.png
+
+# Ignore local files directory in classpath
+.classpath
