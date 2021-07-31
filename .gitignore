@@ -28,8 +28,8 @@ hs_err_pid*
 # Token
 Token.java
 
-# Ignore Gradle build output directory
-build
+# Ignore compiled stuff directory
+bin
 
 # Ignore processed image output
 *.png
