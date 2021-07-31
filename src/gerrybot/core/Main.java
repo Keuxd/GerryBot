@@ -51,7 +51,6 @@ public class Main {
 	}
 }
 
-//TODO !henta timer
 class Stonks extends Thread {
 	
 	@Override
