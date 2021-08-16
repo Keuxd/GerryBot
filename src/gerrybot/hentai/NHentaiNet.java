@@ -24,7 +24,7 @@ public class NHentaiNet {
 	}
 
 	private Hentai genHentai(String initLink) throws Exception {
-		if(!validateLink(initLink))
+		if(!loadLink(initLink))
 			throw new Exception("Invalid hentai");
 		Hentai nHentaiNet = new Hentai();
 		
@@ -34,7 +34,7 @@ public class NHentaiNet {
 		
 		String imageLink = this.hentaiPageHTML.select("img[src~=(?i)\\.(png|jpe?g|gif)]").first().attr("src");
 		nHentaiNet.setCoverLink(imageLink);
-		nHentaiNet.setImageFile(downloadCover(imageLink));
+		nHentaiNet.setImageFile(downloadImage(imageLink));
 		
 		nHentaiNet.setTitle(this.hentaiPageHTML.select("h1.title").select("span.pretty").text());
 		
@@ -44,9 +44,9 @@ public class NHentaiNet {
 		return nHentaiNet;
 	}
 	
-	private InputStream downloadCover(String coverURL) {
+	private InputStream downloadImage(String imageURL) {
 		try {
-			URLConnection connection = new URL(coverURL).openConnection();
+			URLConnection connection = new URL(imageURL).openConnection();
 			connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
 			return connection.getInputStream();
 		} catch(Exception e) {
@@ -55,8 +55,8 @@ public class NHentaiNet {
 		}
 	}
 	
-	//if the link is valid returns true and generate the Document object for this.hentaiPageHTML
-	private boolean validateLink(String link) {
+	//it tries to load the 'Document' for this.hentaiPageHTML, if it can returns true, if it doesn't returns false
+	private boolean loadLink(String link) {
 		// while/if this page doesnt load continue trying loading it
 		while(this.hentaiPageHTML == null) {
 			try {
