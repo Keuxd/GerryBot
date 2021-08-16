@@ -5,7 +5,10 @@ import java.io.InputStream;
 import gerrybot.core.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import net.dv8tion.jda.api.requests.restaction.interactions.ReplyAction;
 
 public class Hentai {
 	private String title;
@@ -16,27 +19,39 @@ public class Hentai {
 	private String coverLink;
 	private InputStream imageFile;
 	
-	public MessageAction sendEmbedHentai(MessageChannel channel) {
-		return sendEmbedHentai(channel, "Hentai " + this.numbers);
+	public MessageAction sendEmbedHentai(MessageChannel channel, String... embedTitle) {
+		//if there's title so use title, if there isn't use generic title with this.numbers
+		embedTitle = (embedTitle.length == 1) ? embedTitle : new String[]{"Hentai " + this.numbers};
+		
+		MessageEmbed embedHentai = genEmbedMessageHentai(embedTitle[0]);
+
+		if(this.imageFile != null)
+			return channel.sendFile(this.imageFile, "cover.jpg").setEmbeds(embedHentai);
+		else
+			return channel.sendMessageEmbeds(embedHentai);
 	}
 	
-	public MessageAction sendEmbedHentai(MessageChannel channel, String title) {
-		EmbedBuilder embedHentai = new EmbedBuilder()
-				  		.setTitle(title)
-				  		.setDescription(this.title)
-				  		.addField("Link", this.link, false)
-				  		.addField("Tags", this.concatedTags, false)
-				  		.addField("Capa", "" , false)
-						.setColor(Main.cor);
+	public ReplyAction sendEmbedHentai(SlashCommandEvent event, String... embedTitle) {
+		//if there's title so use title, if there isn't use generic title with this.numbers
+		embedTitle = (embedTitle.length == 1) ? embedTitle : new String[]{"Hentai " + this.numbers};
 		
-		if(this.imageFile != null) {
-			embedHentai.setImage("attachment://cover.jpg");
-			return channel.sendFile(this.imageFile, "cover.jpg").embed(embedHentai.build());
-		}
-		else {
-			embedHentai.setImage(this.coverLink);
-			return channel.sendMessage(embedHentai.build());
-		}
+		if(this.imageFile != null)
+			return event.replyEmbeds(genEmbedMessageHentai(embedTitle[0])).addFile(this.imageFile, "cover.jpg");
+		else
+			return event.replyEmbeds(genEmbedMessageHentai(embedTitle[0]));
+	}
+	
+	private MessageEmbed genEmbedMessageHentai(String title) {
+		EmbedBuilder embedHentai = new EmbedBuilder()
+		  		.setTitle(title)
+		  		.setDescription(this.title)
+		  		.addField("Link", this.link, false)
+		  		.addField("Tags", this.concatedTags, false)
+		  		.addField("Capa", "" , false)
+				.setColor(Main.cor)
+				.setImage((this.imageFile != null) ? "attachment://cover.jpg" : this.coverLink);
+		
+		return embedHentai.build();
 	}
 	
 	protected String getCoverLink() {
