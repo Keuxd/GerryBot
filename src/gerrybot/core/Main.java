@@ -3,12 +3,17 @@ package gerrybot.core;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import gerrybot.hentai.HentaiReaderListenerAdapter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Main {
@@ -26,6 +31,7 @@ public class Main {
 	    				.addEventListeners(new Comandos_shaped())
 	    				.addEventListeners(new PV())
 	    				.addEventListeners(new ReactionEvents())
+	    				.addEventListeners(new HentaiReaderListenerAdapter())
 	    				.setStatus(OnlineStatus.ONLINE)
 	    				.setActivity(Activity.playing(status))
 	    				.enableCache(CacheFlag.VOICE_STATE)
@@ -37,7 +43,7 @@ public class Main {
 		*	jda.addEventListener(new Comandos());
 		*	jda.addEventListener(new Comandos_shaped());
 		*/
-		
+		initSlashCommands();
 		jda.awaitReady();
 		
 		if(!isTesting) new Stonks().start();
@@ -48,6 +54,16 @@ public class Main {
 		}catch(Exception e) {
 			System.out.println("Erro ao conectar no canal de voz.");
 		}
+	}
+	
+	private static void initSlashCommands() {
+		CommandListUpdateAction commands = jda.updateCommands();
+		commands.addCommands(
+					new CommandData("read", "Creates a nHentai reader from the given numbers.")
+						.addOptions(new OptionData(OptionType.INTEGER, "numbers", "nHentai numbers")
+										.setRequired(true))
+				);
+		commands.queue();
 	}
 }
 
