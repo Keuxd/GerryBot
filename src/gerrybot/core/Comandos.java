@@ -51,7 +51,7 @@ public class Comandos extends ListenerAdapter {
 						embed.setFooter(dados.getConcatDados() + " " + dados.modificador, autor.getAvatarUrl());
 					}
 					
-				channel.sendMessage(embed.build()).queue();
+				channel.sendMessageEmbeds(embed.build()).queue();
 			}
 			catch(Exception e) {
 				e.printStackTrace();
