@@ -77,6 +77,7 @@ public class League {
 			case "eboy": return "viego";
 			case "sapo": return "tahmkench";
 			case "rato": return "twitch";
+			case "rainha": return "qiyana";
 			
 			default: return champion;
 		}
