@@ -30,7 +30,7 @@ public class NHentaiNet {
 		
 		String link = this.hentaiPageHTML.baseUri();
 		nHentaiNet.setLink(link);
-		nHentaiNet.setNumbers(link.substring(22).replace("/", ""));
+		nHentaiNet.setNumbers(link.substring(22, link.length()-1));
 		
 		String imageLink = this.hentaiPageHTML.select("img[src~=(?i)\\.(png|jpe?g|gif)]").first().attr("src");
 		nHentaiNet.setCoverLink(imageLink);
