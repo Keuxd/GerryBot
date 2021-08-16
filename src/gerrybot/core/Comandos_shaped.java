@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 
 public class Comandos_shaped extends ListenerAdapter {
 	public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
@@ -108,9 +109,22 @@ public class Comandos_shaped extends ListenerAdapter {
 							+ "- Sistema de randomização de !rhn melhorado."
 							);
 					
-					channel.sendMessage(embed.build()).queue();
+				
+				channel.sendMessageEmbeds(embed.build()).queue();
 				break;
-			}			
+			}
+			case("!test"): {
+				SelectionMenu menu = SelectionMenu.create("menu:class")
+						.setPlaceholder("test1_0")
+						.setRequiredRange(1, 1)
+						.addOption("sonicfox", "furry")
+						.addOption("dekilsage", "furryFriend")
+						
+						.build();
+				
+				channel.sendMessage("a").setActionRow(menu).queue();
+				break;
+			}
 		}
 		
 	}
