@@ -68,7 +68,7 @@ public class Draw {
 		
 		
 		//Symbol rune 02
-		g2.drawImage(resize(runes.get(firstElement + 5), 25),null, 178, 2);
+		g2.drawImage(resize(runes.get(firstElement + 5), 25), null, 178, 2);
 		
 		//sRune 04
 		g2.drawImage(resize(runes.get(firstElement + 6), 28), null, 207, 24);
