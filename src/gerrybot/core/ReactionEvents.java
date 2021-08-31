@@ -33,7 +33,7 @@ public class ReactionEvents extends ListenerAdapter {
 			EmbedBuilder embed = new EmbedBuilder();
 				embed.setAuthor(autor.getName(),null,autor.getAvatarUrl());
 				embed.setColor(Main.cor);
-			channel.sendMessage(embed.build()).queue();
+			channel.sendMessageEmbeds(embed.build()).queue();
 		}
 	}
 }
