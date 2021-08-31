@@ -40,7 +40,10 @@ public class League {
 	private String nickNames(String champion) {
 		switch(champion.toLowerCase()) {
 			case "aurelion": return "aurelionsol";
+			case "bardo": return "bard";
+			case "blitz": return "blitzcrank";
 			case "cait": return "caitlyn";
+			case "cassio": return "cassiopeia";
 			case "cho": return "chogath";
 			case "mundo": return "drmundo";
 			case "eve": return "evelynn";
@@ -55,13 +58,22 @@ public class League {
 			case "kog": return "kogmaw";
 			case "lb": return "leblanc";
 			case "lee": return "leesin";
+			case "malza": return "malzahar";
 			case "master":
 			case "yi": return "masteryi";
 			case "mf": return "missfortune";
+			case "morde": return "mordekaiser";
 			case "morg": return "morgana";
+			case "naut": return "nautilus";
 			case "nida": return "nidalee";
 			case "noc": return "nocturne";
+			case "ori": return "orianna";
+			case "pant":
+			case "panth" : return "pantheon";
+			case "rek": return "reksai";
 			case "renek": return "renekton";
+			case "sera": return "seraphine";
+			case "shyv": return "shyvana";
 			case "tk": return "tahmkench";
 			case "trynda": return "tryndamere";
 			case "tf": return "twistedfate";
@@ -78,6 +90,7 @@ public class League {
 			case "sapo": return "tahmkench";
 			case "rato": return "twitch";
 			case "rainha": return "qiyana";
+			case "baiano": return "akshan";
 			
 			default: return champion;
 		}
