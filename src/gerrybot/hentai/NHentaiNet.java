@@ -55,7 +55,7 @@ public class NHentaiNet {
 		}
 	}
 	
-	//it tries to load the 'Document' for this.hentaiPageHTML, if it can returns true, if it doesn't returns false
+	// it tries to load the 'Document' for this.hentaiPageHTML, if it can returns true, if it doesn't returns false
 	private boolean loadLink(String link) {
 		// while/if this page doesnt load continue trying loading it
 		while(this.hentaiPageHTML == null) {
