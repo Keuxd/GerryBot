@@ -23,17 +23,19 @@ public class League {
 		this.champion = nickNames(champion);
 		
 		if(role.equalsIgnoreCase("jg")) role = "jungle";
-		else if(role.equalsIgnoreCase("sup")) role = "support";
+		else if(role.equalsIgnoreCase("sup") || role.equalsIgnoreCase("suporte")) role = "support";
 		
 		this.role = role;
 		connect();
 	}
 	
-	private void connect() throws Exception {
-		String url = "https://br.op.gg/champion/"+ champion +"/statistics/" + role;
-		this.doc = Jsoup.connect(url).get();
+	// it tries to load the 'Document' for this.doc with aram statistics or summonersrift(champion) one
+	private void connect() throws Exception {		
+		String mapRef = (role.equalsIgnoreCase("aram")) ? "/aram/" : "/champion/";
 		
-		if(doc.baseUri().equals("https://br.op.gg/champion/statistics"))
+		this.doc = Jsoup.connect("https://br.op.gg" + mapRef + champion + "/statistics/" + role).get();
+		
+		if(doc.baseUri().equals("https://br.op.gg" + mapRef + "statistics"))
 			throw new Exception("Invalid Champion");
 	}
 	
