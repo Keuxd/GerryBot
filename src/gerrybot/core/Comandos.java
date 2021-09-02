@@ -17,8 +17,7 @@ public class Comandos extends ListenerAdapter {
 		MessageChannel channel = event.getChannel();
 		User autor = event.getAuthor();
 		
-		
-		//dice roller -> at least lentgh 3 | first char be a number | last char be a number | the "middle" char must be 'd'
+		// dice roller -> at least lentgh 3 | first char be a number | last char be a number | the "middle" char must be 'd'
 		if((args[0].length() >= 3 && String.valueOf(args[0].charAt(0)).matches("[0-9]*") && String.valueOf(args[0].charAt(args[0].length()-1)).matches("[0-9]*") &&  (args[0].charAt(1) == 'd' || args[0].charAt(2) == 'd'))) {
 			try {
 				String[] argumentos = args[0].split("d");
@@ -58,8 +57,7 @@ public class Comandos extends ListenerAdapter {
 				System.out.print("Erro Formato");
 			}
 		}
-		
-		//hentai numbers
+		else // henta numbers
 		if(args.length == 2 && args[0].equals("!hn")) {
 			try {
 				Hentai hentai = new NHentaiNet().genHentaiByNumber(args[1]);
@@ -69,12 +67,12 @@ public class Comandos extends ListenerAdapter {
 				channel.sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
 			}
 		}
-		
+		else // d size
 		if(args[0].equals("!cm") && args.length == 2) {
 			double cm = sizeD(Integer.parseInt(args[1]));
 			channel.sendMessage("Essa personagem aguenta ate " + String.format("%.1f", cm) + "cm.").queue();
 		}
-		
+		else // runes
 		if(args.length == 3 && args[0].equals("!runa")) {
 			try {				
 				League champion = new League(args[1], args[2]);
@@ -82,16 +80,18 @@ public class Comandos extends ListenerAdapter {
 				champion.sendRunes(channel);
 				
 			} catch (Exception e) {
-				channel.sendMessage("Campeao invalido.").queue();
+				channel.sendMessage("Invalid Champion").queue();
 				e.printStackTrace();
 			}
-		} else if(args.length == 3 && args[0].equals("!build")) {
+		} 
+		else // builds
+		if(args.length == 3 && args[0].equals("!build")) {
 			try {
 				League champion = new League(args[1], args[2]);
 				champion.loadBuilds();
 				champion.sendBuilds(channel);
 			} catch (Exception e) {
-				channel.sendMessage("Campeao invalido").queue();
+				channel.sendMessage("Invalid Champion").queue();
 				e.printStackTrace();
 			}
 		}
