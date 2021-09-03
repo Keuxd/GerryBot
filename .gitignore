@@ -36,3 +36,6 @@ bin
 
 # Ignore local files directory in classpath
 .classpath
+
+# Ignore cache stuff
+.gerry
