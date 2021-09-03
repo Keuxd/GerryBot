@@ -2,6 +2,7 @@ package gerrybot.league;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 
@@ -106,14 +107,14 @@ public class League {
 		this.builds = new Builds(this.doc);
 	}
 
-	public void sendRunes(MessageChannel channel) throws IOException {	
-		File outputFile = new File("cover.png");
+	public void sendRunes(MessageChannel channel) throws IOException, URISyntaxException {
+		File outputFile = new File(".gerry/cover.png");
 		ImageIO.write(new Draw().drawRunes(this.runes.getImages()), "png", outputFile);
 		channel.sendFile(outputFile, "cover.png").queue();
 	}
 	
 	public void sendBuilds(MessageChannel channel) throws IOException {
-		File outputFile = new File("cover.png");
+		File outputFile = new File(".gerry/cover.png");
 		ImageIO.write(new Draw().drawBuilds(this.builds.getImages()), "png", outputFile);
 		channel.sendMessage(getSkillOrder()).addFile(outputFile, "cover.png").queue();
 	}
