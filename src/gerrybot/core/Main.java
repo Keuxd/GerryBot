@@ -1,8 +1,10 @@
 package gerrybot.core;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import gerrybot.database.JDBC;
 import gerrybot.hentai.HentaiReaderListenerAdapter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -43,6 +45,9 @@ public class Main {
 		*	jda.addEventListener(new Comandos());
 		*	jda.addEventListener(new Comandos_shaped());
 		*/
+		
+		new File(".gerry").mkdir(); // creating cache directory for external process
+		JDBC.connectDataBase();
 		initSlashCommands();
 		jda.awaitReady();
 		
