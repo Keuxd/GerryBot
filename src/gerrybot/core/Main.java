@@ -1,17 +1,13 @@
 package gerrybot.core;
 
 import java.io.File;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import gerrybot.database.JDBC;
-import gerrybot.hentai.HentaiReaderListenerAdapter;
+import gerrybot.hentai.DailyThread;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -21,7 +17,8 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 public class Main {
 	public static final int cor = 0x9e42f5;
 	public static JDA jda;
-	protected static final boolean isTesting = true;
+	public static final boolean isTesting = true;
+	public static String gerryFolder;
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -33,7 +30,7 @@ public class Main {
 	    				.addEventListeners(new Comandos_shaped())
 	    				.addEventListeners(new PV())
 	    				.addEventListeners(new ReactionEvents())
-	    				.addEventListeners(new HentaiReaderListenerAdapter())
+//	    				.addEventListeners(new HentaiReaderListenerAdapter())
 	    				.setStatus(OnlineStatus.ONLINE)
 	    				.setActivity(Activity.playing(status))
 	    				.enableCache(CacheFlag.VOICE_STATE)
@@ -46,19 +43,26 @@ public class Main {
 		*	jda.addEventListener(new Comandos_shaped());
 		*/
 		
-		new File(".gerry").mkdir(); // creating cache directory for external process
+		initCacheFolder();
 		JDBC.connectDataBase();
-		initSlashCommands();
+//		initSlashCommands();
 		jda.awaitReady();
-		
-		if(!isTesting) new Stonks().start();
-		
+	
+		new Thread(new DailyThread(), "Daily-Henta Thread").start();
+
 		try {
 			jda.getGuilds().get(0).getAudioManager().openAudioConnection(jda.getGuilds().get(0).getVoiceChannels().get(0));
 			System.out.println("Conectado no canal de voz com sucesso.");
 		}catch(Exception e) {
 			System.out.println("Erro ao conectar no canal de voz.");
 		}
+	}
+	
+	// creating cache directory for external process
+	private static void initCacheFolder() {
+		File folder = new File("gerryCache");
+		folder.mkdir();
+		gerryFolder = folder.getAbsolutePath();
 	}
 	
 	private static void initSlashCommands() {
@@ -69,32 +73,5 @@ public class Main {
 										.setRequired(true))
 				);
 		commands.queue();
-	}
-}
-
-class Stonks extends Thread {
-	
-	@Override
-	public void run() {
-		while(true) {
-			List <TextChannel> textCh = Main.jda.getTextChannelsByName("henta", true);
-			
-			for(TextChannel canal : textCh) {
-				List<Message> mensagens = canal.getHistory().retrievePast(30).complete();
-				canal.purgeMessages(mensagens);
-			}
-			
-			int minutesTillNow = Comandos.minutesFormat();
-			final int hora = 14 * 60;
-			
-			if(minutesTillNow == hora) {
-				for(TextChannel canal : textCh) canal.sendMessage("!henta").queue();
-			}
-			
-			try {
-				TimeUnit.MINUTES.sleep(Comandos.minutosRestantes(minutesTillNow, hora));
-			} catch (InterruptedException e) {}
-			
-		}		
 	}
 }
