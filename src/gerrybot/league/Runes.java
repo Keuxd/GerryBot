@@ -11,6 +11,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import gerrybot.database.DataBaseEnum;
+import gerrybot.database.DataBaseUtils;
+
 public class Runes {
 	
 	private ArrayList<BufferedImage> images;
@@ -29,13 +32,23 @@ public class Runes {
 
 			for(Element rune : elements) {
 				if(!rune.attr("src").contains("grayscale")) {
-					try {
-						URLConnection connection = new URL("https:" + rune.attr("src").replace("q_auto:", "w_50,h_50&")).openConnection();
-						connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
-						images.add(ImageIO.read(connection.getInputStream()));
-					} catch(Exception e) {
-						e.printStackTrace();
+					String itemNum = ("https:" + rune.attr("src")).split("/")[6].substring(0,4);
+					BufferedImage rune64 = DataBaseUtils.getLeagueImage(itemNum, DataBaseEnum.RUNE);
+
+					if(rune64 == null) { // if it doesnt exist so download it and add in db
+						try {
+							URLConnection connection = new URL("https:" + rune.attr("src").replace("q_auto:", getRightImageSize(rune))).openConnection();
+							connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
+							rune64 = ImageIO.read(connection.getInputStream());
+							
+							DataBaseUtils.insertLeagueImage(itemNum, rune64, DataBaseEnum.RUNE);
+							
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
 					}
+					
+					images.add(rune64);
 				}
 			}
 		}
@@ -43,5 +56,20 @@ public class Runes {
 	
 	protected ArrayList<BufferedImage> getImages() {
 		return this.images;
+	}
+	
+	protected String getRightImageSize(Element rune) {
+		String parentStr = rune.parent().parent().className();
+		System.out.println(parentStr);
+		
+		if(rune.parent().className().contains("mark")) {
+			return "w_25,h_25&";
+		} else if(parentStr.contains("keystone")) {
+			return "w_50,h_50&";
+		} else if(parentStr.contains("fragment")) {
+			return "w_20,h_20&";
+		} else {
+			return "w_30,h_30&";
+		}
 	}
 }
