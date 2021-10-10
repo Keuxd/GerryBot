@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import gerrybot.core.Main;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class League {
@@ -31,7 +32,7 @@ public class League {
 	}
 	
 	// it tries to load the 'Document' for this.doc with aram statistics or summonersrift(champion) one
-	private void connect() throws Exception {		
+	private void connect() throws Exception {
 		String mapRef = (role.equalsIgnoreCase("aram")) ? "/aram/" : "/champion/";
 		
 		this.doc = Jsoup.connect("https://br.op.gg" + mapRef + champion + "/statistics/" + role).get();
@@ -108,13 +109,13 @@ public class League {
 	}
 
 	public void sendRunes(MessageChannel channel) throws IOException, URISyntaxException {
-		File outputFile = new File(".gerry/cover.png");
+		File outputFile = new File(Main.gerryFolder + "/cover.png");
 		ImageIO.write(new Draw().drawRunes(this.runes.getImages()), "png", outputFile);
 		channel.sendFile(outputFile, "cover.png").queue();
 	}
 	
 	public void sendBuilds(MessageChannel channel) throws IOException {
-		File outputFile = new File(".gerry/cover.png");
+		File outputFile = new File(Main.gerryFolder + "/cover.png");
 		ImageIO.write(new Draw().drawBuilds(this.builds.getImages()), "png", outputFile);
 		channel.sendMessage(getSkillOrder()).addFile(outputFile, "cover.png").queue();
 	}
