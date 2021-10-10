@@ -51,24 +51,24 @@ public class Draw {
 		g2.setColor(oldColor);
 		
 		//Symbol rune 01
-		g2.drawImage(resize(runes.get(firstElement), 25), null, 0, 2);
+		g2.drawImage(runes.get(firstElement), null, 0, 2);
 		
 		//pRune
 		g2.drawImage(runes.get(firstElement + 1), null, 24, 13);
 		
 
 		//sRune 01
-		g2.drawImage(resize(runes.get(firstElement + 2), 30), null, 74, 25);
+		g2.drawImage(runes.get(firstElement + 2), null, 74, 25);
 		
 		//sRune 02
-		g2.drawImage(resize(runes.get(firstElement + 3), 30), null, 106, 25);
+		g2.drawImage(runes.get(firstElement + 3), null, 106, 25);
 		
 		//sRune 03
-		g2.drawImage(resize(runes.get(firstElement + 4), 30), null, 138, 25);
+		g2.drawImage(runes.get(firstElement + 4), null, 138, 25);
 		
 		
 		//Symbol rune 02
-		g2.drawImage(resize(runes.get(firstElement + 5), 25), null, 178, 2);
+		g2.drawImage(runes.get(firstElement + 5), null, 178, 2);
 		
 		//sRune 04
 		g2.drawImage(resize(runes.get(firstElement + 6), 28), null, 207, 24);
@@ -78,13 +78,13 @@ public class Draw {
 		
 		
 		//mRune 01
-		g2.drawImage(resize(runes.get(firstElement + 8), 20), null, 275, 3);
+		g2.drawImage(runes.get(firstElement + 8), null, 275, 3);
 		
 		//mRune 02
-		g2.drawImage(resize(runes.get(firstElement + 9), 20), null, 275, 25);
+		g2.drawImage(runes.get(firstElement + 9), null, 275, 25);
 		
 		//mRune 03
-		g2.drawImage(resize(runes.get(firstElement + 10), 20), null, 275, 47);
+		g2.drawImage(runes.get(firstElement + 10), null, 275, 47);
 		
 		g2.dispose();
 		
