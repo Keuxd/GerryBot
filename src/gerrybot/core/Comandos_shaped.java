@@ -3,16 +3,16 @@ package gerrybot.core;
 import gerrybot.hentai.Hentai;
 import gerrybot.hentai.NHentaiNet;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 
 public class Comandos_shaped extends ListenerAdapter {
 	public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 		String[] args = event.getMessage().getContentRaw().split("\\s+");
 		MessageChannel channel = event.getChannel();
-		
+
 		switch (args[0].toLowerCase()) {
 			case ("!yo") :{
 				channel.sendMessage("oporra").queue();
@@ -83,7 +83,10 @@ public class Comandos_shaped extends ListenerAdapter {
 				
 				try {
 					Hentai dailyHenta = new NHentaiNet().genHentaiByNumber(dataNum);
-					dailyHenta.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> message.addReaction("U+1F51E").queue());
+					dailyHenta.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> {
+						message.addReaction("U+1F51E").queue();
+
+					});
 				} catch (Exception e) {
 					channel.sendMessage("O dia de hoje não tem hentai.").queue();
 					channel.sendMessage("https://image.prntscr.com/image/0rMqADlyTRGyAJ-q36RyXw.png").queue();
@@ -113,21 +116,29 @@ public class Comandos_shaped extends ListenerAdapter {
 				channel.sendMessageEmbeds(embed.build()).queue();
 				break;
 			}
-			case("!test"): {
-				SelectionMenu menu = SelectionMenu.create("menu:class")
-						.setPlaceholder("test1_0")
-						.setRequiredRange(1, 1)
-						.addOption("sonicfox", "furry")
-						.addOption("dekilsage", "furryFriend")
-						
-						.build();
-				
-				channel.sendMessage("a").setActionRow(menu).queue();
-				break;
-			}
+//			case("!test"): {
+//				SelectionMenu menu = SelectionMenu.create("menu:class")
+//						.setPlaceholder("test1_0")
+//						.setRequiredRange(1, 1)
+//						.addOption("sonicfox", "furry")
+//						.addOption("dekilsage", "furryFriend")
+//						
+//						.build();
+//				
+//				channel.sendMessage("_ _").setActionRow(menu).queue();
+//				break;
+//			}
+//			case("!teste"): {				
+//				Main.jda.getGuilds().forEach(guild -> {
+//					System.out.println(guild.getName() + " -> " + guild.getId() + " -> " + guild.getIdLong());
+//				});
+//				break;
+//			}
 		}
 		
 	}
+	
+
 }
 
 
