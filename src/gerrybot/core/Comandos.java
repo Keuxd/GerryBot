@@ -1,11 +1,13 @@
 package gerrybot.core;
 
-import java.time.LocalDateTime;
+import java.sql.SQLException;
 
+import gerrybot.database.DataBaseUtils;
 import gerrybot.hentai.Hentai;
 import gerrybot.hentai.NHentaiNet;
 import gerrybot.league.League;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -17,11 +19,16 @@ public class Comandos extends ListenerAdapter {
 		MessageChannel channel = event.getChannel();
 		User autor = event.getAuthor();
 		
-		// dice roller -> at least lentgh 3 | first char be a number | last char be a number | the "middle" char must be 'd'
-		if((args[0].length() >= 3 && String.valueOf(args[0].charAt(0)).matches("[0-9]*") && String.valueOf(args[0].charAt(args[0].length()-1)).matches("[0-9]*") &&  (args[0].charAt(1) == 'd' || args[0].charAt(2) == 'd'))) {
+		// Dice roller case
+		if(args[0].matches("^([1-9][[0-9]*]{0,1})?d[1-9][[0-9]*]{0,3}([\\+|-][[0-9]*]{0,2})?$")) {
 			try {
 				String[] argumentos = args[0].split("d");
 				String[] modificadores = null;
+				
+				// For dX* case
+				if(argumentos[0].length() == 0) {
+					argumentos[0] = "1";
+				}
 				
 				if(argumentos[1].contains("+")) {
 					modificadores = argumentos[1].split("\\+");
@@ -95,35 +102,27 @@ public class Comandos extends ListenerAdapter {
 				e.printStackTrace();
 			}
 		}
-
-	}
-	
-	static int minutesFormat() {
-		LocalDateTime now = LocalDateTime.now();
-		if(!Main.isTesting) now = now.minusHours(3);
-
-		return (now.getHour() * 60) + now.getMinute();
-	}
-	
-	static int minutosRestantes(int minutosAtual, int minutosAlvo) {
-		if(minutosAtual == minutosAlvo) return 1440;
-		
-		int contador = 0;
-		
-		while(true) {
-			minutosAtual++;
-			contador++;
-			
-			if(minutosAtual == 1440) {
-				minutosAtual = 0;
+		else
+		if(args.length == 2 && args[0].equals("!hentime")) {
+			if(!event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+				channel.sendMessage("You're not an administrator xD").queue();
+				return;
 			}
 			
-			if(minutosAtual == minutosAlvo) {
-				break;
+			if(!args[1].matches("^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")) {
+				channel.sendMessage("Invalid Format, use xx:xx[00:00 ~ 23:59]").queue();
+				return;
 			}
+			
+			try {
+				DataBaseUtils.insertHentaTimer(event.getGuild().getIdLong(), args[1].split(":"));
+				channel.sendMessage("Hentime changed to " + args[1]).queue();
+			} catch (SQLException e) {
+				channel.sendMessage("Error: " + e.getMessage()).queue();
+			}
+			
 		}
-		
-		return contador;
+
 	}
 
 	static double sizeD(int heightCentimeters) {
