@@ -86,6 +86,6 @@ public class NHentaiNet {
 			hentaiTags += tag.text().substring(0,1).toUpperCase() + tag.text().substring(1) + ", ";
 		}
 		
-		return hentaiTags.substring(0,hentaiTags.length()-2) + ".";
+		return hentaiTags.substring(0, hentaiTags.length()-2) + ".";
 	}
 }
