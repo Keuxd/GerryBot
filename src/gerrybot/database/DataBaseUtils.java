@@ -18,7 +18,7 @@ import gerrybot.core.Main;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 
 public class DataBaseUtils {
-	// query 'id' n returns the BufferedImage from the base64 string
+	// Query 'id' n returns the BufferedImage from the base64 string
 	public static BufferedImage getLeagueImage(String id, DataBaseEnum type) {
 		try {
 			String sql = String.format("SELECT * FROM %s WHERE ID = %s",
@@ -37,8 +37,6 @@ public class DataBaseUtils {
 			String sql = String.format("INSERT IGNORE INTO %s VALUES(%s,'%s')",
 					type.getTableName(), id, convertBufferedImageToBase64(bi));
 			
-//			String sql2 = sql +  "ON DUPLICATE KEY UPDATE id = id";
-			
 			JDBC.state.executeUpdate(sql);
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -50,7 +48,7 @@ public class DataBaseUtils {
 			String[] strings = image64.split(",");
 			String extension = null;
 		
-			if(strings.length == 1) { // most images in db are png
+			if(strings.length == 1) { // Most images in db are png
 				strings = new String[]{"data:image/png;base64", strings[0]};
 			}
 			
