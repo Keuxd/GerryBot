@@ -1,4 +1,4 @@
-package gerrybot.hentai;
+package gerrybot.hentai.reader;
 
 //função da classe: 
 public class HentaiReader {

@@ -1,22 +1,25 @@
-package gerrybot.hentai;
+package gerrybot.hentai.reader;
 
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.Button;
 
 public class HentaiReaderListenerAdapter extends ListenerAdapter{
+	
+	private final String BASE_LINK = "https://nhentai.net/g/";
+	
 	@Override
 	public void onSlashCommand(SlashCommandEvent event) {
 		if(!event.isFromGuild()) return;
 
 		String commandName = event.getName();
-
+		String fullLink = BASE_LINK + event.getOption("numbers").getAsString() + "/1/";
+		
 		switch(commandName) {
 			case "read" : {
 				try {
-					Hentai hentai = new NHentaiNet().genHentaiByNumber(event.getOption("numbers").getAsString());
-					hentai.sendEmbedHentai(event).addActionRow(Button.secondary("previousPage", "Previous"),Button.primary("nextPage", "Next"),Button.danger("closePage", "Close")).queue();
+					HentaiReaderTest hrt = new HentaiReaderTest(fullLink);
+					hrt.replySlashCommand(event).queue();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -32,9 +35,15 @@ public class HentaiReaderListenerAdapter extends ListenerAdapter{
 		String id = event.getComponentId();
 		event.deferEdit().queue();
 
+		String message = event.getMessage().getContentRaw();
+		System.out.println(message);
+		HentaiReaderTest hrt = new HentaiReaderTest(message);
+		
+		
 		switch(id) {
 			case "nextPage" : {
-				System.out.println(event.getMessage().getEmbeds().get(0).getImage().getUrl());
+//				System.out.println(event.getMessage().getEmbeds().get(0).getImage().getUrl());
+				hrt.nextPage();
 				event.getChannel().sendMessage("Next").queue();
 				break;
 			}
