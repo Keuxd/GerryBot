@@ -2,6 +2,8 @@ package gerrybot.core;
 
 import java.io.File;
 
+import javax.security.auth.login.LoginException;
+
 import gerrybot.database.JDBC;
 import gerrybot.hentai.DailyThread;
 import net.dv8tion.jda.api.JDA;
@@ -21,33 +23,14 @@ public class Main {
 	public static String gerryFolder;
 	
 	public static void main(String[] args) throws Exception {
-		
-		String status = "Gerry 1.7.0 | !updates";
-		
-		//Instance builder
-		jda = JDABuilder.createDefault(Token.getToken())
-	    				.addEventListeners(new Comandos())
-	    				.addEventListeners(new Comandos_shaped())
-	    				.addEventListeners(new PV())
-	    				.addEventListeners(new ReactionEvents())
-//	    				.addEventListeners(new HentaiReaderListenerAdapter())
-	    				.setStatus(OnlineStatus.ONLINE)
-	    				.setActivity(Activity.playing(status))
-	    				.enableCache(CacheFlag.VOICE_STATE)
-	    				.build();
-			
-		/*
-		*	jda.getPresence().setStatus(OnlineStatus.ONLINE);
-		*	jda.getPresence().setActivity(Activity.playing("D&D"));
-		*	jda.addEventListener(new Comandos());
-		*	jda.addEventListener(new Comandos_shaped());
-		*/
+		initJDA("Gerry 1.7.0 | !updates");
 		
 		initCacheFolder();
 		JDBC.connectDataBase();
 //		initSlashCommands();
 		jda.awaitReady();
 	
+		//Initialize daily henta cycle in another thread
 		new Thread(new DailyThread(), "Daily-Henta Thread").start();
 
 		try {
@@ -58,7 +41,21 @@ public class Main {
 		}
 	}
 	
-	// creating cache directory for external process
+	private static void initJDA(String status) throws LoginException {
+		if(jda != null) return;
+		
+		jda = JDABuilder.createDefault(Token.getToken())
+				.addEventListeners(new Comandos())
+				.addEventListeners(new Comandos_shaped())
+				.addEventListeners(new PV())
+				.addEventListeners(new ReactionEvents())
+				.setStatus(OnlineStatus.ONLINE)
+				.setActivity(Activity.playing(status))
+				.enableCache(CacheFlag.VOICE_STATE)
+				.build();
+	}
+	
+	// Creating cache directory for external process
 	private static void initCacheFolder() {
 		File folder = new File("gerryCache");
 		folder.mkdir();
