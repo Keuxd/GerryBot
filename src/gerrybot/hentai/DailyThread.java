@@ -28,13 +28,13 @@ public class DailyThread implements Runnable {
 			try {
 				ResultSet rs = DataBaseUtils.getHentaTimers();
 				if(!rs.next()) {
-					System.out.println("There's no guild timer in database, 'Daily-Henta Thread' will sleep for 1440 minutes");
-					TimeUnit.MINUTES.sleep(1440);
+					System.out.println("There's no guild timer in database, 'Daily-Henta Thread' will sleep for 1 hour");
+					TimeUnit.MINUTES.sleep(60);
 					continue;
 				}
 				rs.beforeFirst(); // Since the if above will move the cursor forward we need to go back for full iteration
 				int minutesNow = getMinutesNow();
-				int minorMinutesLeft = 1440;
+				int minorMinutesLeft = 1440; // In the worst case we do 24 hours sleep
 				
 				while(rs.next()) {
 					int minutesInCurrentRow = rs.getInt("MINUTES");
@@ -44,9 +44,9 @@ public class DailyThread implements Runnable {
 							channel.sendMessage("!henta").queue();
 						});
 					}
-					int currentMinutesLeft = minutesLeft(minutesNow, minutesInCurrentRow);
-					if(currentMinutesLeft < minorMinutesLeft) {
-						minorMinutesLeft = currentMinutesLeft;
+					int minutesLeftInCurrentRow = minutesLeft(minutesNow, minutesInCurrentRow);
+					if(minutesLeftInCurrentRow < minorMinutesLeft) {
+						minorMinutesLeft = minutesLeftInCurrentRow;
 					}
 				}
 				System.out.println("Tempo a mimir ate a proxima tentativa de henta: " + minorMinutesLeft);
