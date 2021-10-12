@@ -61,10 +61,9 @@ public class Comandos extends ListenerAdapter {
 			}
 			catch(Exception e) {
 				e.printStackTrace();
-				System.out.print("Erro Formato");
 			}
 		}
-		else // henta numbers
+		else // Henta numbers
 		if(args.length == 2 && args[0].equals("!hn")) {
 			try {
 				Hentai hentai = new NHentaiNet().genHentaiByNumber(args[1]);
