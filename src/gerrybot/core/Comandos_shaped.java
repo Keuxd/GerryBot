@@ -1,9 +1,10 @@
 package gerrybot.core;
 
+import java.time.LocalTime;
+
 import gerrybot.hentai.Hentai;
 import gerrybot.hentai.NHentaiNet;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -52,9 +53,10 @@ public class Comandos_shaped extends ListenerAdapter {
 			}
 			
 			case("!tempo"):{
-				String horario = java.time.LocalTime.now().toString();
+				LocalTime horario = java.time.LocalTime.now();
+				if(!Main.isTesting) horario = horario.minusMinutes(3);
 				String data = java.time.LocalDate.now().toString();
-				channel.sendMessage(data + "\n" + horario.substring(0,8)).queue();
+				channel.sendMessage(data + "\n" + horario.toString().substring(0,8)).queue();
 				break;
 			}
 			
@@ -101,15 +103,15 @@ public class Comandos_shaped extends ListenerAdapter {
 			
 			case("!updates"):{
 				EmbedBuilder embed = new EmbedBuilder();
-					embed.setTitle("Gerry 1.7.0");
+					embed.setTitle("Gerry 1.7.1");
 					embed.setColor(Main.cor);
 					embed.setDescription(""
-							+ "- Lista de !comandos movida para a wiki.\n\n"
-							+ "- !runa _champion_ _role_ adicionado.\n\n"
-							+ "- !build _champion_ _role_ adicionado.\n\n"
+							+ "- !hentime _xx:xx_ criado(ADMIN ONLY)\n\n"
+							+ "- Lista dos comandos na wiki atualizados.\n\n"
+							+ "- !runa _champion_ _role_ arrumado.\n\n"
+							+ "- !build _champion_ _role_ arrumado.\n\n"
 							+ "- Dominio de busca dos comandos de hentai alterado(nHentai.to -> nHentai.net).\n\n"
-							+ "- Os nomes dos grupos e extra tags não aparecem mais no começo/fim do titulo dos Hentais.\n\n"
-							+ "- Sistema de randomização de !rhn melhorado."
+							+ "- "
 							);
 					
 				
