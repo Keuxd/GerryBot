@@ -62,6 +62,7 @@ public class Main {
 		gerryFolder = folder.getAbsolutePath();
 	}
 	
+	@SuppressWarnings("unused")
 	private static void initSlashCommands() {
 		CommandListUpdateAction commands = jda.updateCommands();
 		commands.addCommands(
