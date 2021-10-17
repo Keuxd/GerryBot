@@ -7,14 +7,11 @@ import java.util.List;
 import gerrybot.database.DataBaseUtils;
 import gerrybot.database.JDBC;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class PV extends ListenerAdapter{
-	
-	private static PrivateChannel myChannel;
 	
 	public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
 		if(event.getAuthor().isBot()) return;
@@ -37,16 +34,6 @@ public class PV extends ListenerAdapter{
 											 + ".htimers -> Retorna os dados da table de htimers.\n"
 											 + ".downloadbase -> Retorna o arquivo central do banco de dados."
 											  ).queue();
-				break;
-			}
-			case(".set"):{
-				if(myChannel == null) {
-					myChannel = event.getChannel();
-					myChannel.sendMessage(myChannel.getUser().getAsTag() + " setted").queue();
-				}
-				else {
-					event.getMessage().getPrivateChannel().sendMessage(myChannel.getUser().getAsTag() + " already setted").queue();
-				}
 				break;
 			}
 			case(".send"):{
