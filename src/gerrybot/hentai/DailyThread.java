@@ -49,7 +49,7 @@ public class DailyThread implements Runnable {
 						minorMinutesLeft = minutesLeftInCurrentRow;
 					}
 				}
-				System.out.println("Tempo a mimir ate a proxima tentativa de henta: " + minorMinutesLeft);
+				System.out.println("Daily-Henta Thread will sleep for " + minorMinutesLeft + " minutes");
 				TimeUnit.MINUTES.sleep(minorMinutesLeft);
 			} catch (SQLException | InterruptedException e) {
 				e.printStackTrace();
