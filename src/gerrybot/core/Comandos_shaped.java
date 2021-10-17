@@ -1,6 +1,7 @@
 package gerrybot.core;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import gerrybot.hentai.Hentai;
 import gerrybot.hentai.NHentaiNet;
@@ -53,10 +54,8 @@ public class Comandos_shaped extends ListenerAdapter {
 			}
 			
 			case("!tempo"):{
-				LocalTime horario = java.time.LocalTime.now();
-				if(!Main.isTesting) horario = horario.minusMinutes(3);
-				String data = java.time.LocalDate.now().toString();
-				channel.sendMessage(data + "\n" + horario.toString().substring(0,8)).queue();
+				LocalDateTime ldt = (Main.isTesting) ? LocalDateTime.now() : LocalDateTime.now().minusHours(3);
+				channel.sendMessage(ldt.toString()).queue();
 				break;
 			}
 			
@@ -68,26 +67,14 @@ public class Comandos_shaped extends ListenerAdapter {
 				break;
 			}
 			
-			case ("!henta"):{
-				char[] data = java.time.LocalDate.now().toString().toCharArray();
-				data[0] = '-'; data[1] = '-';
-				data = String.valueOf(data).replace("-", "").toCharArray();
-				String dataNum = new String();
-					
-				//a data esta em formato americano, esse looping coloca os numeros na string dataNum ao contrario
-				for(int i = 4; i >= 0; i-=2) {
-					if(i == 4 && Integer.parseInt(String.valueOf(data[i] + "" + data[i+1])) < 10) {
-						dataNum += String.valueOf(data[i+1]);
-						continue;
-					}
-					dataNum += String.valueOf(data[i] + "" + data[i+1]);
-				}					
-				
+			case ("!henta"):{				
 				try {
+					LocalDateTime ldt = (Main.isTesting) ? LocalDateTime.now() : LocalDateTime.now().minusHours(3);
+					String dataNum = ldt.getDayOfMonth() + ldt.format(DateTimeFormatter.ofPattern("MMyy"));
+					
 					Hentai dailyHenta = new NHentaiNet().genHentaiByNumber(dataNum);
 					dailyHenta.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> {
 						message.addReaction("U+1F51E").queue();
-
 					});
 				} catch (Exception e) {
 					channel.sendMessage("O dia de hoje não tem hentai.").queue();
