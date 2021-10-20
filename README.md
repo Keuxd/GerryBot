@@ -3,7 +3,7 @@ A personal +18 discord bot made in JDA
 
 # Features
 
-- Dice Roller
+- Dice Roller.
 
 - League of Legends runes and builds.
 
