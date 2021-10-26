@@ -1,13 +1,16 @@
 package gerrybot.core;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import gerrybot.database.DataBaseUtils;
 import gerrybot.hentai.Hentai;
 import gerrybot.hentai.NHentaiNet;
+import gerrybot.hentai.favoritesViewer.FavoritesViewer;
 import gerrybot.league.League;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -67,7 +70,9 @@ public class Comandos extends ListenerAdapter {
 		if(args.length == 2 && args[0].equals("!hn")) {
 			try {
 				Hentai hentai = new NHentaiNet().genHentaiByNumber(args[1]);
-				hentai.sendEmbedHentai(channel).queue();
+				hentai.sendEmbedHentai(channel).queue(message -> {
+					message.addReaction("U+2B50").queue();
+				});
 			} catch (Exception e) {
 				channel.sendMessage("Esses numeros nao levam a nenhum nHentai.").queue();
 				channel.sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
@@ -84,7 +89,6 @@ public class Comandos extends ListenerAdapter {
 				League champion = new League(args[1], args[2]);
 				champion.loadRunes();
 				champion.sendRunes(channel);
-				
 			} catch (Exception e) {
 				channel.sendMessage("Invalid Champion").queue();
 				e.printStackTrace();
@@ -121,7 +125,30 @@ public class Comandos extends ListenerAdapter {
 			}
 			
 		}
-
+		else
+		if(args.length == 2 && args[0].equals("!favorites")) {
+			List<Member> members = event.getMessage().getMentionedMembers();
+			String userId;
+			
+			if(members.size() == 1) { // An user was mentioned
+				userId = members.get(0).getId();
+			}
+			else if(args[1].matches("^[0-9]+$")){ // No user mentioned(members.size is 0) but we have the id
+				userId = args[1];
+			}
+			else { // No user mentioned(members.size is 0) and id is invalid(regex doesnt match)
+				channel.sendMessage("No user mentioned or id is invalid.").queue();
+				return;
+			}
+			
+			try {
+				new FavoritesViewer(userId).sendFavoritesHentas(channel).queue(message -> {
+					message.addReaction("U+2B50").queue();
+				});
+			} catch (Exception e) {
+				channel.sendMessage("This user doesn't have favorite hentas").queue();
+			}
+		}
 	}
 
 	static double sizeD(int heightCentimeters) {
