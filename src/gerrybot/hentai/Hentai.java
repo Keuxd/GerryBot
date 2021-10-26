@@ -41,7 +41,7 @@ public class Hentai {
 			return event.replyEmbeds(genEmbedMessageHentai(embedTitle[0]));
 	}
 	
-	private MessageEmbed genEmbedMessageHentai(String title) {
+	public MessageEmbed genEmbedMessageHentai(String title) {
 		EmbedBuilder embedHentai = new EmbedBuilder()
 		  		.setTitle(title)
 		  		.setDescription(this.title)
@@ -54,11 +54,11 @@ public class Hentai {
 		return embedHentai.build();
 	}
 	
-	protected String getCoverLink() {
+	public String getCoverLink() {
 		return coverLink;
 	}
 
-	protected void setCoverLink(String coverLink) {
+	public void setCoverLink(String coverLink) {
 		this.coverLink = coverLink;
 	}
 
@@ -86,7 +86,7 @@ public class Hentai {
 		this.concatedTags = concatedTags;
 	}
 
-	protected String getNumbers() {
+	public String getNumbers() {
 		return numbers;
 	}
 
@@ -94,11 +94,11 @@ public class Hentai {
 		this.numbers = numbers;
 	}
 
-	protected InputStream getImageFile() {
+	public InputStream getImageFile() {
 		return imageFile;
 	}
 
-	protected void setImageFile(InputStream imageFile) {
+	public void setImageFile(InputStream imageFile) {
 		this.imageFile = imageFile;
 	}
 
