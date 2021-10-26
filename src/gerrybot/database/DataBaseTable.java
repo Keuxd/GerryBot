@@ -1,14 +1,15 @@
 package gerrybot.database;
 
-public enum DataBaseEnum {
+public enum DataBaseTable {
 	
 	RUNE("RUNES"),
 	ITEM("BUILDS"),
-	GUILDTIMER("HENTA_TIMERS");
+	GUILD_TIMER("HENTA_TIMERS"),
+	USER_FAVORITE_HENTAS("HENTA_FAVORITES");
 	
 	private String tableName;
 	
-	private DataBaseEnum(String name) {
+	private DataBaseTable(String name) {
 		tableName = name;
 	}
 	
