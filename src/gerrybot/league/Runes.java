@@ -11,7 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import gerrybot.database.DataBaseEnum;
+import gerrybot.database.DataBaseTable;
 import gerrybot.database.DataBaseUtils;
 
 public class Runes {
@@ -33,7 +33,7 @@ public class Runes {
 			for(Element rune : elements) {
 				if(!rune.attr("src").contains("grayscale")) {
 					String itemNum = ("https:" + rune.attr("src")).split("/")[6].substring(0,4);
-					BufferedImage rune64 = DataBaseUtils.getLeagueImage(itemNum, DataBaseEnum.RUNE);
+					BufferedImage rune64 = DataBaseUtils.getLeagueImage(itemNum, DataBaseTable.RUNE);
 
 					if(rune64 == null) { // if it doesnt exist so download it and add in db
 						try {
@@ -41,7 +41,7 @@ public class Runes {
 							connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
 							rune64 = ImageIO.read(connection.getInputStream());
 							
-							DataBaseUtils.insertLeagueImage(itemNum, rune64, DataBaseEnum.RUNE);
+							DataBaseUtils.insertLeagueImage(itemNum, rune64, DataBaseTable.RUNE);
 							
 						} catch(Exception e) {
 							e.printStackTrace();

@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import gerrybot.database.DataBaseEnum;
+import gerrybot.database.DataBaseTable;
 import gerrybot.database.DataBaseUtils;
 
 public class Builds {
@@ -46,7 +46,7 @@ public class Builds {
 			builds[i] = new BufferedImage[items[i].length];
 			for(int j = 0; j < items[i].length; j++) {
 				String itemNum = (items[i][j]).split("/")[6].substring(0,4);
-				BufferedImage rune64 = DataBaseUtils.getLeagueImage(itemNum, DataBaseEnum.ITEM);
+				BufferedImage rune64 = DataBaseUtils.getLeagueImage(itemNum, DataBaseTable.ITEM);
 				
 				if(rune64 == null) {
 					try {
@@ -54,7 +54,7 @@ public class Builds {
 						connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
 						rune64 = ImageIO.read(connection.getInputStream());
 						
-						DataBaseUtils.insertLeagueImage(itemNum, rune64, DataBaseEnum.ITEM);
+						DataBaseUtils.insertLeagueImage(itemNum, rune64, DataBaseTable.ITEM);
 					} catch(Exception e) {
 						e.printStackTrace();
 					}
