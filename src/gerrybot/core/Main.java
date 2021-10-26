@@ -6,6 +6,8 @@ import javax.security.auth.login.LoginException;
 
 import gerrybot.database.JDBC;
 import gerrybot.hentai.DailyThread;
+import gerrybot.hentai.HentaiReactionEvents;
+import gerrybot.hentai.favoritesViewer.FavoritesViewerListenerAdapter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -19,20 +21,20 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 public class Main {
 	public static final int cor = 0x9e42f5;
 	public static JDA jda;
-	public static final boolean isTesting = true;
+	public static final boolean isTesting = false;
 	public static String gerryFolder;
 	
 	public static void main(String[] args) throws Exception {
-		initJDA("Gerry 1.7.0 | !updates");
+		initJDA("Gerry 1.8.0 | !updates");
 		
 		initCacheFolder();
 		JDBC.connectDataBase();
 //		initSlashCommands();
 		jda.awaitReady();
 	
-		//Initialize daily henta cycle in another thread
+		// Initialize daily henta cycle in another thread
 		new Thread(new DailyThread(), "Daily-Henta Thread").start();
-
+		
 		try {
 			jda.getGuilds().get(0).getAudioManager().openAudioConnection(jda.getGuilds().get(0).getVoiceChannels().get(0));
 			System.out.println("Conectado no canal de voz com sucesso.");
@@ -48,7 +50,8 @@ public class Main {
 				.addEventListeners(new Comandos())
 				.addEventListeners(new Comandos_shaped())
 				.addEventListeners(new PV())
-				.addEventListeners(new ReactionEvents())
+				.addEventListeners(new HentaiReactionEvents())
+				.addEventListeners(new FavoritesViewerListenerAdapter())
 				.setStatus(OnlineStatus.ONLINE)
 				.setActivity(Activity.playing(status))
 				.enableCache(CacheFlag.VOICE_STATE)
