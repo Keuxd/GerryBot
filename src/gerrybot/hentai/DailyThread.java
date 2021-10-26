@@ -32,7 +32,7 @@ public class DailyThread implements Runnable {
 					TimeUnit.MINUTES.sleep(60);
 					continue;
 				}
-				rs.beforeFirst(); // Since the if above will move the cursor forward we need to go back for full iteration
+				rs.beforeFirst(); // Since the check above will move the cursor forward we need to go back for full iteration
 				int minutesNow = getMinutesNow();
 				int minorMinutesLeft = 1440; // In the worst case we do 24 hours sleep
 				
