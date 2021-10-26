@@ -62,12 +62,14 @@ public class Comandos_shaped extends ListenerAdapter {
 			case("!rhn"):{
 				try {
 					Hentai randomHentai = new NHentaiNet().genRandomHentai();
-					randomHentai.sendEmbedHentai(channel).queue();
+					randomHentai.sendEmbedHentai(channel).queue(message -> {
+						message.addReaction("U+2B50").queue();
+					});
 				} catch (Exception e) {}
 				break;
 			}
 			
-			case ("!henta"):{				
+			case ("!henta"):{
 				try {
 					LocalDateTime ldt = (Main.isTesting) ? LocalDateTime.now() : LocalDateTime.now().minusHours(3);
 					String dataNum = ldt.getDayOfMonth() + ldt.format(DateTimeFormatter.ofPattern("MMyy"));
@@ -75,6 +77,7 @@ public class Comandos_shaped extends ListenerAdapter {
 					Hentai dailyHenta = new NHentaiNet().genHentaiByNumber(dataNum);
 					dailyHenta.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> {
 						message.addReaction("U+1F51E").queue();
+						message.addReaction("U+2B50").queue();
 					});
 				} catch (Exception e) {
 					channel.sendMessage("O dia de hoje não tem hentai.").queue();
@@ -90,47 +93,23 @@ public class Comandos_shaped extends ListenerAdapter {
 			
 			case("!updates"):{
 				EmbedBuilder embed = new EmbedBuilder();
-					embed.setTitle("Gerry 1.7.1");
+					embed.setTitle("Gerry 1.8.0");
 					embed.setColor(Main.cor);
 					embed.setDescription(""
-							+ "- !hentime _xx:xx_ criado(ADMIN ONLY)\n\n"
+							+ "- !hentime _xx:xx_ criado **(ADMIN ONLY)**.\n\n"
 							+ "- Lista dos comandos na wiki atualizados.\n\n"
-							+ "- !runa _champion_ _role_ arrumado.\n\n"
-							+ "- !build _champion_ _role_ arrumado.\n\n"
-							+ "- Dominio de busca dos comandos de hentai alterado(nHentai.to -> nHentai.net).\n\n"
-							+ "- "
+							+ "- Corrigido bug onde campeões com menos de 4 paginas de runa não apareciam direito(samira/yasuo).\n\n"
+							+ "- Corrigido bug onde a ordem de skills de !build não aparecia nos campeões em suas rotas principais.\n\n"
+							+ "- Adicionado role _aram_ para !runas e !builds.\n\n"
+							+ "- !favorites _ID_ ou _@mention_ criado.\n\n"
+							+ "- Adicionado emote :star: para favoritar hentas em: !rhn | !hn | !henta | !favorites\n\n"
+							+ "- .selfdestruct removido\n\n"
 							);
 					
 				
 				channel.sendMessageEmbeds(embed.build()).queue();
 				break;
 			}
-//			case("!test"): {
-//				SelectionMenu menu = SelectionMenu.create("menu:class")
-//						.setPlaceholder("test1_0")
-//						.setRequiredRange(1, 1)
-//						.addOption("sonicfox", "furry")
-//						.addOption("dekilsage", "furryFriend")
-//						
-//						.build();
-//				
-//				channel.sendMessage("_ _").setActionRow(menu).queue();
-//				break;
-//			}
-//			case("!teste"): {				
-//				Main.jda.getGuilds().forEach(guild -> {
-//					System.out.println(guild.getName() + " -> " + guild.getId() + " -> " + guild.getIdLong());
-//				});
-//				break;
-//			}
-		}
-		
+		}	
 	}
-	
-
 }
-
-
-
-
-
