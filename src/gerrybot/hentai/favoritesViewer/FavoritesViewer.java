@@ -41,6 +41,7 @@ public class FavoritesViewer {
 		}
 
 		return SelectionMenu.create("gerry:favoritesHentas")
+				.setPlaceholder(this.firstHentaCode)
 				.setRequiredRange(1, 1)
 				.addOptions(options)
 				.build();

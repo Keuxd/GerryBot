@@ -6,17 +6,18 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.SelectionMenuEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
+import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
 
 public class FavoritesViewerListenerAdapter extends ListenerAdapter {
 
 	@Override
 	public void onSelectionMenu(SelectionMenuEvent event) {
-		event.deferReply();
 		if(!event.getComponentId().equals("gerry:favoritesHentas")) return;
+		event.deferReply();
 		
 		SelectOption option = event.getSelectedOptions().get(0); // We can only select 1 option
 		String numberChoosed = option.getLabel();
-		String previousNumber = event.getMessage().getEmbeds().get(0).getTitle().substring(6,12);
+		String previousNumber = event.getMessage().getEmbeds().get(0).getTitle().substring(6);
 		
 		if(numberChoosed.equals(previousNumber)) return;
 		
@@ -26,9 +27,11 @@ public class FavoritesViewerListenerAdapter extends ListenerAdapter {
 			newHenta.setImageFile(null);
 			MessageEmbed me = newHenta.genEmbedMessageHentai("Hentai " + numberChoosed);
 
-			event.editMessageEmbeds(me).queue();
+			SelectionMenu sm = event.getSelectionMenu().createCopy().setPlaceholder(numberChoosed).build();
+			
+			event.editMessageEmbeds(me).setActionRow(sm).queue();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 }
