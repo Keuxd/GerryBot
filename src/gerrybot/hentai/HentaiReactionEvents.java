@@ -18,17 +18,18 @@ public class HentaiReactionEvents extends ListenerAdapter {
 	
 	@Override
 	public void	onMessageReactionAdd(MessageReactionAddEvent event) {
-		ReactionEmote emote = event.getReactionEmote();
+		ReactionEmote emoji = event.getReactionEmote();
 		MessageChannel channel = event.getChannel();
 		long messageId = event.getMessageIdLong();
 		User author = event.getUser();
 
-		if(author.isBot()) return;
+		// Shouldn't interact with bots reactions/Emojis have unicode notation emotes dont
+		if(author.isBot() || emoji.isEmote()) return;
 
-		if(channel.getName().equals("henta") && emote.getAsCodepoints().equals("U+1f51e")) {
+		if(channel.getName().equals("henta") && emoji.getAsCodepoints().equals("U+1f51e")) {
 			cursedAction(channel, author);
 		}
-		else if(emote.getAsCodepoints().equals("U+2b50")) {
+		else if(emoji.getAsCodepoints().equals("U+2b50")) {
 			try {
 				favoriteAction(channel, author, messageId);
 			} catch (SQLException e) {
@@ -72,6 +73,6 @@ public class HentaiReactionEvents extends ListenerAdapter {
 		if(wasHentaAdded) // If it was then we say 'added', if it wasn't then it was 'removed'
 			channel.sendMessage("Henta " + numbers + " added. " + author.getAsMention()).queue();
 		else
-			channel.sendMessage("Henta " + numbers + " removed. " + author.getAsMention()).mention(author).queue();
+			channel.sendMessage("Henta " + numbers + " removed. " + author.getAsMention()).queue();
 	}
 }
