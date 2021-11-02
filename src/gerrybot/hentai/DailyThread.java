@@ -52,7 +52,7 @@ public class DailyThread implements Runnable {
 				System.out.println("Daily-Henta Thread will sleep for " + minorMinutesLeft + " minutes");
 				TimeUnit.MINUTES.sleep(minorMinutesLeft);
 			} catch (SQLException | InterruptedException e) {
-				e.printStackTrace();
+				System.out.println("!hentime called, DailyThread woke up.");
 			}
 		}
 	}

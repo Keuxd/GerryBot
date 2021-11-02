@@ -21,8 +21,9 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 public class Main {
 	public static final int cor = 0x9e42f5;
 	public static JDA jda;
-	public static final boolean isTesting = false;
+	public static final boolean isTesting = true;
 	public static String gerryFolder;
+	protected static Thread dailyThread;
 	
 	public static void main(String[] args) throws Exception {
 		initJDA("Gerry 1.8.0 | !updates");
@@ -31,9 +32,10 @@ public class Main {
 		JDBC.connectDataBase();
 //		initSlashCommands();
 		jda.awaitReady();
-	
+
 		// Initialize daily henta cycle in another thread
-		new Thread(new DailyThread(), "Daily-Henta Thread").start();
+		dailyThread = new Thread(new DailyThread(), "Daily-Henta Thread");
+		dailyThread.start();
 		
 		try {
 			jda.getGuilds().get(0).getAudioManager().openAudioConnection(jda.getGuilds().get(0).getVoiceChannels().get(0));

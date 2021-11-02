@@ -119,6 +119,7 @@ public class Comandos extends ListenerAdapter {
 			
 			try {
 				DataBaseUtils.insertHentaTimer(event.getGuild().getIdLong(), args[1].split(":"));
+				Main.dailyThread.interrupt(); // Will "restart" dailyThread to calculate sleep time again
 				channel.sendMessage("Hentime changed to " + args[1]).queue();
 			} catch (SQLException e) {
 				channel.sendMessage("Error: " + e.getMessage()).queue();
