@@ -48,7 +48,7 @@ public class HentaiReactionEvents extends ListenerAdapter {
 		
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setAuthor(author.getName(), null, author.getAvatarUrl());
-		embed.setColor(Main.cor);
+		embed.setColor(Main.COLOR);
 		
 		channel.sendMessageEmbeds(embed.build()).queue();
 	}

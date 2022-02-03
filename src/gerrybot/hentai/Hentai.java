@@ -48,7 +48,7 @@ public class Hentai {
 		  		.addField("Link", this.link, false)
 		  		.addField("Tags", this.concatedTags, false)
 		  		.addField("Capa", "" , false)
-				.setColor(Main.cor)
+				.setColor(Main.COLOR)
 				.setImage((this.imageFile != null) ? "attachment://cover.jpg" : this.coverLink);
 		
 		return embedHentai.build();
