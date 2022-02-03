@@ -59,7 +59,7 @@ public class DailyThread implements Runnable {
 
 	private int getMinutesNow() {
 		LocalDateTime now = LocalDateTime.now();
-		if(!Main.isTesting) now = now.minusHours(3);
+		if(!Main.IS_TESTING) now = now.minusHours(3);
 
 		return (now.getHour() * 60) + now.getMinute();
 	}
@@ -69,7 +69,10 @@ public class DailyThread implements Runnable {
 		
 		int counter = 0;
 		
-		while(minutesStart != minutesTarget) {
+		while(true) {
+			if(minutesStart == minutesTarget) {
+				break;
+			}
 			minutesStart++;
 			counter++;
 			
