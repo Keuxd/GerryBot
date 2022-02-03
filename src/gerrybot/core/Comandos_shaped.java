@@ -93,20 +93,13 @@ public class Comandos_shaped extends ListenerAdapter {
 			
 			case("!updates"):{
 				EmbedBuilder embed = new EmbedBuilder();
-					embed.setTitle("Gerry 1.8.0");
-					embed.setColor(Main.cor);
+					embed.setTitle("Gerry 1.8.1");
+					embed.setColor(Main.COLOR);
 					embed.setDescription(""
-							+ "- !hentime _xx:xx_ criado **(ADMIN ONLY)**.\n\n"
-							+ "- Lista dos comandos na wiki atualizados.\n\n"
-							+ "- Corrigido bug onde campeões com menos de 4 paginas de runa não apareciam direito(samira/yasuo).\n\n"
-							+ "- Corrigido bug onde a ordem de skills de !build não aparecia nos campeões em suas rotas principais.\n\n"
-							+ "- Adicionado role _aram_ para !runas e !builds.\n\n"
-							+ "- !favorites _ID_ ou _@mention_ criado.\n\n"
-							+ "- Adicionado emote :star: para favoritar hentas em: !rhn | !hn | !henta | !favorites\n\n"
-							+ "- .selfdestruct removido\n\n"
-							);
-					
-				
+							+ "- Fixed league commands for all roles.\n\n"
+							+ "- Fixed FavoritesHenta bug that anyone could favorite henta for anyone.\n\n"
+							+ "- !cm removed."
+							);				
 				channel.sendMessageEmbeds(embed.build()).queue();
 				break;
 			}
