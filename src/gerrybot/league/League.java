@@ -35,9 +35,9 @@ public class League {
 	private void connect() throws Exception {
 		String mapRef = (role.equalsIgnoreCase("aram")) ? "/aram/" : "/champion/";
 		
-		this.doc = Jsoup.connect("https://br.op.gg" + mapRef + champion + "/statistics/" + role).get();
+		this.doc = Jsoup.connect("https://www.op.gg" + mapRef + champion + "/statistics/" + role).get();
 		
-		if(doc.baseUri().equals("https://br.op.gg" + mapRef + "statistics"))
+		if(doc.baseUri().equals("https://www.op.gg" + mapRef + "statistics"))
 			throw new Exception("Invalid Champion");
 	}
 	
