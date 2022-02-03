@@ -32,35 +32,36 @@ public class Runes {
 
 			for(Element rune : elements) {
 				if(!rune.attr("src").contains("grayscale")) {
-					String itemNum = ("https:" + rune.attr("src")).split("/")[6].substring(0,4);
-					BufferedImage rune64 = DataBaseUtils.getLeagueImage(itemNum, DataBaseTable.RUNE);
-
-					if(rune64 == null) { // if it doesnt exist so download it and add in db
-						try {
-							URLConnection connection = new URL("https:" + rune.attr("src").replace("q_auto:", getRightImageSize(rune))).openConnection();
-							connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
-							rune64 = ImageIO.read(connection.getInputStream());
-							
-							DataBaseUtils.insertLeagueImage(itemNum, rune64, DataBaseTable.RUNE);
-							
-						} catch(Exception e) {
-							e.printStackTrace();
-						}
-					}
+					String itemID = ("https:" + rune.attr("src")).split("/")[6].substring(0,4);
+					BufferedImage runeImage = getRune(itemID, rune);
 					
-					images.add(rune64);
+					images.add(runeImage);
 				}
 			}
 		}
 	}
 	
-	protected ArrayList<BufferedImage> getImages() {
-		return this.images;
+	private BufferedImage getRune(String itemID, Element rune) {
+		BufferedImage runeImage = DataBaseUtils.getLeagueImage(itemID, DataBaseTable.RUNE);
+		
+		if(runeImage == null) {
+			try {
+				URLConnection connection = new URL("https:" + rune.attr("src").replace("q_auto:", getRightImageSize(rune))).openConnection();
+				connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
+				runeImage = ImageIO.read(connection.getInputStream());
+				
+				DataBaseUtils.insertLeagueImage(itemID, runeImage, DataBaseTable.RUNE);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return runeImage;
 	}
 	
 	protected String getRightImageSize(Element rune) {
 		String parentStr = rune.parent().parent().className();
-		System.out.println(parentStr);
+		System.out.println("Rune Being Downloaded -> " + parentStr);
 		
 		if(rune.parent().className().contains("mark")) {
 			return "w_25,h_25&";
@@ -71,5 +72,9 @@ public class Runes {
 		} else {
 			return "w_30,h_30&";
 		}
+	}
+	
+	protected ArrayList<BufferedImage> getImages() {
+		return this.images;
 	}
 }
