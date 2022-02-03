@@ -54,7 +54,7 @@ public class Comandos_shaped extends ListenerAdapter {
 			}
 			
 			case("!tempo"):{
-				LocalDateTime ldt = (Main.isTesting) ? LocalDateTime.now() : LocalDateTime.now().minusHours(3);
+				LocalDateTime ldt = (Main.IS_TESTING) ? LocalDateTime.now() : LocalDateTime.now().minusHours(3);
 				channel.sendMessage(ldt.toString()).queue();
 				break;
 			}
@@ -71,7 +71,7 @@ public class Comandos_shaped extends ListenerAdapter {
 			
 			case ("!henta"):{
 				try {
-					LocalDateTime ldt = (Main.isTesting) ? LocalDateTime.now() : LocalDateTime.now().minusHours(3);
+					LocalDateTime ldt = (Main.IS_TESTING) ? LocalDateTime.now() : LocalDateTime.now().minusHours(3);
 					String dataNum = ldt.getDayOfMonth() + ldt.format(DateTimeFormatter.ofPattern("MMyy"));
 					
 					Hentai dailyHenta = new NHentaiNet().genHentaiByNumber(dataNum);

@@ -19,17 +19,20 @@ import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Main {
-	public static final int cor = 0x9e42f5;
+	
+	public static final boolean IS_TESTING = false;
+	public static final int COLOR = 0x9e42f5;
+	
 	public static JDA jda;
-	public static final boolean isTesting = true;
+	
 	public static String gerryFolder;
 	protected static Thread dailyThread;
 	
 	public static void main(String[] args) throws Exception {
-		initJDA("Gerry 1.8.0 | !updates");
+		initJDA("Gerry 1.8.1 | !updates");
 		
 		initCacheFolder();
-		JDBC.connectDataBase();
+		if(!JDBC.connectDataBase()) return;
 //		initSlashCommands();
 		jda.awaitReady();
 
