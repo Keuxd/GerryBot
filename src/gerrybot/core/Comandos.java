@@ -51,7 +51,7 @@ public class Comandos extends ListenerAdapter {
 					dados.rodarDados();
 					
 				EmbedBuilder embed = new EmbedBuilder();
-					embed.setColor(Main.cor);
+					embed.setColor(Main.COLOR);
 					embed.setTitle(String.valueOf(dados.getTotal()));
 					if(dados.modificador == null) {
 						embed.setFooter(dados.getConcatDados(), autor.getAvatarUrl());
@@ -77,11 +77,6 @@ public class Comandos extends ListenerAdapter {
 				channel.sendMessage("Esses numeros nao levam a nenhum nHentai.").queue();
 				channel.sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
 			}
-		}
-		else // d size
-		if(args[0].equals("!cm") && args.length == 2) {
-			double cm = sizeD(Integer.parseInt(args[1]));
-			channel.sendMessage("Essa personagem aguenta ate " + String.format("%.1f", cm) + "cm.").queue();
 		}
 		else // runes
 		if(args.length == 3 && args[0].equals("!runa")) {
@@ -150,14 +145,5 @@ public class Comandos extends ListenerAdapter {
 				channel.sendMessage("This user doesn't have favorite hentas").queue();
 			}
 		}
-	}
-
-	static double sizeD(int heightCentimeters) {
-		double size;
-		size = (heightCentimeters * 100) / 161;
-		size = (size / 100) * 8; 
-		size *= 1.5625;
-		
-		return size + 1;
 	}
 }
