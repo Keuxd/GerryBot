@@ -31,6 +31,7 @@ public class HentaiReaderTest {
 	}
 	
 	//it tries to load the 'Document' for this.hentaiPageHTML, if it can returns true, if it doesn't returns false
+	@SuppressWarnings("unused")
 	private boolean loadLink(String link) {
 		// while/if this page doesnt load continue trying loading it
 		while(this.hentaiPageHTML == null) {
