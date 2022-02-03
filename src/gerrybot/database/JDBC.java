@@ -12,14 +12,15 @@ public class JDBC {
 	public static Connection con;
 	public static Statement state;
 	
-	public static void connectDataBase() {
+	public static boolean connectDataBase() {
 		try {
 			con = DriverManager.getConnection("jdbc:h2:" + Main.gerryFolder + "/test;MODE=MYSQL", "sa", "");
 			state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			System.out.println("Database connected");
+			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Error connecting to Database");
+			System.out.println("Error connecting to Database -> " + e.getMessage());
+			return false;
 		}
 	}
 	
