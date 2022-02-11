@@ -51,8 +51,11 @@ public class DailyThread implements Runnable {
 				}
 				System.out.println("Daily-Henta Thread will sleep for " + minorMinutesLeft + " minutes");
 				TimeUnit.MINUTES.sleep(minorMinutesLeft);
-			} catch (SQLException | InterruptedException e) {
+			} catch (InterruptedException e) {
 				System.out.println("!hentime called, DailyThread woke up.");
+			} catch (SQLException e) {
+				System.out.println("The henta table in db doesn't exist, DailyThread will be killed.");
+				break;
 			}
 		}
 	}
