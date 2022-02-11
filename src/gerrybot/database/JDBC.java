@@ -14,7 +14,7 @@ public class JDBC {
 	
 	public static boolean connectDataBase() {
 		try {
-			con = DriverManager.getConnection("jdbc:h2:" + Main.gerryFolder + "/test;MODE=MYSQL", "sa", "");
+			con = DriverManager.getConnection("jdbc:h2:" + Main.gerryFolder + "/GerryBase;MODE=MYSQL", "sa", "");
 			state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			System.out.println("Database connected");
 			return true;
