@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.security.auth.login.LoginException;
 
+import gerrybot.database.DataBaseModel;
 import gerrybot.database.JDBC;
 import gerrybot.hentai.DailyThread;
 import gerrybot.hentai.HentaiReactionEvents;
@@ -29,13 +30,16 @@ public class Main {
 	protected static Thread dailyThread;
 	
 	public static void main(String[] args) throws Exception {
-		initJDA("Gerry 1.8.1 | !updates");
-		
 		initCacheFolder();
+	
 		if(!JDBC.connectDataBase()) return;
+		
+		DataBaseModel.createTables();
+		
+		initJDA("Gerry 1.8.1 | !updates");
+
 //		initSlashCommands();
 		jda.awaitReady();
-
 		// Initialize daily henta cycle in another thread
 		dailyThread = new Thread(new DailyThread(), "Daily-Henta Thread");
 		dailyThread.start();
