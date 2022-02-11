@@ -12,7 +12,6 @@ import java.util.Base64;
 import java.util.Base64.Encoder;
 
 import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
 
 import gerrybot.core.Main;
 import net.dv8tion.jda.api.entities.PrivateChannel;
@@ -58,7 +57,7 @@ public class DataBaseUtils {
 				case "data:image/jpeg;base64": extension = "jpeg"; break;
 			}
 		
-			byte[] data = DatatypeConverter.parseBase64Binary(strings[1]);
+			byte[] data = Base64.getDecoder().decode(strings[1]);
 			File file = new File(Main.gerryFolder + "/cover." + extension);
 			
 			OutputStream output = new BufferedOutputStream(new FileOutputStream(file));
@@ -120,7 +119,7 @@ public class DataBaseUtils {
 	}
 	
 	/**
-	 * It'll check if both values already exist in database, if they do so the respective row will be deleted, if they dont then both values will be inserted.
+	 * It'll check if both values already exist in database, if they do so the respective row will be deleted, if they don't then both values will be inserted.
 	 * @param userId
 	 * @param hentaNumbers
 	 * @throws SQLException If something goes wrong, duh.
@@ -129,7 +128,7 @@ public class DataBaseUtils {
 	public static boolean interactFavoriteHenta(String userId, String hentaNumbers) throws SQLException {
 		// Check if both values already exist in db
 		// If they do then delete the row
-		// If the dont then insert it
+		// If the don't then insert it
 		String sql = String.format("SELECT CASE WHEN EXISTS(SELECT * FROM %s WHERE %s = %s and %s = %s) THEN true ELSE false END AS RESULT",
 				DataBaseTable.USER_FAVORITE_HENTAS.getTableName(), "USER_ID", userId, "HENTA_CODE", hentaNumbers);
 		
