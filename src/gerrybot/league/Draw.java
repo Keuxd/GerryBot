@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class Draw {	
 	protected BufferedImage drawRunes(ArrayList<BufferedImage> runes) {
 		int loadedPages = runes.size() / 11;
-		
 		BufferedImage finalImage = new BufferedImage(1,1,2);
 		
 		for(int i = 0; i < loadedPages; i++) {
