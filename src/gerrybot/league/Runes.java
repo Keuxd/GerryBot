@@ -1,80 +1,72 @@
 package gerrybot.league;
 
+import static gerrybot.database.DataBaseTable.RUNE;
+
 import java.awt.image.BufferedImage;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-import gerrybot.database.DataBaseTable;
+import gerrybot.core.Main;
 import gerrybot.database.DataBaseUtils;
+import net.dv8tion.jda.api.entities.MessageChannel;
 
-public class Runes {
+public class Runes extends League {
 	
 	private ArrayList<BufferedImage> images;
 	
-	public Runes(Document doc) {
+	public Runes(String champion, String role) {
+		super(champion, role, RUNE);
+		
 		images = new ArrayList<BufferedImage>();
-		downloadRunes(doc);
+		
+		getRunesIds();
 	}
 	
-	private void downloadRunes(Document doc) {
-		Elements elements = null;
+	private void getRunesIds() {
+		JsonArray runePagesArray = this.getJson().getAsJsonObject("data").getAsJsonArray("rune_pages");
+		int sizeRunePagesArray = (runePagesArray.size() >= 2) ? 2 : runePagesArray.size(); // It may be 0 or 1
 		
-		//load n download all images on tabItem(runePage) 1 and 2, also adds them in images list
-		for(int i = 1; i <= 2; i++) {
-			elements = doc.getElementsByClass("tabItem ChampionKeystoneRune-" + i).select("div.perk-page-wrap").select("img[src~=(?i)\\.(png|jpe?g|gif)]");
+		for(int i = 0; i < sizeRunePagesArray; i++) {
+			JsonArray buildsArray = runePagesArray.get(i).getAsJsonObject().getAsJsonArray("builds");
+			int sizeBuildsArray = (buildsArray.size() >= 2) ? 2 : buildsArray.size(); // It may be 0 or 1
 
-			for(Element rune : elements) {
-				if(!rune.attr("src").contains("grayscale")) {
-					String itemID = ("https:" + rune.attr("src")).split("/")[6].substring(0,4);
-					BufferedImage runeImage = getRune(itemID, rune);
-					
-					images.add(runeImage);
-				}
-			}
-		}
-	}
-	
-	private BufferedImage getRune(String itemID, Element rune) {
-		BufferedImage runeImage = DataBaseUtils.getLeagueImage(itemID, DataBaseTable.RUNE);
-		
-		if(runeImage == null) {
-			try {
-				URLConnection connection = new URL("https:" + rune.attr("src").replace("q_auto:", getRightImageSize(rune))).openConnection();
-				connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
-				runeImage = ImageIO.read(connection.getInputStream());
+			for(int j = 0; j < sizeBuildsArray; j++) {
+				JsonObject buildObject = buildsArray.get(j).getAsJsonObject();
 				
-				DataBaseUtils.insertLeagueImage(itemID, runeImage, DataBaseTable.RUNE);
-			} catch(Exception e) {
-				e.printStackTrace();
+				//Symbol rune 01
+				images.add(DataBaseUtils.getLeagueImage(buildObject.getAsJsonPrimitive("primary_page_id").getAsString(), RUNE));
+				
+				//pRune / sRunes 01
+				JsonArray primaryRunesArray = buildObject.getAsJsonArray("primary_rune_ids");
+				for(JsonElement primaryRune : primaryRunesArray) 
+					images.add(DataBaseUtils.getLeagueImage(primaryRune.getAsString(), RUNE));
+				
+				//Symbol rune 02
+				images.add(DataBaseUtils.getLeagueImage(buildObject.getAsJsonPrimitive("secondary_page_id").getAsString(), RUNE));
+				
+				//sRunes 02
+				JsonArray secondaryRunesArray = buildObject.getAsJsonArray("secondary_rune_ids");
+				for(JsonElement secondaryRune : secondaryRunesArray) 
+					images.add(DataBaseUtils.getLeagueImage(secondaryRune.getAsString(), RUNE));
+				
+				//mRunes
+				JsonArray statModifiersArray = buildObject.getAsJsonArray("stat_mod_ids");
+				for(JsonElement statModifier : statModifiersArray)
+					images.add(DataBaseUtils.getLeagueImage(statModifier.getAsString(), RUNE));
 			}
 		}
-		
-		return runeImage;
 	}
 	
-	protected String getRightImageSize(Element rune) {
-		String parentStr = rune.parent().parent().className();
-		System.out.println("Rune Being Downloaded -> " + parentStr);
-		
-		if(rune.parent().className().contains("mark")) {
-			return "w_25,h_25&";
-		} else if(parentStr.contains("keystone")) {
-			return "w_50,h_50&";
-		} else if(parentStr.contains("fragment")) {
-			return "w_20,h_20&";
-		} else {
-			return "w_30,h_30&";
-		}
-	}
-	
-	protected ArrayList<BufferedImage> getImages() {
-		return this.images;
+	public void sendRunes(MessageChannel channel) throws IOException {
+		File outputFile = new File(Main.gerryFolder + "/cover.png");
+		ImageIO.write(new Draw().drawRunes(this.images), "png", outputFile);
+		channel.sendFile(outputFile, "cover.png").queue();
 	}
 }
