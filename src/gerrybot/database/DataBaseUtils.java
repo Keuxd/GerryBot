@@ -25,7 +25,7 @@ public class DataBaseUtils {
 	
 	public static void insertLeagueImage(String id, byte[] bytes, DataBaseTable type) {
 		try {
-			PreparedStatement ps = JDBC.con.prepareStatement("INSERT IGNORE INTO " + type.getTableName() + " TEST VALUES (" + id + ",?)");
+			PreparedStatement ps = JDBC.con.prepareStatement("INSERT IGNORE INTO " + type.getTableName() + " VALUES (" + id + ",?)");
 			ps.setBytes(1, bytes);
 			ps.execute();
 		} catch(Exception e) {
