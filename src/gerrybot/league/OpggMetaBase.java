@@ -1,9 +1,16 @@
 package gerrybot.league;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import org.h2.util.IOUtils;
 
@@ -107,4 +114,28 @@ public class OpggMetaBase {
 			return null;
 		}
 	}
+	
+	// DEBUG ONLY
+    public static void popImage(BufferedImage imageBytes){
+        JFrame f = new JFrame(); //creates jframe f
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //this is your screen size
+
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        f.setUndecorated(true);
+        
+        ImageIcon image = new ImageIcon(imageBytes); //imports the image
+
+        JLabel lbl = new JLabel(image); //puts the image into a jlabel
+
+        f.getContentPane().add(lbl); //puts label inside the jframe
+
+        f.setSize(image.getIconWidth(), image.getIconHeight()); //gets h and w of image and sets jframe to the size
+
+        int x = (screenSize.width - f.getSize().width)/2; //These two lines are the dimensions
+        int y = (screenSize.height - f.getSize().height)/2;//of the center of the screen
+
+        f.setLocation(x, y); //sets the location of the jframe
+        f.setVisible(true); //makes the jframe visible
+    }
 }
