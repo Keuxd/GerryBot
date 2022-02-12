@@ -41,7 +41,7 @@ public class DataBaseUtils {
 			
 			return ImageIO.read(new ByteArrayInputStream(info));
 		} catch(Exception e) {
-			e.printStackTrace();
+			System.out.println("DataBaseUtils.getLeagueImage() tried to get an image in table \"" + type.getTableName() + "\" with ID -> " + id);
 			return null;
 		}
 	}
