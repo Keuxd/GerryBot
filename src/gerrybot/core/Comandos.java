@@ -7,7 +7,8 @@ import gerrybot.database.DataBaseUtils;
 import gerrybot.hentai.Hentai;
 import gerrybot.hentai.NHentaiNet;
 import gerrybot.hentai.favoritesViewer.FavoritesViewer;
-import gerrybot.league.League;
+import gerrybot.league.Builds;
+import gerrybot.league.Runes;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
@@ -80,10 +81,9 @@ public class Comandos extends ListenerAdapter {
 		}
 		else // runes
 		if(args.length == 3 && args[0].equals("!runa")) {
-			try {				
-				League champion = new League(args[1], args[2]);
-				champion.loadRunes();
-				champion.sendRunes(channel);
+			try {
+				Runes runes = new Runes(args[1], args[2]);
+				runes.sendRunes(channel);
 			} catch (Exception e) {
 				channel.sendMessage("Invalid Champion").queue();
 				e.printStackTrace();
@@ -92,9 +92,8 @@ public class Comandos extends ListenerAdapter {
 		else // builds
 		if(args.length == 3 && args[0].equals("!build")) {
 			try {
-				League champion = new League(args[1], args[2]);
-				champion.loadBuilds();
-				champion.sendBuilds(channel);
+				Builds builds = new Builds(args[1], args[2]);
+				builds.sendBuilds(channel);
 			} catch (Exception e) {
 				channel.sendMessage("Invalid Champion").queue();
 				e.printStackTrace();
