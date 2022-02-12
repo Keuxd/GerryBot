@@ -2,10 +2,10 @@ package gerrybot.database;
 
 public enum DataBaseTable {
 	
-	RUNE("RUNES"),
-	ITEM("BUILDS"),
-	GUILD_TIMER("HENTA_TIMERS"),
-	USER_FAVORITE_HENTAS("HENTA_FAVORITES");
+	RUNE("runes"),
+	ITEM("items"),
+	GUILD_TIMER("henta_timers"),
+	USER_FAVORITE_HENTAS("henta_favorites");
 	
 	private String tableName;
 	
