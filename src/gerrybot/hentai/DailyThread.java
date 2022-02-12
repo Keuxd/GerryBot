@@ -13,18 +13,6 @@ public class DailyThread implements Runnable {
 	@Override
 	public void run() {
 		while(true) {
-			//Array sempre ordenado
-			//Query na DB pegando todos os minutos
-			//Checar se o minuto da vez é igual ao minutesNow()
-			//	true: para cada guildID -> channels 'henta' -> clear channel -> send !henta
-			
-			//Calculando o tempo que thread deve dormir
-			//Ir para o próximo index do array de horários
-			//	se o index atual for igual ao index inicial então todos os valores são iguais, durma 1440(24h)
-			//	se o próximo index for out of bounds volte pro index 0
-			//	se o minuto da db for igual ao do index inicial então vai pro proximo index
-			//	caso contrário calcula o tempo dele e durma.
-
 			try {
 				ResultSet rs = DataBaseUtils.getHentaTimers();
 				if(!rs.next()) {
