@@ -1,44 +1,26 @@
 package gerrybot.league;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-import javax.imageio.ImageIO;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
-import gerrybot.core.Main;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import gerrybot.database.DataBaseTable;
 
 public class League {
-	private String champion;
-	private String role;
 	
-	private Document doc;
+	private JsonObject info;
 	
-	private Runes runes;
-	private Builds builds;
+	private String url;
 	
-	public League(String champion, String role) throws Exception {
-		this.champion = nickNames(champion);
+	public League(String champion, String role, DataBaseTable type) {
+		champion = nickNames(champion);
 		
 		if(role.equalsIgnoreCase("jg")) role = "jungle";
 		else if(role.equalsIgnoreCase("sup") || role.equalsIgnoreCase("suporte")) role = "support";
 		
-		this.role = role;
-		connect();
-	}
-	
-	// it tries to load the 'Document' for this.doc with aram statistics or summonersrift(champion) one
-	private void connect() throws Exception {
-		String mapRef = (role.equalsIgnoreCase("aram")) ? "/aram/" : "/champion/";
+		this.url = "https://lol-api-champion.op.gg/api/champions/ranked/" + champion + "/" + role + "/";
 		
-		this.doc = Jsoup.connect("https://www.op.gg" + mapRef + champion + "/statistics/" + role).get();
-		
-		if(doc.baseUri().equals("https://www.op.gg" + mapRef + "statistics"))
-			throw new Exception("Invalid Champion");
+		this.info = OpggMetaBase.downloadJson(this.url + type.getTableName());
 	}
 	
 	private String nickNames(String champion) {
@@ -100,38 +82,27 @@ public class League {
 		}
 	}
 	
-	public void loadRunes() throws Exception {
-		this.runes = new Runes(this.doc);
-	}
-	
-	public void loadBuilds() throws Exception {
-		this.builds = new Builds(this.doc);
-	}
-
-	public void sendRunes(MessageChannel channel) throws IOException, URISyntaxException {
-		File outputFile = new File(Main.gerryFolder + "/cover.png");
-		ImageIO.write(new Draw().drawRunes(this.runes.getImages()), "png", outputFile);
-		channel.sendFile(outputFile, "cover.png").queue();
-	}
-	
-	public void sendBuilds(MessageChannel channel) throws IOException {
-		File outputFile = new File(Main.gerryFolder + "/cover.png");
-		ImageIO.write(new Draw().drawBuilds(this.builds.getImages()), "png", outputFile);
-		channel.sendMessage(getSkillOrder()).addFile(outputFile, "cover.png").queue();
-	}
-	
-	private String getSkillOrder() {
+	public String getSkillOrder() {
 		try {
-			String skillsPriority = this.doc.getElementsByClass("champion-stats__list").get(2).getElementsByTag("span").text();
-			String skillsByLevel = this.doc.getElementsByClass("champion-skill-build__table").text().substring(35);
-		
-			String finalString = new String("**" + skillsPriority + "**  -> " + skillsByLevel);
-		
-			return finalString;	
+			JsonObject skillMasteriesObject = OpggMetaBase.downloadJson(this.url + "skills").getAsJsonObject("data").getAsJsonArray("skill_masteries").get(0).getAsJsonObject();
+			
+			JsonArray skillOrderArray = skillMasteriesObject.getAsJsonArray("builds").get(0).getAsJsonObject().getAsJsonArray("order");
+			StringBuilder sb = new StringBuilder();
+
+			for(JsonElement skillElement : skillOrderArray) {
+				sb.append(" ");
+				sb.append(skillElement.getAsString());
+			}
+			
+			JsonArray skillMasteriesArray = skillMasteriesObject.getAsJsonArray("ids");
+			
+			return String.format("**%s %s %s** ->%s", skillMasteriesArray.get(0).getAsString(), skillMasteriesArray.get(1).getAsString(), skillMasteriesArray.get(2).getAsString(), sb.toString());
 		} catch(Exception e) {
-			e.printStackTrace();
 			return " ";
 		}
-
+	}
+	
+	protected JsonObject getJson() {
+		return this.info;
 	}
 }
