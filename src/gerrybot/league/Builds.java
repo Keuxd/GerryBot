@@ -1,79 +1,69 @@
 package gerrybot.league;
 
 import java.awt.image.BufferedImage;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.File;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
+import gerrybot.core.Main;
 import gerrybot.database.DataBaseTable;
 import gerrybot.database.DataBaseUtils;
+import net.dv8tion.jda.api.entities.MessageChannel;
 
-public class Builds {
+public class Builds extends League {
 
 	private BufferedImage[][] builds;
 	
-	public Builds(Document doc) {
-		downloadBuilds(getItemsSRC(doc));
+	public Builds(String champion, String role) {
+		super(champion, role, DataBaseTable.ITEM);
+		
+		getItemsImagesInArray();
 	}
 	
-	//returns all download item links divided by line in array
-	private String[][] getItemsSRC(Document doc) {
-		Elements row = doc.getElementsByClass("champion-overview__table").next().select("ul.champion-stats__list");
-		String itemClassInRow = "li.champion-stats__list__item";
+	private void getItemsImagesInArray() {
+		JsonObject buildsDataObject = this.getJson().getAsJsonObject("data");
 		
-		int rows = row.size();
+		JsonArray starterItemsArray = buildsDataObject.getAsJsonArray("starter_items");
+		int starterItemsRowsCount = (starterItemsArray.size() >= 2) ? 2 : starterItemsArray.size(); // It may be 0 or 1
 		
-		String[][] rowImages = new String[rows][];
+		JsonArray coreItemsArray = buildsDataObject.getAsJsonArray("core_items");
+		int coreItemsRowsCount = (coreItemsArray.size() >= 5) ? 5 : coreItemsArray.size(); // It may be 0 - 4
 		
-		for(int i = 0; i < rows; i++) {
-			Elements itemsInRow = row.get(i).select(itemClassInRow).select("img[src~=(?i)\\.(png|jpe?g|gif)]");
-			rowImages[i] = new String[itemsInRow.size()];
-			
-			for(int j = 0; j < rowImages[i].length; j++) {
-				rowImages[i][j] = "https:" + itemsInRow.get(j).attr("src");
-			}
+		JsonArray bootsArray = buildsDataObject.getAsJsonArray("boots");
+		int bootsRowsCount = (bootsArray.size() >= 3) ? 3 : bootsArray.size(); // It may be 0 - 2
+
+		builds = new BufferedImage[starterItemsRowsCount + coreItemsRowsCount + bootsRowsCount][];
+		
+		int buildsIndex = 0;	
+		
+		for(int i = 0; i < starterItemsRowsCount; i++, buildsIndex++)
+			builds[buildsIndex] = getImagesInRow(starterItemsArray.get(i).getAsJsonObject().getAsJsonArray("ids"));
+		
+		for(int i = 0; i < coreItemsRowsCount; i++, buildsIndex++)
+			builds[buildsIndex] = getImagesInRow(coreItemsArray.get(i).getAsJsonObject().getAsJsonArray("ids"));
+		
+		for(int i = 0; i < bootsRowsCount; i++, buildsIndex++)
+			builds[buildsIndex] = getImagesInRow(bootsArray.get(i).getAsJsonObject().getAsJsonArray("ids"));
+	}
+	
+	private BufferedImage[] getImagesInRow(JsonArray rowArray) {
+		BufferedImage[] rowImages = new BufferedImage[rowArray.size()];
+		
+		for(int i = 0; i < rowArray.size(); i++) {
+			String imageId = rowArray.get(i).getAsJsonPrimitive().getAsString();
+			rowImages[i] = DataBaseUtils.getLeagueImage(imageId, DataBaseTable.ITEM);			
 		}
+		
 		return rowImages;
 	}
 	
-	private void downloadBuilds(String[][] items) {
-		int rows = items.length;
-		builds = new BufferedImage[rows][];
-		
-		for(int i = 0; i < rows; i++) {
-			builds[i] = new BufferedImage[items[i].length];
-			for(int j = 0; j < items[i].length; j++) {
-				String itemID = (items[i][j]).split("/")[6].substring(0,4);
-				
-				builds[i][j] = getItem(itemID, items[i][j]);
-			}
-		}
-	}
-	
-	// It consults the DB for the item, if it doesn't exist it'll download it and save it in DB, it returns the image
-	private BufferedImage getItem(String itemID, String itemSrcLink) {
-		BufferedImage itemImage = DataBaseUtils.getLeagueImage(itemID, DataBaseTable.ITEM);
-		
-		if(itemImage == null) {
-			try {
-				URLConnection connection = new URL(itemSrcLink.replace("q_auto:", "w_50,h_50&")).openConnection();
-				connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
-				itemImage = ImageIO.read(connection.getInputStream());
-				
-				DataBaseUtils.insertLeagueImage(itemID, itemImage, DataBaseTable.ITEM);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return itemImage;
-	}
-
-	protected BufferedImage[][] getImages() {
-		return this.builds;
+	public void sendBuilds(MessageChannel channel) throws IOException {
+		File outputFile = new File(Main.gerryFolder + "/cover.png");
+		ImageIO.write(new Draw().drawBuilds(builds), "png", outputFile);
+		channel.sendMessage(this.getSkillOrder()).addFile(outputFile, "cover.png").queue();
 	}
 }
