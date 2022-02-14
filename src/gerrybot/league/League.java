@@ -12,7 +12,7 @@ public class League {
 	
 	private String url;
 	
-	public League(String champion, String role, DataBaseTable type) {
+	protected League(String champion, String role, DataBaseTable type) {
 		champion = nickNames(champion);
 		
 		if(role.equalsIgnoreCase("jg")) role = "jungle";
