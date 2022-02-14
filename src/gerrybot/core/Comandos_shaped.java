@@ -80,7 +80,7 @@ public class Comandos_shaped extends ListenerAdapter {
 						message.addReaction("U+2B50").queue();
 					});
 				} catch (Exception e) {
-					channel.sendMessage("O dia de hoje n√£o tem hentai.").queue();
+					channel.sendMessage("O dia de hoje n„o tem hentai.").queue();
 					channel.sendMessage("https://image.prntscr.com/image/0rMqADlyTRGyAJ-q36RyXw.png").queue();
 				}
 				break;
@@ -93,9 +93,10 @@ public class Comandos_shaped extends ListenerAdapter {
 			
 			case("!updates"):{
 				EmbedBuilder embed = new EmbedBuilder();
-					embed.setTitle("Gerry 1.8.1");
+					embed.setTitle("Gerry 1.8.2");
 					embed.setColor(Main.COLOR);
 					embed.setDescription(""
+							+ "- Improved league commands processing.\n\n"
 							+ "- Fixed league commands for all roles.\n\n"
 							+ "- Fixed FavoritesHenta bug that anyone could favorite henta for anyone.\n\n"
 							+ "- !cm removed."
