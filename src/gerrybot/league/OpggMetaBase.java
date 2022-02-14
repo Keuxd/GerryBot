@@ -54,9 +54,11 @@ public class OpggMetaBase {
 		
 		for(JsonElement runeElement : jsaRunes) {
 			JsonObject runeObject = runeElement.getAsJsonObject();
-			int size = (runeObject.getAsJsonPrimitive("slot_sequence").getAsInt() == 0) ? 50 : 30;
+
+			// 'slot_sequence' is the row position in rune page structure this rune is, if it's index 0(first row) then it's a pRune else it's sRune
+			int size = (runeObject.getAsJsonPrimitive("slot_sequence").getAsInt() == 0) ? 50 : 30; 
 			
-			downloadItem(runeObject.getAsJsonPrimitive("id").getAsString(), runeObject.getAsJsonPrimitive("image_url").getAsString(), size, DataBaseTable.RUNE);
+ 			downloadItem(runeObject.getAsJsonPrimitive("id").getAsString(), runeObject.getAsJsonPrimitive("image_url").getAsString(), size, DataBaseTable.RUNE);
 			
 			completedPercentage += eachPercentage;
 			System.out.printf("%.2f %%\n", completedPercentage);			
