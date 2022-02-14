@@ -26,10 +26,10 @@ public class Runes extends League {
 		
 		images = new ArrayList<BufferedImage>();
 		
-		getRunesIds();
+		getRunesImagesInList();
 	}
 	
-	private void getRunesIds() {
+	private void getRunesImagesInList() {
 		JsonArray runePagesArray = this.getJson().getAsJsonObject("data").getAsJsonArray("rune_pages");
 		int sizeRunePagesArray = (runePagesArray.size() >= 2) ? 2 : runePagesArray.size(); // It may be 0 or 1
 		
