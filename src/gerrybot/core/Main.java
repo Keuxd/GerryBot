@@ -31,25 +31,30 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		initCacheFolder();
-	
-		if(!JDBC.connectDataBase()) return;
 		
+		if(!JDBC.connectDataBase()) return;
+
 		DataBaseModel.createTables();
 		
-		initJDA("Gerry 1.8.1 | !updates");
+		initJDA("Gerry 1.8.2 | !updates");
 
 //		initSlashCommands();
 		jda.awaitReady();
+		
 		// Initialize daily henta cycle in another thread
 		dailyThread = new Thread(new DailyThread(), "Daily-Henta Thread");
 		dailyThread.start();
 		
+		connectToFirstAudioChannel();
+	}
+	
+	private static void connectToFirstAudioChannel() {
 		try {
 			jda.getGuilds().get(0).getAudioManager().openAudioConnection(jda.getGuilds().get(0).getVoiceChannels().get(0));
 			System.out.println("Conectado no canal de voz com sucesso.");
 		}catch(Exception e) {
 			System.out.println("Erro ao conectar no canal de voz.");
-		}
+		}		
 	}
 	
 	private static void initJDA(String status) throws LoginException {
