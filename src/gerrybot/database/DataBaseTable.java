@@ -2,18 +2,24 @@ package gerrybot.database;
 
 public enum DataBaseTable {
 	
-	RUNE("runes"),
-	ITEM("items"),
-	GUILD_TIMER("henta_timers"),
-	USER_FAVORITE_HENTAS("henta_favorites");
+	RUNE("runes", new String[] {"ID", "ITEM_INFO"}),
+	ITEM("items", new String[] {"ID", "ITEM_INFO"}),
+	GUILD_TIMER("henta_timers", new String[] {"GUILD_ID", "MINUTES"}),
+	USER_FAVORITE_HENTAS("henta_favorites", new String[] {"USER_ID", "HENTA_CODE"});
 	
 	private String tableName;
+	private String[] columnsNames;
 	
-	private DataBaseTable(String name) {
-		tableName = name;
+	private DataBaseTable(String tableName, String[] columnsNames) {
+		this.tableName = tableName;
+		this.columnsNames = columnsNames;
 	}
 	
 	public String getTableName() {
-		return tableName;
+		return this.tableName;
+	}
+	
+	public String[] getColumnsNames() {
+		return this.columnsNames;
 	}
 }
