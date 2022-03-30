@@ -6,6 +6,7 @@ import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
@@ -17,7 +18,7 @@ public class DataBaseUtils {
 	public static void sendDataBaseFile(PrivateChannel channel) {
 		JDBC.disconnectDataBase();
 		
-		File dataBaseFile = new File(Main.gerryFolder + "/test.mv.db");
+		File dataBaseFile = new File(Main.gerryFolder + "/GerryBase.mv.db");
 		channel.sendFile(dataBaseFile).queue();
 		
 		JDBC.connectDataBase();
@@ -28,6 +29,7 @@ public class DataBaseUtils {
 			PreparedStatement ps = JDBC.con.prepareStatement("INSERT IGNORE INTO " + type.getTableName() + " VALUES (" + id + ",?)");
 			ps.setBytes(1, bytes);
 			ps.execute();
+			ps.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -38,10 +40,41 @@ public class DataBaseUtils {
 			ResultSet rs = JDBC.state.executeQuery("SELECT * FROM " + type.getTableName() +  " WHERE ID = " + id);
 			rs.first();
 			byte[] info = rs.getBytes("ITEM_INFO");
+			rs.close();
 			
 			return ImageIO.read(new ByteArrayInputStream(info));
 		} catch(Exception e) {
 			System.out.println("DataBaseUtils.getLeagueImage() tried to get an non-existent image in table \"" + type.getTableName() + "\" with ID -> " + id);
+			return null;
+		}
+	}
+	
+	public static HashMap<Integer, BufferedImage> getLeagueImages(int[][] ids, DataBaseTable type) {
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT * FROM ").append(type.getTableName()).append(" WHERE ID = ").append(ids[0][0]);
+			
+			int j = 1; // This workaround is to ignore the first element [0][0] since it was added previously
+			for(int i = 0; i < ids.length; i++) {
+				for(; j < ids[i].length; j++) {
+					sql.append(" OR ID = ").append(ids[i][j]);
+				}
+				j = 0;
+			}
+			
+			ResultSet rs = JDBC.state.executeQuery(sql.toString());
+			rs.last();
+			
+			HashMap<Integer, BufferedImage> items = new HashMap<Integer, BufferedImage>(rs.getRow());
+			rs.beforeFirst();
+
+			while(rs.next())
+				items.put(rs.getInt("ID"), ImageIO.read(new ByteArrayInputStream(rs.getBytes("ITEM_INFO"))));
+			
+			rs.close();
+			return items;
+		} catch(Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -100,8 +133,10 @@ public class DataBaseUtils {
 		
 		ResultSet rs = JDBC.state.executeQuery(sql);
 		
-		if(!rs.next())
+		if(!rs.next()) {
+			rs.close();
 			throw new SQLException("This user has no favorite hentas in database.");
+		}
 		
 		return rs;
 	}
