@@ -16,15 +16,15 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class Builds extends League {
 
-	private BufferedImage[][] builds;
+	private int[][] builds;
 	
 	public Builds(String champion, String role) {
 		super(champion, role, DataBaseTable.ITEM);
 		
-		getItemsImagesInArray();
+		getItemsIdsInArray();
 	}
 	
-	private void getItemsImagesInArray() {
+	private void getItemsIdsInArray() {
 		JsonObject buildsDataObject = this.getJson().getAsJsonObject("data");
 		
 		JsonArray starterItemsArray = buildsDataObject.getAsJsonArray("starter_items");
@@ -36,26 +36,25 @@ public class Builds extends League {
 		JsonArray bootsArray = buildsDataObject.getAsJsonArray("boots");
 		int bootsRowsCount = (bootsArray.size() >= 3) ? 3 : bootsArray.size(); // It may be 0 - 2
 
-		builds = new BufferedImage[starterItemsRowsCount + coreItemsRowsCount + bootsRowsCount][];
+		builds = new int[starterItemsRowsCount + coreItemsRowsCount + bootsRowsCount][];
 		
 		int buildsIndex = 0;	
 		
 		for(int i = 0; i < starterItemsRowsCount; i++, buildsIndex++)
-			builds[buildsIndex] = getImagesInRow(starterItemsArray.get(i).getAsJsonObject().getAsJsonArray("ids"));
+			builds[buildsIndex] = getIdsInRow(starterItemsArray.get(i).getAsJsonObject().getAsJsonArray("ids"));
 		
 		for(int i = 0; i < coreItemsRowsCount; i++, buildsIndex++)
-			builds[buildsIndex] = getImagesInRow(coreItemsArray.get(i).getAsJsonObject().getAsJsonArray("ids"));
+			builds[buildsIndex] = getIdsInRow(coreItemsArray.get(i).getAsJsonObject().getAsJsonArray("ids"));
 		
 		for(int i = 0; i < bootsRowsCount; i++, buildsIndex++)
-			builds[buildsIndex] = getImagesInRow(bootsArray.get(i).getAsJsonObject().getAsJsonArray("ids"));
+			builds[buildsIndex] = getIdsInRow(bootsArray.get(i).getAsJsonObject().getAsJsonArray("ids"));
 	}
 	
-	private BufferedImage[] getImagesInRow(JsonArray rowArray) {
-		BufferedImage[] rowImages = new BufferedImage[rowArray.size()];
+	private int[] getIdsInRow(JsonArray rowArray) {
+		int[] rowImages = new int[rowArray.size()];
 		
 		for(int i = 0; i < rowArray.size(); i++) {
-			String imageId = rowArray.get(i).getAsJsonPrimitive().getAsString();
-			rowImages[i] = DataBaseUtils.getLeagueImage(imageId, DataBaseTable.ITEM);			
+			rowImages[i] = rowArray.get(i).getAsJsonPrimitive().getAsInt();		
 		}
 		
 		return rowImages;
@@ -63,7 +62,8 @@ public class Builds extends League {
 	
 	public void sendBuilds(MessageChannel channel) throws IOException {
 		File outputFile = new File(Main.gerryFolder + "/cover.png");
-		ImageIO.write(new Draw().drawBuilds(builds), "png", outputFile);
+		BufferedImage buildsPage = new Draw().drawBuilds(builds, DataBaseUtils.getLeagueImages(builds, DataBaseTable.ITEM));
+		ImageIO.write(buildsPage, "png", outputFile);
 		channel.sendMessage(this.getSkillOrder()).addFile(outputFile, "cover.png").queue();
 	}
 }
