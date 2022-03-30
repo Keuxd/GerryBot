@@ -39,7 +39,8 @@ public class FavoritesViewer {
 			options.add(SelectOption.of(rs.getString("HENTA_CODE"), "henta_" + counter));
 			counter++;
 		}
-
+		rs.close();
+		
 		return SelectionMenu.create("gerry:favoritesHentas")
 				.setPlaceholder(this.firstHentaCode)
 				.setRequiredRange(1, 1)
