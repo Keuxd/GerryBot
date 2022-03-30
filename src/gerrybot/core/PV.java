@@ -8,20 +8,18 @@ import gerrybot.database.DataBaseModel;
 import gerrybot.database.DataBaseTable;
 import gerrybot.database.DataBaseUtils;
 import gerrybot.database.JDBC;
+import gerrybot.league.OpggMetaBase;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class PV extends ListenerAdapter{
+public class PV extends ListenerAdapter {
 	
 	public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
 		if(event.getAuthor().isBot()) return;
 		
-		if(!event.getAuthor().getAsTag().equals("Keu#3384")) {
-			event.getChannel().sendMessage("Acesso Negado").queue();
-			return;
-		}
+		if(!event.getAuthor().getAsTag().equals("Keu#3384")) return;
 		
 		String[] args = event.getMessage().getContentRaw().split("\\s+");
 		
@@ -33,8 +31,9 @@ public class PV extends ListenerAdapter{
 											 + ".runes -> Retorna os ids e a quantidade de runas unicas no banco de dados.\n"
 											 + ".builds -> Retorna os ids e a quantidade de itens unicos no banco de dados.\n"
 											 + ".htimers -> Retorna os dados da table de htimers.\n"
-											 + ".downloadbase -> Retorna o arquivo central do banco de dados."
-											 + ".transfer -> Retorna o comando sql para transferencia de db" 
+											 + ".downloadbase -> Retorna o arquivo central do banco de dados.\n"
+											 + ".transfer -> Retorna o comando sql para transferencia de db.\n"
+											 + ".repopulate -> Apaga as tabelas de Builds/Runas e as baixa novamente.\n"
 											  ).queue();
 				break;
 			}
@@ -145,6 +144,23 @@ public class PV extends ListenerAdapter{
 					event.getChannel().sendMessage(userFavoriteHentas).queue();
 				}
 				
+				break;
+			}
+			case(".repopulate") : {
+				try {
+					event.getChannel().sendMessage("Starting Items/Runes deletion...").queue();
+					JDBC.state.execute("DELETE FROM " + DataBaseTable.ITEM.getTableName());
+					JDBC.state.execute("DELETE FROM " + DataBaseTable.RUNE.getTableName());
+					event.getChannel().sendMessage("Items/Runes successfully deleted.\nStarting Runes population...").queue();
+					
+					OpggMetaBase.populateRunesTable();
+					event.getChannel().sendMessage("Runes were successfully populated\nStarting Items").queue();
+					OpggMetaBase.populateBuildsTable();
+					event.getChannel().sendMessage("Items were successfully populated.").queue();
+				} catch (Exception e) {
+					event.getChannel().sendMessage("Something gone wrong -> " + e.getMessage()).queue();
+					e.printStackTrace();
+				}
 				break;
 			}
 		}
