@@ -100,7 +100,7 @@ public class Comandos_shaped extends ListenerAdapter {
 							+ "- Fixed league commands for all roles.\n\n"
 							+ "- Fixed FavoritesHenta bug that anyone could favorite henta for anyone.\n\n"
 							+ "- !cm removed."
-							);				
+							);
 				channel.sendMessageEmbeds(embed.build()).queue();
 				break;
 			}
