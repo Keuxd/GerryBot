@@ -5,31 +5,32 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Draw {	
-	protected BufferedImage drawRunes(ArrayList<BufferedImage> runes) {
-		int loadedPages = runes.size() / 11;
+	protected BufferedImage drawRunes(int[][] runes, HashMap<Integer, BufferedImage> hm) {
+		int loadedPages = runes.length;
 		BufferedImage finalImage = new BufferedImage(1,1,2);
 		
 		for(int i = 0; i < loadedPages; i++) {
-			finalImage = concatImageVertically(finalImage, drawRunePage(runes, i*11));
+			finalImage = concatImageVertically(finalImage, drawRunePage(runes[i], hm));
 		}
 		
 		return finalImage;
 	}
 	
-	protected BufferedImage drawBuilds(BufferedImage[][] builds) {
+	protected BufferedImage drawBuilds(int[][] builds, HashMap<Integer, BufferedImage> hm) {
 		int rows = builds.length;
 		BufferedImage buildPage = new BufferedImage(1,1,2);
 		
 		for(int i = 0; i < rows; i++) {
 			BufferedImage uniqueBuild = new BufferedImage(1,1,2);
 			for(int j = 0; j < builds[i].length; j++) {
-				uniqueBuild = concatImagesHorizontally(uniqueBuild, builds[i][j]);
+				uniqueBuild = concatImagesHorizontally(uniqueBuild, hm.get(builds[i][j]));
 			}
 			buildPage = concatImageVertically(buildPage, uniqueBuild);
 		}
-		
+
 		return buildPage;
 	}
 	
@@ -37,7 +38,7 @@ public class Draw {
 		return null;
 	}
 	
-	private BufferedImage drawRunePage(ArrayList<BufferedImage> runes, int firstElement) {
+	private BufferedImage drawRunePage(int[] runes, HashMap<Integer, BufferedImage> hm) {
 		int width = 300;
 		int height = 75;
 		
@@ -50,40 +51,40 @@ public class Draw {
 		g2.setColor(oldColor);
 		
 		//Symbol rune 01
-		g2.drawImage(runes.get(firstElement), null, 0, 2);
+		g2.drawImage(hm.get(runes[0]), null, 0, 2);
 		
 		//pRune
-		g2.drawImage(runes.get(firstElement + 1), null, 24, 13);
+		g2.drawImage(hm.get(runes[1]), null, 24, 13);
 		
 
 		//sRune 01
-		g2.drawImage(runes.get(firstElement + 2), null, 74, 25);
+		g2.drawImage(hm.get(runes[2]), null, 74, 25);
 		
 		//sRune 02
-		g2.drawImage(runes.get(firstElement + 3), null, 106, 25);
+		g2.drawImage(hm.get(runes[3]), null, 106, 25);
 		
 		//sRune 03
-		g2.drawImage(runes.get(firstElement + 4), null, 138, 25);
+		g2.drawImage(hm.get(runes[4]), null, 138, 25);
 		
 		
 		//Symbol rune 02
-		g2.drawImage(runes.get(firstElement + 5), null, 178, 2);
+		g2.drawImage(hm.get(runes[5]), null, 178, 2);
 		
 		//sRune 04
-		g2.drawImage(resize(runes.get(firstElement + 6), 28), null, 207, 24);
+		g2.drawImage(resize(hm.get(runes[6]), 28), null, 207, 24);
 		
 		//sRune 05
-		g2.drawImage(resize(runes.get(firstElement + 7), 28), null, 237, 24);
+		g2.drawImage(resize(hm.get(runes[7]), 28), null, 237, 24);
 		
 		
 		//mRune 01
-		g2.drawImage(runes.get(firstElement + 8), null, 275, 3);
+		g2.drawImage(hm.get(runes[8]), null, 275, 3);
 		
 		//mRune 02
-		g2.drawImage(runes.get(firstElement + 9), null, 275, 25);
+		g2.drawImage(hm.get(runes[9]), null, 275, 25);
 		
 		//mRune 03
-		g2.drawImage(runes.get(firstElement + 10), null, 275, 47);
+		g2.drawImage(hm.get(runes[10]), null, 275, 47);
 		
 		g2.dispose();
 		
