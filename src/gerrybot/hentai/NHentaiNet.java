@@ -67,6 +67,7 @@ public class NHentaiNet {
 				continue;
 			
 			} catch(HttpStatusException e) {
+				e.printStackTrace();
 				return false;
 				
 			} catch(IOException e) {
