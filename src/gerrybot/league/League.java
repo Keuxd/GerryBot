@@ -9,7 +9,6 @@ import gerrybot.database.DataBaseTable;
 public class League {
 	
 	private JsonObject info;
-	
 	private String url;
 	
 	protected League(String champion, String role, DataBaseTable type) {
@@ -18,7 +17,11 @@ public class League {
 		if(role.equalsIgnoreCase("jg")) role = "jungle";
 		else if(role.equalsIgnoreCase("sup") || role.equalsIgnoreCase("suporte")) role = "support";
 		
-		this.url = "https://lol-api-champion.op.gg/api/champions/ranked/" + champion + "/" + role + "/";
+		if(role.equalsIgnoreCase("aram")) {
+			this.url = "https://lol-api-champion.op.gg/api/champions/aram/" + champion + "/";
+		} else {
+			this.url = "https://lol-api-champion.op.gg/api/champions/ranked/" + champion + "/" + role + "/";
+		}	
 		
 		this.info = OpggMetaBase.downloadJson(this.url + type.getTableName());
 	}
