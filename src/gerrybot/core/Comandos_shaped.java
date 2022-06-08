@@ -96,10 +96,8 @@ public class Comandos_shaped extends ListenerAdapter {
 					embed.setTitle("Gerry 1.8.3");
 					embed.setColor(Main.COLOR);
 					embed.setDescription(""
-							+ "- Improved league commands processing.\n\n"
-							+ "- Fixed league commands for all roles.\n\n"
-							+ "- Fixed FavoritesHenta bug that anyone could favorite henta for anyone.\n\n"
-							+ "- !cm removed."
+							+ "- Henta commands fixed(thanks sinkaroid).\n\n"
+							+ "- Fixed league commands for aram.\n\n"
 							);
 				channel.sendMessageEmbeds(embed.build()).queue();
 				break;
