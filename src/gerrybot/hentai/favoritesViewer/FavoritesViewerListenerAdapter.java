@@ -23,7 +23,7 @@ public class FavoritesViewerListenerAdapter extends ListenerAdapter {
 		
 		// Since there's a limitation in discord that we cant edit attachments, we'll have to set ImageFile to null so we use cover url in embed
 		try {
-			Hentai newHenta = new NHentaiNet().genHentaiByNumber(numberChoosed);
+			Hentai newHenta = NHentaiNet.createHentaiByNumber(numberChoosed);
 			newHenta.setImageFile(null);
 			MessageEmbed me = newHenta.genEmbedMessageHentai("Hentai " + numberChoosed);
 

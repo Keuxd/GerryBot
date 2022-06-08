@@ -61,7 +61,7 @@ public class Comandos_shaped extends ListenerAdapter {
 			
 			case("!rhn"):{
 				try {
-					Hentai randomHentai = new NHentaiNet().genRandomHentai();
+					Hentai randomHentai = NHentaiNet.createHentaiRandomly();
 					randomHentai.sendEmbedHentai(channel).queue(message -> {
 						message.addReaction("U+2B50").queue();
 					});
@@ -74,7 +74,7 @@ public class Comandos_shaped extends ListenerAdapter {
 					LocalDateTime ldt = (Main.IS_TESTING) ? LocalDateTime.now() : LocalDateTime.now().minusHours(3);
 					String dataNum = ldt.getDayOfMonth() + ldt.format(DateTimeFormatter.ofPattern("MMyy"));
 					
-					Hentai dailyHenta = new NHentaiNet().genHentaiByNumber(dataNum);
+					Hentai dailyHenta = NHentaiNet.createHentaiByNumber(dataNum);
 					dailyHenta.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> {
 						message.addReaction("U+1F51E").queue();
 						message.addReaction("U+2B50").queue();

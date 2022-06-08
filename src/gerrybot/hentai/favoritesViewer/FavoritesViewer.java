@@ -22,7 +22,7 @@ public class FavoritesViewer {
 	
 	public MessageAction sendFavoritesHentas(MessageChannel channel) throws Exception {
 		SelectionMenu hentasMenu = genHentasMenu();
-		Hentai hn = new NHentaiNet().genHentaiByNumber(this.firstHentaCode);
+		Hentai hn = NHentaiNet.createHentaiByNumber(this.firstHentaCode);
 		hn.setImageFile(null);
 		return hn.sendEmbedHentai(channel).setActionRow(hentasMenu);
 	}

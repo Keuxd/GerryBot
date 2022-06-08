@@ -70,7 +70,7 @@ public class Comandos extends ListenerAdapter {
 		else // Henta numbers
 		if(args.length == 2 && args[0].equals("!hn")) {
 			try {
-				Hentai hentai = new NHentaiNet().genHentaiByNumber(args[1]);
+				Hentai hentai = NHentaiNet.createHentaiByNumber(args[1]);
 				hentai.sendEmbedHentai(channel).queue(message -> {
 					message.addReaction("U+2B50").queue();
 				});
