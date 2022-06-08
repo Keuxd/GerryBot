@@ -13,7 +13,7 @@ public class FavoritesViewerListenerAdapter extends ListenerAdapter {
 	@Override
 	public void onSelectionMenu(SelectionMenuEvent event) {
 		if(!event.getComponentId().equals("gerry:favoritesHentas")) return;
-		event.deferReply();
+//		event.deferReply().queue();
 		
 		SelectOption option = event.getSelectedOptions().get(0); // We can only select 1 option
 		String numberChoosed = option.getLabel();
@@ -30,6 +30,8 @@ public class FavoritesViewerListenerAdapter extends ListenerAdapter {
 			SelectionMenu sm = event.getSelectionMenu().createCopy().setPlaceholder(numberChoosed).build();
 			
 			event.editMessageEmbeds(me).setActionRow(sm).queue();
+//			event.getMessage().editMessageEmbeds(me).setActionRow(sm).queue();
+//			event.getHook().editMessageEmbedsById(event.getMessageId(), me).setActionRow(sm)
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
