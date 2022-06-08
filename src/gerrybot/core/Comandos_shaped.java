@@ -93,7 +93,7 @@ public class Comandos_shaped extends ListenerAdapter {
 			
 			case("!updates"):{
 				EmbedBuilder embed = new EmbedBuilder();
-					embed.setTitle("Gerry 1.8.2");
+					embed.setTitle("Gerry 1.8.3");
 					embed.setColor(Main.COLOR);
 					embed.setDescription(""
 							+ "- Improved league commands processing.\n\n"

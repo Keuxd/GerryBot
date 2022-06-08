@@ -36,7 +36,7 @@ public class Main {
 
 		DataBaseModel.createTables();
 		
-		initJDA("Gerry 1.8.2 | !updates");
+		initJDA("Gerry 1.8.3 | !updates");
 
 //		initSlashCommands();
 		jda.awaitReady();
