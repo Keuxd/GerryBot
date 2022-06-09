@@ -66,7 +66,7 @@ public class HentaiReactionEvents extends ListenerAdapter {
 		if(!linkField.getName().equals("Link") && !link.matches("^$"))
 			return;
 		
-		String numbers = link.substring(22, link.length()-1);
+		String numbers = link.substring(22);
 		
 		boolean wasHentaAdded = DataBaseUtils.interactFavoriteHenta(author.getId(), numbers);
 		
