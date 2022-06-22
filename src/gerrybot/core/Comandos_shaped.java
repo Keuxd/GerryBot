@@ -96,6 +96,7 @@ public class Comandos_shaped extends ListenerAdapter {
 					embed.setTitle("Gerry 1.8.3");
 					embed.setColor(Main.COLOR);
 					embed.setDescription(""
+							+ "- Fixed Wukong runes/builds.\n\n"
 							+ "- Henta commands fixed(thanks sinkaroid).\n\n"
 							+ "- Fixed league commands for aram.\n\n"
 							);

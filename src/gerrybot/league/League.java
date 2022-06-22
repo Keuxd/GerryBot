@@ -69,6 +69,8 @@ public class League {
 			case "vel": return "velkoz";
 			case "vlad": return "vladimir";
 			case "voli": return "volibear";
+			case "wu":
+			case "wukong": return "monkeyking";
 			case "ww": return "warwick";
 			case "xin": return "xinzhao";
 
@@ -80,6 +82,7 @@ public class League {
 			case "rato": return "twitch";
 			case "rainha": return "qiyana";
 			case "baiano": return "akshan";
+			case "macaco": return "monkeyking";
 			
 			default: return champion;
 		}
