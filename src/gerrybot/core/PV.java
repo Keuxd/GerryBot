@@ -19,7 +19,7 @@ public class PV extends ListenerAdapter {
 	public void onMessageReceived(MessageReceivedEvent event) {
 		if(event.getAuthor().isBot()) return;
 		
-		if(!event.getAuthor().getAsTag().equals("Keu#3384")) return;
+		if(!event.getAuthor().getId().equals("345259449184944142")) return;
 		
 		String[] args = event.getMessage().getContentRaw().split("\\s+");
 		
