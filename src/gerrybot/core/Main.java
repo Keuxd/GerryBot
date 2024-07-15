@@ -44,16 +44,22 @@ public class Main {
 		dailyThread = new Thread(new DailyThread(), "Daily-Henta Thread");
 		dailyThread.start();
 		
-		connectToFirstAudioChannel();
+		connectToAudioChannel("Just GerryTests", "Geral");
 	}
 	
-	private static void connectToFirstAudioChannel() {
+	private static void connectToAudioChannel(String guildName, String channelName) {
 		try {
-			jda.getGuilds().get(0).getAudioManager().openAudioConnection(jda.getGuilds().get(0).getVoiceChannels().get(0));
-			System.out.println("Conectado no canal de voz com sucesso.");
-		}catch(Exception e) {
-			System.out.println("Erro ao conectar no canal de voz.");
-		}		
+			List<Guild> guilds = jda.getGuildsByName(guildName, true);
+			if(guilds.size() == 0) throw new Exception("There're no guilds with this name");
+			
+			List<VoiceChannel> channels = guilds.get(0).getVoiceChannelsByName(channelName, true);
+			if(channels.size() == 0) throw new Exception("There're no channels with this name");
+			
+			guilds.get(0).getAudioManager().openAudioConnection(channels.get(0));
+			System.out.println("Conectado no canal '" + channelName + "' do servidor '" + guildName + "'.");
+		} catch(Exception e) {
+			System.out.println("Erro ao conectar no canal de voz -> " + e.getMessage());
+		}
 	}
 	
 	private static void initJDA(String status) throws LoginException {
