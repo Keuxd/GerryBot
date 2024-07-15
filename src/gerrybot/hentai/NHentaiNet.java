@@ -55,11 +55,12 @@ public class NHentaiNet {
 		return nHentaiNet;
 	}
 	
-	private static Hentai genHentaiFromJson(String link) throws NullPointerException {
+	private static Hentai genHentaiFromJson(String link) {
 		JsonObject jo = OpggMetaBase.downloadJson(link);
 		
+		// If we couldn't download the henta then we return a not found one
 		if(jo == null) {
-			throw new NullPointerException("Error loading hentai from JSON");
+			return genHentaiNotFound(link);
 		}
 		
 		Hentai nHentaiNet = new Hentai();
@@ -78,6 +79,16 @@ public class NHentaiNet {
 		JsonArray tags = jo.get("tags").getAsJsonArray();
 		nHentaiNet.setTags(genConcatedTags(tags));
 		
+		return nHentaiNet;
+	}
+	
+	private static Hentai genHentaiNotFound(String link) {
+		Hentai nHentaiNet = new Hentai();
+		nHentaiNet.setNumbers(link.split("/")[5]);
+		nHentaiNet.setLink(NHENTAI_ZELDA + "g/" + nHentaiNet.getNumbers());
+		nHentaiNet.setCoverLink("https://cdn.discordapp.com/emojis/744921446136021062.png");
+		nHentaiNet.setTitle("Not Found");
+		nHentaiNet.setTags("Not Found");
 		return nHentaiNet;
 	}
 	
