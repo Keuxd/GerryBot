@@ -1,22 +1,21 @@
 package gerrybot.core;
 
 import java.io.File;
+import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
 import gerrybot.database.DataBaseModel;
 import gerrybot.database.JDBC;
-import gerrybot.hentai.DailyThread;
 import gerrybot.hentai.HentaiReactionEvents;
 import gerrybot.hentai.favoritesViewer.FavoritesViewerListenerAdapter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Main {
