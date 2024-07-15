@@ -124,19 +124,18 @@ public class Comandos extends ListenerAdapter {
 			
 		}
 		else
-		if(args.length == 2 && args[0].equals("!favorites")) {
+		if(args.length <= 2 && args[0].equals("!favorites")) {
 			List<Member> members = event.getMessage().getMentions().getMembers();
 			String userId;
 			
 			if(members.size() == 1) { // An user was mentioned
 				userId = members.get(0).getId();
 			}
-			else if(args[1].matches("^[0-9]+$")){ // No user mentioned(members.size is 0) but we have the id
+			else if(args.length == 2 && args[1].matches("^[0-9]+$")){ // No user mentioned(members.size is 0) but we have the id
 				userId = args[1];
 			}
-			else { // No user mentioned(members.size is 0) and id is invalid(regex doesnt match)
-				channel.sendMessage("No user mentioned or id is invalid.").queue();
-				return;
+			else { // No user mentioned, no id, then go for the author
+				userId = event.getAuthor().getId();
 			}
 			
 			try {
