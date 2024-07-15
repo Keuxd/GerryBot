@@ -102,7 +102,7 @@ public class OpggMetaBase {
 			URLConnection con = new URL(url).openConnection();
 			con.addRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux i686; rv:124.0) Gecko/20100101 Firefox/124.0");
 			
-			System.out.println(url);
+			System.out.println("Downloading Json From: " + url);
 			InputStream inputStream = con.getInputStream();
 			
 			ByteArrayOutputStream result = new ByteArrayOutputStream();
