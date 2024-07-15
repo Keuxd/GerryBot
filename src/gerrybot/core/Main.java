@@ -68,6 +68,7 @@ public class Main {
 				.addEventListeners(new FavoritesViewerListenerAdapter())
 				.setStatus(OnlineStatus.ONLINE)
 				.setActivity(Activity.playing(status))
+				.enableIntents(GatewayIntent.MESSAGE_CONTENT)
 				.enableCache(CacheFlag.VOICE_STATE)
 				.build();
 	}

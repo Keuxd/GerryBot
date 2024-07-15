@@ -11,15 +11,16 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import gerrybot.core.Main;
-import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.utils.FileUpload;
 
 public class DataBaseUtils {
 	
-	public static void sendDataBaseFile(PrivateChannel channel) {
+	public static void sendDataBaseFile(MessageChannel channel) {
 		JDBC.disconnectDataBase();
 		
 		File dataBaseFile = new File(Main.gerryFolder + "/GerryBase.mv.db");
-		channel.sendFile(dataBaseFile).queue();
+		channel.sendFiles(FileUpload.fromData(dataBaseFile, "GerryBase.mv.db")).queue();
 		
 		JDBC.connectDataBase();
 	}

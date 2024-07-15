@@ -4,11 +4,12 @@ import java.io.InputStream;
 
 import gerrybot.core.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
-import net.dv8tion.jda.api.requests.restaction.interactions.ReplyAction;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
+import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
+import net.dv8tion.jda.api.utils.FileUpload;
 
 public class Hentai {
 	private String title;
@@ -19,24 +20,24 @@ public class Hentai {
 	private String coverLink;
 	private InputStream imageFile;
 	
-	public MessageAction sendEmbedHentai(MessageChannel channel, String... embedTitle) {
+	public MessageCreateAction sendEmbedHentai(MessageChannel channel, String... embedTitle) {
 		//if there's title so use title, if there isn't use generic title with this.numbers
 		embedTitle = (embedTitle.length == 1) ? embedTitle : new String[]{"Hentai " + this.numbers};
 		
 		MessageEmbed embedHentai = genEmbedMessageHentai(embedTitle[0]);
 
 		if(this.imageFile != null)
-			return channel.sendFile(this.imageFile, "cover.jpg").setEmbeds(embedHentai);
+			return channel.sendFiles(FileUpload.fromData(this.imageFile, "cover.jpg")).setEmbeds(embedHentai);
 		else
 			return channel.sendMessageEmbeds(embedHentai);
 	}
 	
-	public ReplyAction sendEmbedHentai(SlashCommandEvent event, String... embedTitle) {
+	public ReplyCallbackAction sendEmbedHentai(SlashCommandInteractionEvent event, String... embedTitle) {
 		//if there's title so use title, if there isn't use generic title with this.numbers
 		embedTitle = (embedTitle.length == 1) ? embedTitle : new String[]{"Hentai " + this.numbers};
 		
 		if(this.imageFile != null)
-			return event.replyEmbeds(genEmbedMessageHentai(embedTitle[0])).addFile(this.imageFile, "cover.jpg");
+			return event.replyEmbeds(genEmbedMessageHentai(embedTitle[0])).addFiles(FileUpload.fromData(this.imageFile, "cover.jpg"));
 		else
 			return event.replyEmbeds(genEmbedMessageHentai(embedTitle[0]));
 	}

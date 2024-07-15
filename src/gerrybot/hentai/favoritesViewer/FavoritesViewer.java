@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import gerrybot.database.DataBaseUtils;
 import gerrybot.hentai.Hentai;
 import gerrybot.hentai.NHentaiNet;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
-import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 
 public class FavoritesViewer {
 	private String userId;
@@ -20,14 +20,14 @@ public class FavoritesViewer {
 		this.userId = userId;
 	}
 	
-	public MessageAction sendFavoritesHentas(MessageChannel channel) throws Exception {
-		SelectionMenu hentasMenu = genHentasMenu();
+	public MessageCreateAction sendFavoritesHentas(MessageChannel channel) throws Exception {
+		StringSelectMenu hentasMenu = genHentasMenu();
 		Hentai hn = NHentaiNet.createHentaiByNumber(this.firstHentaCode);
 		hn.setImageFile(null);
 		return hn.sendEmbedHentai(channel).setActionRow(hentasMenu);
 	}
 	
-	private SelectionMenu genHentasMenu() throws SQLException {
+	private StringSelectMenu genHentasMenu() throws SQLException {
 		ResultSet rs = DataBaseUtils.getFavoritesHentas(this.userId); // ResultSet is in the first row at this point
 		
 		ArrayList<SelectOption> options = new ArrayList<SelectOption>();
@@ -41,7 +41,7 @@ public class FavoritesViewer {
 		}
 		rs.close();
 		
-		return SelectionMenu.create("gerry:favoritesHentas")
+		return StringSelectMenu.create("gerry:favoritesHentas")
 				.setPlaceholder(this.firstHentaCode)
 				.setRequiredRange(1, 1)
 				.addOptions(options)

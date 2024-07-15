@@ -3,15 +3,16 @@ package gerrybot.hentai.favoritesViewer;
 import gerrybot.hentai.Hentai;
 import gerrybot.hentai.NHentaiNet;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.interaction.SelectionMenuEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
-import net.dv8tion.jda.api.interactions.components.selections.SelectionMenu;
+import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 
 public class FavoritesViewerListenerAdapter extends ListenerAdapter {
 
 	@Override
-	public void onSelectionMenu(SelectionMenuEvent event) {
+	public void onStringSelectInteraction(StringSelectInteractionEvent event) {
+		
 		if(!event.getComponentId().equals("gerry:favoritesHentas")) return;
 		event.deferReply().queue();
 		
@@ -27,7 +28,7 @@ public class FavoritesViewerListenerAdapter extends ListenerAdapter {
 			newHenta.setImageFile(null);
 			MessageEmbed me = newHenta.genEmbedMessageHentai("Hentai " + numberChoosed);
 
-			SelectionMenu sm = event.getSelectionMenu().createCopy().setPlaceholder(numberChoosed).build();
+			StringSelectMenu sm = event.getSelectMenu().createCopy().setPlaceholder(numberChoosed).build();
 
 			event.getHook().deleteOriginal().queue();
 			event.getHook().editMessageEmbedsById(event.getMessageId(), me).setActionRow(sm).queue();

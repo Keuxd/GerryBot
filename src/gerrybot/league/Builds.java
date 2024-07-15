@@ -12,7 +12,8 @@ import com.google.gson.JsonObject;
 import gerrybot.core.Main;
 import gerrybot.database.DataBaseTable;
 import gerrybot.database.DataBaseUtils;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.utils.FileUpload;
 
 public class Builds extends League {
 
@@ -64,6 +65,6 @@ public class Builds extends League {
 		File outputFile = new File(Main.gerryFolder + "/cover.png");
 		BufferedImage buildsPage = new Draw().drawBuilds(builds, DataBaseUtils.getLeagueImages(builds, DataBaseTable.ITEM));
 		ImageIO.write(buildsPage, "png", outputFile);
-		channel.sendMessage(this.getSkillOrder()).addFile(outputFile, "cover.png").queue();
+		channel.sendMessage(this.getSkillOrder()).addFiles(FileUpload.fromData(outputFile, "cover.png")).queue();
 	}
 }

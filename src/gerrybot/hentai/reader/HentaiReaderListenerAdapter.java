@@ -1,7 +1,7 @@
 package gerrybot.hentai.reader;
 
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class HentaiReaderListenerAdapter extends ListenerAdapter{
@@ -9,7 +9,7 @@ public class HentaiReaderListenerAdapter extends ListenerAdapter{
 	private final String BASE_LINK = "https://nhentai.net/g/";
 	
 	@Override
-	public void onSlashCommand(SlashCommandEvent event) {
+	public void onStringSelectInteraction(StringSelectInteractionEvent event) {
 		if(!event.isFromGuild()) return;
 
 		String commandName = event.getName();
@@ -31,7 +31,7 @@ public class HentaiReaderListenerAdapter extends ListenerAdapter{
 	}
 	
 	@Override
-	public void onButtonClick(ButtonClickEvent event) {
+	public void onButtonInteraction(ButtonInteractionEvent event) {
 		String id = event.getComponentId();
 		event.deferEdit().queue();
 

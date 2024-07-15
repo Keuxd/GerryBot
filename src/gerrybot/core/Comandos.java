@@ -12,13 +12,16 @@ import gerrybot.league.Runes;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class Comandos extends ListenerAdapter {
-	public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+	
+	public void onMessageReceived(MessageReceivedEvent event) {
+		System.out.println(event.getMessage().getContentRaw());
 		String[] args = event.getMessage().getContentRaw().split("\\s+");
 		MessageChannel channel = event.getChannel();
 		User autor = event.getAuthor();
@@ -72,7 +75,7 @@ public class Comandos extends ListenerAdapter {
 			try {
 				Hentai hentai = NHentaiNet.createHentaiByNumber(args[1]);
 				hentai.sendEmbedHentai(channel).queue(message -> {
-					message.addReaction("U+2B50").queue();
+					message.addReaction(Emoji.fromUnicode("U+2B50")).queue();
 				});
 			} catch (Exception e) {
 				channel.sendMessage("Esses numeros nao levam a nenhum nHentai.").queue();
@@ -122,7 +125,7 @@ public class Comandos extends ListenerAdapter {
 		}
 		else
 		if(args.length == 2 && args[0].equals("!favorites")) {
-			List<Member> members = event.getMessage().getMentionedMembers();
+			List<Member> members = event.getMessage().getMentions().getMembers();
 			String userId;
 			
 			if(members.size() == 1) { // An user was mentioned
@@ -138,7 +141,7 @@ public class Comandos extends ListenerAdapter {
 			
 			try {
 				new FavoritesViewer(userId).sendFavoritesHentas(channel).queue(message -> {
-					message.addReaction("U+2B50").queue();
+					message.addReaction(Emoji.fromUnicode("U+2B50")).queue();
 				});
 			} catch (Exception e) {
 				channel.sendMessage("This user doesn't have favorite hentas").queue();

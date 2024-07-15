@@ -6,12 +6,15 @@ import java.time.format.DateTimeFormatter;
 import gerrybot.hentai.Hentai;
 import gerrybot.hentai.NHentaiNet;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class Comandos_shaped extends ListenerAdapter {
-	public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+	
+	@Override
+	public void onMessageReceived(MessageReceivedEvent event) {
 		String[] args = event.getMessage().getContentRaw().split("\\s+");
 		MessageChannel channel = event.getChannel();
 
@@ -63,7 +66,7 @@ public class Comandos_shaped extends ListenerAdapter {
 				try {
 					Hentai randomHentai = NHentaiNet.createHentaiRandomly();
 					randomHentai.sendEmbedHentai(channel).queue(message -> {
-						message.addReaction("U+2B50").queue();
+						message.addReaction(Emoji.fromUnicode("U+2B50")).queue();
 					});
 				} catch (Exception e) {}
 				break;
@@ -76,11 +79,11 @@ public class Comandos_shaped extends ListenerAdapter {
 					
 					Hentai dailyHenta = NHentaiNet.createHentaiByNumber(dataNum);
 					dailyHenta.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> {
-						message.addReaction("U+1F51E").queue();
-						message.addReaction("U+2B50").queue();
+						message.addReaction(Emoji.fromUnicode("U+1F51E")).queue();
+						message.addReaction(Emoji.fromUnicode("U+2B50")).queue();
 					});
 				} catch (Exception e) {
-					channel.sendMessage("O dia de hoje n„o tem hentai.").queue();
+					channel.sendMessage("O dia de hoje n√£o tem hentai.").queue();
 					channel.sendMessage("https://image.prntscr.com/image/0rMqADlyTRGyAJ-q36RyXw.png").queue();
 				}
 				break;

@@ -13,7 +13,8 @@ import com.google.gson.JsonObject;
 import gerrybot.core.Main;
 import gerrybot.database.DataBaseTable;
 import gerrybot.database.DataBaseUtils;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.utils.FileUpload;
 
 public class Runes extends League {
 	
@@ -77,6 +78,6 @@ public class Runes extends League {
 		File outputFile = new File(Main.gerryFolder + "/cover.png");
 		BufferedImage runePage = new Draw().drawRunes(images, DataBaseUtils.getLeagueImages(images, DataBaseTable.RUNE));
 		ImageIO.write(runePage, "png", outputFile);
-		channel.sendFile(outputFile, "cover.png").queue();
+		channel.sendFiles(FileUpload.fromData(outputFile, "cover.png")).queue();
 	}
 }

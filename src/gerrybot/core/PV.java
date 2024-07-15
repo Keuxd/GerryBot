@@ -10,13 +10,13 @@ import gerrybot.database.DataBaseUtils;
 import gerrybot.database.JDBC;
 import gerrybot.league.OpggMetaBase;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class PV extends ListenerAdapter {
 	
-	public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
+	public void onMessageReceived(MessageReceivedEvent event) {
 		if(event.getAuthor().isBot()) return;
 		
 		if(!event.getAuthor().getAsTag().equals("Keu#3384")) return;
@@ -42,7 +42,7 @@ public class PV extends ListenerAdapter {
 				for(TextChannel tc : canais) {
 					tc.sendMessage("!hn " + args[1]).queue();
 				}		
-				event.getMessage().getPrivateChannel().sendMessage("Hentai enviado.").queue();			
+				event.getMessage().getChannel().sendMessage("Hentai enviado.").queue();			
 				
 				break;
 			}
@@ -54,9 +54,9 @@ public class PV extends ListenerAdapter {
 						List<Message> mensagens = canal.getHistory().retrievePast(30).complete();
 						canal.purgeMessages(mensagens);
 					}
-					event.getMessage().getPrivateChannel().sendMessage("Canais 'henta' limpos.").queue();
+					event.getMessage().getChannel().sendMessage("Canais 'henta' limpos.").queue();
 				}catch(Exception e) {
-					event.getMessage().getPrivateChannel().sendMessage("Erro ao limpar canais.").queue();
+					event.getMessage().getChannel().sendMessage("Erro ao limpar canais.").queue();
 				}
 				break;
 			}

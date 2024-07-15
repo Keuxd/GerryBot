@@ -7,9 +7,9 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.interactions.components.Button;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 
 public class HentaiReaderTest {
 	
@@ -21,7 +21,7 @@ public class HentaiReaderTest {
 		this.link = link;
 	}
 	
-	public MessageAction replySlashCommand(SlashCommandEvent event) {
+	public MessageCreateAction replySlashCommand(SlashCommandInteractionEvent event) {
 		event.deferReply();
 		return event.getChannel().sendMessage(this.link).setActionRow( 
 			Button.secondary("previousPage", "Previous"),

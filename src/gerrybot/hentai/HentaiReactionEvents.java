@@ -7,10 +7,9 @@ import gerrybot.core.Main;
 import gerrybot.database.DataBaseUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
-import net.dv8tion.jda.api.entities.MessageReaction.ReactionEmote;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -18,18 +17,18 @@ public class HentaiReactionEvents extends ListenerAdapter {
 	
 	@Override
 	public void	onMessageReactionAdd(MessageReactionAddEvent event) {
-		ReactionEmote emoji = event.getReactionEmote();
+		String emoji = event.getReaction().getEmoji().asUnicode().getAsCodepoints();
 		MessageChannel channel = event.getChannel();
 		long messageId = event.getMessageIdLong();
 		User author = event.getUser();
 
 		// Shouldn't interact with bots reactions/Emojis have unicode notation emotes dont
-		if(author.isBot() || emoji.isEmote()) return;
+		if(author.isBot()) return;
 
-		if(channel.getName().equals("henta") && emoji.getAsCodepoints().equals("U+1f51e")) {
+		if(channel.getName().equals("henta") && emoji.equals("U+1f51e")) {
 			cursedAction(channel, author);
 		}
-		else if(emoji.getAsCodepoints().equals("U+2b50")) {
+		else if(emoji.equals("U+2b50")) {
 			try {
 				favoriteAction(channel, author, messageId);
 			} catch (SQLException e) {
