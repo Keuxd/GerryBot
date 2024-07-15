@@ -100,8 +100,9 @@ public class OpggMetaBase {
 	public static JsonObject downloadJson(String url) {
 		try {
 			URLConnection con = new URL(url).openConnection();
-			con.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
+			con.addRequestProperty("User-Agent", "Mozilla/5.0 (X11; Linux i686; rv:124.0) Gecko/20100101 Firefox/124.0");
 			
+			System.out.println(url);
 			InputStream inputStream = con.getInputStream();
 			
 			ByteArrayOutputStream result = new ByteArrayOutputStream();
