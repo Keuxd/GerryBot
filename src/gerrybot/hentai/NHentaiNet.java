@@ -21,16 +21,15 @@ import gerrybot.league.OpggMetaBase;
 
 public class NHentaiNet {
 
-	private static final String NHENTAI_IP = "http://35.186.156.165/"; // Singapore
-	private static final String NHENTAI_IP2 = "http://173.82.30.99:3002/"; // California
+	private static final String NHENTAI_ZELDA = "https://nhentai.net/";
 	private static final String NHENTAI_COVER = "https://t.nhentai.net/galleries/";
 	
 	public static Hentai createHentaiByNumber(String numbers) throws Exception {
-		return genHentaiFromJson(NHENTAI_IP2 + "api/gallery/" + numbers);
+		return genHentaiFromJson(NHENTAI_ZELDA + "api/gallery/" + numbers);
 	}
 	
 	public static Hentai createHentaiRandomly() throws Exception {
-		return genHentaiFromHtml(NHENTAI_IP2 + "random");
+		return genHentaiFromHtml(NHENTAI_ZELDA + "random");
 	}
 
 	private static Hentai genHentaiFromHtml(String initLink) throws NullPointerException {
@@ -154,7 +153,7 @@ public class NHentaiNet {
 	// DEBUG ONLY
 	public static void pingCheck(int IP) {
 		try {
-			Process process = Runtime.getRuntime().exec("ping " + ((IP == 0) ? "35.186.156.165" : "173.82.30.99"));
+			Process process = Runtime.getRuntime().exec("ping " + NHENTAI_ZELDA);
 			
 			InputStream is = process.getInputStream();
 			Scanner sc = new Scanner(is, "UTF-8");
