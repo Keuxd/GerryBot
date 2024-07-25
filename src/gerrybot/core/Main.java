@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
+import gerrybot.commands.Commands;
 import gerrybot.database.DataBaseModel;
 import gerrybot.database.JDBC;
 import gerrybot.hentai.HentaiReactionEvents;
@@ -66,8 +67,7 @@ public class Main {
 		if(jda != null) return;
 		
 		jda = JDABuilder.createDefault(Token.getToken())
-				.addEventListeners(new Comandos())
-				.addEventListeners(new Comandos_shaped())
+				.addEventListeners(new Commands())
 				.addEventListeners(new PV())
 				.addEventListeners(new HentaiReactionEvents())
 				.addEventListeners(new FavoritesViewerListenerAdapter())
