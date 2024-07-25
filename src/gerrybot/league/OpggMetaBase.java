@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -112,6 +113,8 @@ public class OpggMetaBase {
 				result.write(buffer, 0, length);
 			
 			return JsonParser.parseString(result.toString()).getAsJsonObject();
+		} catch(FileNotFoundException e) {
+			return null; // This henta doesn't exist in API
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
