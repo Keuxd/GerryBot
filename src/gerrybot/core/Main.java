@@ -20,7 +20,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Main {
 	
-	public static final boolean IS_TESTING = false;
+	public static final boolean IS_TESTING = true;
 	public static final int COLOR = 0x9e42f5;
 	
 	public static JDA jda;
