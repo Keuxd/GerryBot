@@ -63,27 +63,27 @@ public class Hentai {
 		this.coverLink = coverLink;
 	}
 
-	protected String getTitle() {
+	public String getTitle() {
 		return title;
 	}
 
-	protected void setTitle(String title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	protected String getLink() {
+	public String getLink() {
 		return link;
 	}
 
-	protected void setLink(String link) {
+	public void setLink(String link) {
 		this.link = link;
 	}
 
-	protected String getConcatedTags() {
+	public String getConcatedTags() {
 		return this.concatedTags;
 	}
 
-	protected void setTags(String concatedTags) {
+	public void setTags(String concatedTags) {
 		this.concatedTags = concatedTags;
 	}
 
@@ -91,7 +91,7 @@ public class Hentai {
 		return numbers;
 	}
 
-	protected void setNumbers(String numbers) {
+	public void setNumbers(String numbers) {
 		this.numbers = numbers;
 	}
 
