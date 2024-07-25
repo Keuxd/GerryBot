@@ -8,6 +8,7 @@ import javax.security.auth.login.LoginException;
 import gerrybot.commands.Commands;
 import gerrybot.database.DataBaseModel;
 import gerrybot.database.JDBC;
+import gerrybot.hentai.DailyThread;
 import gerrybot.hentai.HentaiReactionEvents;
 import gerrybot.hentai.favoritesViewer.FavoritesViewerListenerAdapter;
 import net.dv8tion.jda.api.JDA;
