@@ -26,7 +26,7 @@ public class Main {
 	public static JDA jda;
 	
 	public static String gerryFolder;
-	protected static Thread dailyThread;
+	public static Thread dailyThread;
 	
 	public static void main(String[] args) throws Exception {
 		initCacheFolder();
