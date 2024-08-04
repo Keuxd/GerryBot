@@ -8,11 +8,11 @@ import java.util.function.Consumer;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class Commands extends ListenerAdapter {
+public class GuildCommands extends ListenerAdapter {
 
 	private final Map<String, Consumer<MessageReceivedEvent>> commandsMap = new HashMap<>();
 	
-	public Commands() {
+	public GuildCommands() {
 		GenericCommands gc = new GenericCommands();
 			commandsMap.put("!yo", gc :: yo);
 			commandsMap.put("!prime", gc :: prime);
