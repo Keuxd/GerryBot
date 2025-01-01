@@ -87,14 +87,16 @@ public class Main {
 		gerryFolder = folder.getAbsolutePath();
 	}
 	
-	@SuppressWarnings("unused")
 	private static void initSlashCommands() {
 		CommandListUpdateAction commands = jda.updateCommands();
-		commands.addCommands(
-					new CommandData("read", "Creates a nHentai reader from the given numbers.")
-						.addOptions(new OptionData(OptionType.INTEGER, "numbers", "nHentai numbers")
-										.setRequired(true))
-				);
+		
+		SlashCommandData hentime = Commands.slash("hentime", "Changes the Channel and Time hentas will be sent")
+				.addOption(OptionType.CHANNEL, "channel", "Channel that daily hentais will be sent", true)
+				.addOption(OptionType.STRING, "time", "Time that daily hentais will be sent xx:xx", true);
+			
+		SlashCommandData data1 = Commands.slash("yo", "oporra");
+		
+		commands.addCommands(hentime, data1);
 		commands.queue();
 	}
 }
