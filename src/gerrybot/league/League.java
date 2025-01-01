@@ -18,12 +18,12 @@ public class League {
 		else if(role.equalsIgnoreCase("sup") || role.equalsIgnoreCase("suporte")) role = "support";
 		
 		if(role.equalsIgnoreCase("aram")) {
-			this.url = "https://lol-api-champion.op.gg/api/champions/aram/" + champion + "/";
+			this.url = OpggEndPoints.API_NODE_BASE_URL + "/bypass/champions/br/aram/" + champion + "/none/";
 		} else {
-			this.url = "https://lol-api-champion.op.gg/api/champions/ranked/" + champion + "/" + role + "/";
+			this.url = OpggEndPoints.API_NODE_BASE_URL + "/bypass/champions/br/ranked" + "/" + champion + "/" + role + "/";
 		}	
 		
-		this.info = OpggMetaBase.downloadJson(this.url + type.getTableName());
+		this.info = OpggMetaBase.downloadJson(this.url );
 	}
 	
 	private String nickNames(String champion) {
