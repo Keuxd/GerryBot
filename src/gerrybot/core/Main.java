@@ -67,11 +67,12 @@ public class Main {
 	private static void initJDA(String status) throws LoginException {
 		if(jda != null) return;
 		
-				.addEventListeners(new Commands())
 		jda = JDABuilder.createLight(Token.getToken())
+				.addEventListeners(new GuildCommands())
 				.addEventListeners(new PV())
 				.addEventListeners(new HentaiReactionEvents())
 				.addEventListeners(new FavoritesViewerListenerAdapter())
+				.addEventListeners(new SlashCommands())
 				.setStatus(OnlineStatus.ONLINE)
 				.setActivity(Activity.playing(status))
 				.enableIntents(GatewayIntent.MESSAGE_CONTENT)
