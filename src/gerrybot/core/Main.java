@@ -67,8 +67,8 @@ public class Main {
 	private static void initJDA(String status) throws LoginException {
 		if(jda != null) return;
 		
-		jda = JDABuilder.createDefault(Token.getToken())
 				.addEventListeners(new Commands())
+		jda = JDABuilder.createLight(Token.getToken())
 				.addEventListeners(new PV())
 				.addEventListeners(new HentaiReactionEvents())
 				.addEventListeners(new FavoritesViewerListenerAdapter())
