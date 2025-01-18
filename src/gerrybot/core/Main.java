@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.dv8tion.jda.internal.utils.JDALogger;
 
 public class Main {
 	
@@ -73,6 +74,8 @@ public class Main {
 	
 	private static void initJDA(String status) throws LoginException {
 		if(jda != null) return;
+		
+		JDALogger.setFallbackLoggerEnabled(false);
 		
 		jda = JDABuilder.createLight(Token.getToken())
 				.addEventListeners(new GuildCommands())
