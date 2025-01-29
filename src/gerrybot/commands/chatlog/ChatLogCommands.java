@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import gerrybot.commands.slash.HentaCommands;
+import gerrybot.commands.slash.LeagueCommands;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 

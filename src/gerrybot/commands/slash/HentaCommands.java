@@ -1,7 +1,3 @@
-
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 package gerrybot.commands.slash;
 
 import gerrybot.core.Main;
@@ -9,11 +5,12 @@ import gerrybot.database.DataBaseUtils;
 import gerrybot.hentai.Hentai;
 import gerrybot.hentai.NHentaiNet;
 import gerrybot.hentai.favoritesViewer.FavoritesViewer;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
 public class HentaCommands {
 	
