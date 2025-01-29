@@ -1,4 +1,4 @@
-package gerrybot.commands;
+package gerrybot.commands.slash;
 
 import gerrybot.league.Builds;
 import gerrybot.league.Runes;

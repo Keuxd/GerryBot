@@ -1,8 +1,8 @@
-package gerrybot.commands;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+package gerrybot.commands.slash;
 
 import gerrybot.core.Main;
 import gerrybot.database.DataBaseUtils;

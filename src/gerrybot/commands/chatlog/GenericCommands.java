@@ -1,4 +1,4 @@
-package gerrybot.commands;
+package gerrybot.commands.chatlog;
 
 import java.time.LocalDateTime;
 

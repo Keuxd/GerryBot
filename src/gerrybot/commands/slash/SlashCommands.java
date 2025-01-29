@@ -1,4 +1,4 @@
-package gerrybot.commands;
+package gerrybot.commands.slash;
 
 import java.util.HashMap;
 import java.util.Map;
