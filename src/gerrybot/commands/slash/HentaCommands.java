@@ -23,26 +23,6 @@ public class HentaCommands {
 		} catch(Exception e) {}
 	}
 	
-	public void henta(MessageReceivedEvent event) {
-		MessageChannelUnion channel = event.getChannel();
-		
-		LocalDateTime ldt = LocalDateTime.now();
-		String dataNum = ldt.getDayOfMonth() + ldt.format(DateTimeFormatter.ofPattern("MMyy"));
-		
-		Hentai dailyHenta = NHentaiNet.createHentaiByNumber(dataNum);
-		
-		if(dailyHenta.getTitle().equals("Not Found")) {
-			channel.sendMessage("O dia de hoje não tem hentai.").queue();
-			channel.sendMessage("https://cdn.discordapp.com/emojis/744921446136021062.png").queue();
-			return;
-		}
-		
-		dailyHenta.sendEmbedHentai(channel, "Hentai do Dia").queue(message -> {
-			message.addReaction(Emoji.fromUnicode("U+1F51E")).queue();
-			message.addReaction(Emoji.fromUnicode("U+2B50")).queue();
-		});
-	}
-	
 	public void hn(MessageReceivedEvent event) {
 		String[] args = event.getMessage().getContentRaw().toLowerCase().split("\\s+");
 		
@@ -54,26 +34,42 @@ public class HentaCommands {
 		});
 	}
 	
-	public void hentimeUsage(MessageReceivedEvent event) {
-		event.getChannel().sendMessage("**Usage:** ```!hentime xx:xx [00:00 ~ 23:59]\n(You must be an Administrator)```").queue();
+	public void hn(SlashCommandInteractionEvent event) {
+		event.deferReply().queue();
+		
+		int code = Math.abs(event.getOption("code", OptionMapping :: getAsInt));
+		
+		Hentai hentai = NHentaiNet.createHentaiByNumber(code + "");
+
+		hentai.sendEmbedHentai(event).queue(message -> {
+			if(!hentai.getTitle().equals("Not Found")) {
+//				message.addReaction(Emoji.fromUnicode("U+2B50")).queue();
+			}
+		});
 	}
 	
-	public void hentime(MessageReceivedEvent event) {
-		String[] args = event.getMessage().getContentRaw().toLowerCase().split("\\s+");
-		MessageChannelUnion channel = event.getChannel();
-		Member author = event.getMember();
+	public void hentime(SlashCommandInteractionEvent event) {
+		event.deferReply(true).queue();
 		
-		if(!author.hasPermission(Permission.ADMINISTRATOR)) {
-			channel.sendMessage("You're not an administrator " + author.getAsMention()).queue();
+		GuildChannelUnion channel = event.getOption("channel", OptionMapping :: getAsChannel);
+		String time = event.getOption("time", OptionMapping :: getAsString);
+		
+		if(channel.getType().isAudio()) {
+			event.getHook().sendMessage("```Error: The selected channel can't be an audio type.```").queue();
+			return;
+		}
+		
+		if(!time.matches("([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]")) {
+			event.getHook().sendMessage("```Error: Time must be 'xx:xx' 24h format```").queue();
 			return;
 		}
 		
 		try {
-			DataBaseUtils.insertHentaTimer(event.getGuild().getIdLong(), args[1].split(":"));
+			DataBaseUtils.insertHentaTimer(channel.getIdLong(), time.split(":"));
 			Main.dailyThread.interrupt(); // Will "restart" dailyThread to calculate sleep time again
-			channel.sendMessage("Hentime changed to " + args[1]).queue();
-		} catch(SQLException e) {
-			channel.sendMessage("Error, contact devs: " + e.getMessage()).queue();
+			event.getHook().sendMessage("```Hentime changed to '" + time + "' in channel '" + channel.getName() +  "'```").queue();
+		} catch(Exception e) {
+			event.getHook().sendMessage("```Error: Hentime couldn't be registered, contact devs.```").queue();
 		}
 	}
 	

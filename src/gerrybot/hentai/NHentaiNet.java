@@ -22,7 +22,7 @@ import gerrybot.league.OpggMetaBase;
 public class NHentaiNet {
 
 	private static final String NHENTAI_ZELDA = "https://nhentai.net/";
-	private static final String NHENTAI_COVER = "https://t.nhentai.net/galleries/";
+	private static final String NHENTAI_COVER = "https://t3.nhentai.net/galleries/";
 	
 	public static Hentai createHentaiByNumber(String numbers) {
 		return genHentaiFromJson(NHENTAI_ZELDA + "api/gallery/" + numbers);

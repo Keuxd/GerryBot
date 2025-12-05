@@ -1,8 +1,13 @@
 package gerrybot.diceroller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Predicate;
+
+import javax.swing.DefaultListModel;
+
+import net.dv8tion.jda.api.entities.User;
 
 public class DiceRoller {
 	
@@ -13,7 +18,10 @@ public class DiceRoller {
 	private int dicesSum;
 	private int modifersSum;
 	
-	public DiceRoller(String rollMessage) {
+	private User author;
+	
+	public DiceRoller(String rollMessage, User author) {
+		this.author = author;
 		processMessage(rollMessage);
 	}
 	
@@ -38,11 +46,32 @@ public class DiceRoller {
 		}
 	}
 	
-	public static int[] roll(int amount, int sides) {
+	public int[] roll(int amount, int sides) {
 		int[] rolledDices = new int[amount];
+		ArrayList<String> drRolls = DRFrame.getInstance().getDRRollsFromUser(author);
+		DefaultListModel<String> model = DRFrame.getInstance().getDRListModel();
 		
 		for(int i = 0; i < amount; i++) {
-			rolledDices[i] = new Random().nextInt(sides) + 1;
+			boolean hasDr = false;
+			
+			for(int j = 0; j < drRolls.size(); j++) {
+				String[] drs = drRolls.get(j).split("=");
+				if(Integer.parseInt(drs[1]) == sides) {
+					int value = Integer.parseInt(drs[2]);
+					
+					if(value <= sides) {
+						rolledDices[i] = value;
+						model.removeElement(drRolls.get(j));
+						drRolls.remove(j);
+						hasDr = true;
+						break;
+					}
+				}
+			}
+			
+			if(!hasDr) {
+				rolledDices[i] = new Random().nextInt(sides) + 1;				
+			}
 		}
 		
 		return rolledDices;

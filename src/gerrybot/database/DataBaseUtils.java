@@ -80,11 +80,11 @@ public class DataBaseUtils {
 		}
 	}
 	
-	public static void insertHentaTimer(long guildId, String[] time) throws SQLException {
+	public static void insertHentaTimer(long channelId, String[] time) throws SQLException {
 		int minutes = (Integer.parseInt(time[0]) * 60) + Integer.parseInt(time[1]);
 		
 		String sql = String.format("INSERT INTO %s VALUES(%d,%d) ON DUPLICATE KEY UPDATE MINUTES = %d",
-				DataBaseTable.GUILD_TIMER.getTableName(), guildId, minutes, minutes);
+				DataBaseTable.GUILD_TIMER.getTableName(), channelId, minutes, minutes);
 
 		JDBC.state.executeUpdate(sql);
 	}

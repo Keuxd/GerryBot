@@ -1,14 +1,18 @@
 package gerrybot.core;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.List;
 
 import javax.security.auth.login.LoginException;
+import javax.swing.BorderFactory;
+import javax.swing.UIManager;
 
 import gerrybot.commands.chatlog.ChatLogCommands;
 import gerrybot.commands.slash.SlashCommands;
 import gerrybot.database.DataBaseModel;
 import gerrybot.database.JDBC;
+import gerrybot.diceroller.DRFrame;
 import gerrybot.hentai.DailyThread;
 import gerrybot.hentai.HentaiReactionEvents;
 import gerrybot.hentai.favoritesViewer.FavoritesViewerListenerAdapter;
@@ -24,31 +28,33 @@ import net.dv8tion.jda.internal.utils.JDALogger;
 
 public class Main {
 	
-	public static final boolean IS_TESTING = true;
+	public static final boolean IS_TESTING = false;
 	public static final int COLOR = 0x9e42f5;
 	
 	public static JDA jda;
 	
 	public static String gerryFolder;
-	public static Thread dailyThread;
+	public static DailyThread dailyThread;
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {		
+		DRFrame.getInstance().setVisible(true);
 		initCacheFolder();
-		
+
 		if(!JDBC.connectDataBase()) return;
 
 		DataBaseModel.createTables();
 		
 		initJDA("Gerry 2.0 | !updates");
-
-//		initSlashCommands();
+		
+		jda.updateCommands().addCommands(SlashCommands.commands).queue();
 		jda.awaitReady();
 		
-		// Initialize daily henta cycle in another thread
-		dailyThread = new Thread(new DailyThread(), "Daily-Henta Thread");
-		dailyThread.start();
+		DRFrame.getInstance().removeLoading();
 		
-		connectToAudioChannel("Just GerryTests", "Geral");
+//		dailyThread = new DailyThread();
+//		dailyThread.start();
+		
+		connectToAudioChannel("Dark City", "Sessãosinha");
 	}
 	
 	private static void connectToAudioChannel(String guildName, String channelName) {
@@ -72,7 +78,7 @@ public class Main {
 		JDALogger.setFallbackLoggerEnabled(false);
 		
 		jda = JDABuilder.createLight(Token.getToken())
-				.addEventListeners(new GuildCommands())
+				.addEventListeners(new ChatLogCommands())
 				.addEventListeners(new PV())
 				.addEventListeners(new HentaiReactionEvents())
 				.addEventListeners(new FavoritesViewerListenerAdapter())
@@ -91,16 +97,4 @@ public class Main {
 		gerryFolder = folder.getAbsolutePath();
 	}
 	
-	private static void initSlashCommands() {
-		CommandListUpdateAction commands = jda.updateCommands();
-		
-		SlashCommandData hentime = Commands.slash("hentime", "Changes the Channel and Time hentas will be sent")
-				.addOption(OptionType.CHANNEL, "channel", "Channel that daily hentais will be sent", true)
-				.addOption(OptionType.STRING, "time", "Time that daily hentais will be sent xx:xx", true);
-			
-		SlashCommandData data1 = Commands.slash("yo", "oporra");
-		
-		commands.addCommands(hentime, data1);
-		commands.queue();
-	}
 }

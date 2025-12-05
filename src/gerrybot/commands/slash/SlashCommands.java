@@ -14,31 +14,29 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 public class SlashCommands extends ListenerAdapter {
 	
+	public static SlashCommandData[] commands = {
+//			Commands.slash("hentime", "Changes the Channel and Time hentas will be sent")
+//				.addOption(OptionType.CHANNEL, "channel", "Channel that daily hentais will be sent", true)
+//				.addOption(OptionType.STRING, "time", "Time that daily hentais will be sent xx:xx", true)
+//				.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
+//				.setGuildOnly(true),
+//				
+//			Commands.slash("hn", "Brings information about a specific nuclear code")
+//				.addOption(OptionType.INTEGER, "code", "Nuclear code", true),
+//				
+			Commands.slash("yo", "wtf"),
+	};
+	
 	private final Map<String, Consumer<SlashCommandInteractionEvent>> commandsMap = new HashMap<>();
 	
 	public SlashCommands() {
-		
+		HentaCommands hc = new HentaCommands();
+			commandsMap.put("hentime", hc :: hentime);
+			commandsMap.put("hn", hc :: hn);
 	}
 	
 	@Override
 	public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-		switch(event.getName()) {
-			case "hentime":
-				event.deferReply().queue();
-				
-				GuildChannelUnion channel = event.getOption("channel", OptionMapping :: getAsChannel);
-				String model = event.getOption("time", OptionMapping :: getAsString);
-				
-				event.getHook().sendMessage("Hentime changed to " + channel.getName() + " in " + model).queue();
-				break;
-				
-			case "yo":
-				event.deferReply().queue();
-				//event.reply("opa").queue();
-				event.getHook().sendMessage("opa").queue();
-				break;
-				
-				
-		}
+		commandsMap.get(event.getName()).accept(event);
 	}
 }

@@ -26,13 +26,10 @@ public class ChatLogCommands extends ListenerAdapter {
 			commandsMap.put("!tempo", gc :: tempo);
 			commandsMap.put("!updates", gc :: updates);
 			
-		HentaCommands hc = new HentaCommands();
-			commandsMap.put("!rhn", hc :: rhn);
-			commandsMap.put("!henta", hc :: henta);
-			commandsMap.put("!hn [0-9]+$", hc :: hn);
-			commandsMap.put("!hentime", hc :: hentimeUsage);
-			commandsMap.put("!hentime ([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]", hc :: hentime);
-			commandsMap.put("!favorites( (<@)?[0-9]+>?)?", hc :: favorites);
+//		HentaCommands hc = new HentaCommands();
+//			commandsMap.put("!rhn", hc :: rhn);
+//			commandsMap.put("!hn [0-9]+$", hc :: hn);
+//			commandsMap.put("!favorites( (<@)?[0-9]+>?)?", hc :: favorites);
 			
 		LeagueCommands lc = new LeagueCommands();
 			commandsMap.put("!runa( [a-zA-Z]+){2}", lc :: runes);
