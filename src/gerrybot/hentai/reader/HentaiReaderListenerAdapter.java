@@ -10,24 +10,24 @@ public class HentaiReaderListenerAdapter extends ListenerAdapter{
 	
 	@Override
 	public void onStringSelectInteraction(StringSelectInteractionEvent event) {
-		if(!event.isFromGuild()) return;
-
-		String commandName = event.getName();
-		String fullLink = BASE_LINK + event.getOption("numbers").getAsString() + "/1/";
-		
-		switch(commandName) {
-			case "read" : {
-				try {
-					HentaiReaderTest hrt = new HentaiReaderTest(fullLink);
-					hrt.replySlashCommand(event).queue();
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-					event.reply(e.getMessage()).queue();
-				}
-				break;
-			}
-		}
+//		if(!event.isFromGuild()) return;
+//
+//		String commandName = event.getToken();
+//		String fullLink = BASE_LINK + event.getOption("numbers").getAsString() + "/1/";
+//
+//		switch(commandName) {
+//			case "read" : {
+//				try {
+//					HentaiReaderTest hrt = new HentaiReaderTest(fullLink);
+//					hrt.replySlashCommand(event).queue();
+//
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					event.reply(e.getMessage()).queue();
+//				}
+//				break;
+//			}
+//		}
 	}
 	
 	@Override

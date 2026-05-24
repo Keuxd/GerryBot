@@ -43,10 +43,10 @@ public class ChatLogCommands extends ListenerAdapter {
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		if(event.getAuthor().isBot()) return;
-		if(!event.isFromGuild()) return;
+//		if(!event.isFromGuild()) return;
 		
 		String message = event.getMessage().getContentRaw().toLowerCase();
-		//System.out.println(event.getAuthor().getEffectiveName() + " -> " + message);
+//		System.out.println(event.getAuthor().getEffectiveName() + " -> " + message);
 		
 		executeCommand(message, event);
 	}
