@@ -41,3 +41,6 @@ gerryCache
 
 # IDE Configs
 .settings
+.idea
+.project
+*.iml
