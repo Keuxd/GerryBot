@@ -41,10 +41,12 @@ public class HentaCommands {
 		
 		Hentai hentai = NHentaiNet.createHentaiByNumber(code + "");
 
-		hentai.sendEmbedHentai(event).queue(message -> {
-			if(!hentai.getTitle().equals("Not Found")) {
-//				message.addReaction(Emoji.fromUnicode("U+2B50")).queue();
-			}
+		hentai.sendEmbedHentai(event).queue(hook -> {
+			hook.retrieveOriginal().queue(message -> {
+				if(!hentai.getTitle().equals("Not Found")) {
+					message.addReaction(Emoji.fromUnicode("U+2B50"));
+				}
+			});
 		});
 	}
 	
@@ -85,9 +87,9 @@ public class HentaCommands {
 		}
 		
 		try {
-			new FavoritesViewer(userId).sendFavoritesHentas(channel).queue(message -> {
-				message.addReaction(Emoji.fromUnicode("U+2B50")).queue();
-			});
+//			new FavoritesViewer(userId).sendFavoritesHentas(channel).queue(message -> {
+////				message.addReaction(Emoji.fromUnicode("U+2B50")).queue();
+//			});
 		} catch(Exception e) {
 			channel.sendMessage("This user doesn't have favorite hentas").queue();
 		}

@@ -1,12 +1,8 @@
 package gerrybot.core;
 
-import java.awt.Color;
 import java.io.File;
-import java.util.List;
 
 import javax.security.auth.login.LoginException;
-import javax.swing.BorderFactory;
-import javax.swing.UIManager;
 
 import gerrybot.commands.chatlog.ChatLogCommands;
 import gerrybot.commands.slash.SlashCommands;
@@ -16,6 +12,7 @@ import gerrybot.diceroller.DRFrame;
 import gerrybot.hentai.DailyThread;
 import gerrybot.hentai.HentaiReactionEvents;
 import gerrybot.hentai.favoritesViewer.FavoritesViewerListenerAdapter;
+
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -28,7 +25,6 @@ import net.dv8tion.jda.internal.utils.JDALogger;
 
 public class Main {
 
-    public static final boolean IS_TESTING = false;
     public static final int COLOR = 0x9e42f5;
 
     public static JDA jda;
@@ -37,7 +33,7 @@ public class Main {
     public static DailyThread dailyThread;
 
     public static void main(String[] args) throws Exception {
-        DRFrame.getInstance().setVisible(true);
+        //DRFrame.getInstance().setVisible(true);
         initCacheFolder();
 
         if (!JDBC.connectDataBase()) return;
@@ -54,14 +50,19 @@ public class Main {
 //		dailyThread = new DailyThread();
 //		dailyThread.start();
 
-//        connectToAudioChannel("718969849854034013");
+//        connectToAudioChannel("790008324317380631");
     }
 
     private static void connectToAudioChannel(String voiceChannelId) {
-        VoiceChannel vc = jda.getVoiceChannelById(voiceChannelId);
-        Guild guild = vc.getGuild();
-        guild.getAudioManager().openAudioConnection(vc);
-        System.out.println("Conectado no canal '" + vc.getName() + "' do servidor '" + guild.getName() + "'.");
+        try {
+            VoiceChannel vc = jda.getVoiceChannelById(voiceChannelId);
+            Guild guild = vc.getGuild();
+//            guild.getAudioManager().setSendingHandler();
+            guild.getAudioManager().openAudioConnection(vc);
+            System.out.println("Conectado no canal '" + vc.getName() + "' do servidor '" + guild.getName() + "'.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void initJDA(String status) throws LoginException {
@@ -69,7 +70,7 @@ public class Main {
 
         JDALogger.setFallbackLoggerEnabled(false);
 
-        jda = JDABuilder.createLight(Token.getToken())
+        jda = JDABuilder.createDefault(Token.getToken())
                 .addEventListeners(new ChatLogCommands())
                 .addEventListeners(new PV())
                 .addEventListeners(new HentaiReactionEvents())
@@ -77,7 +78,7 @@ public class Main {
                 .addEventListeners(new SlashCommands())
                 .setStatus(OnlineStatus.ONLINE)
                 .setActivity(Activity.playing(status))
-                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_VOICE_STATES)
                 .enableCache(CacheFlag.VOICE_STATE)
                 .build();
     }

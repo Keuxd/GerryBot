@@ -6,57 +6,57 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class HentaiReaderListenerAdapter extends ListenerAdapter{
 	
-	private final String BASE_LINK = "https://nhentai.net/g/";
-	
-	@Override
-	public void onStringSelectInteraction(StringSelectInteractionEvent event) {
-//		if(!event.isFromGuild()) return;
+//	private final String BASE_LINK = "https://nhentai.net/g/";
 //
-//		String commandName = event.getToken();
-//		String fullLink = BASE_LINK + event.getOption("numbers").getAsString() + "/1/";
+//	@Override
+//	public void onStringSelectInteraction(StringSelectInteractionEvent event) {
+////		if(!event.isFromGuild()) return;
+////
+////		String commandName = event.getToken();
+////		String fullLink = BASE_LINK + event.getOption("numbers").getAsString() + "/1/";
+////
+////		switch(commandName) {
+////			case "read" : {
+////				try {
+////					HentaiReaderTest hrt = new HentaiReaderTest(fullLink);
+////					hrt.replySlashCommand(event).queue();
+////
+////				} catch (Exception e) {
+////					e.printStackTrace();
+////					event.reply(e.getMessage()).queue();
+////				}
+////				break;
+////			}
+////		}
+//	}
 //
-//		switch(commandName) {
-//			case "read" : {
-//				try {
-//					HentaiReaderTest hrt = new HentaiReaderTest(fullLink);
-//					hrt.replySlashCommand(event).queue();
+//	@Override
+//	public void onButtonInteraction(ButtonInteractionEvent event) {
+//		String id = event.getComponentId();
+//		event.deferEdit().queue();
 //
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					event.reply(e.getMessage()).queue();
-//				}
+//		String message = event.getMessage().getContentRaw();
+//		System.out.println(message);
+//		HentaiReaderTest hrt = new HentaiReaderTest(message);
+//
+//
+//		switch(id) {
+//			case "nextPage" : {
+////				System.out.println(event.getMessage().getEmbeds().get(0).getImage().getUrl());
+//				hrt.nextPage();
+//				event.getChannel().sendMessage("Next").queue();
+//				break;
+//			}
+//			case "previousPage" : {
+//				event.getChannel().sendMessage("Previous").queue();
+//				break;
+//			}
+//			case "closePage" : {
+//				event.getChannel().sendMessage("Close").queue();
 //				break;
 //			}
 //		}
-	}
-	
-	@Override
-	public void onButtonInteraction(ButtonInteractionEvent event) {
-		String id = event.getComponentId();
-		event.deferEdit().queue();
-
-		String message = event.getMessage().getContentRaw();
-		System.out.println(message);
-		HentaiReaderTest hrt = new HentaiReaderTest(message);
-		
-		
-		switch(id) {
-			case "nextPage" : {
-//				System.out.println(event.getMessage().getEmbeds().get(0).getImage().getUrl());
-				hrt.nextPage();
-				event.getChannel().sendMessage("Next").queue();
-				break;
-			}
-			case "previousPage" : {
-				event.getChannel().sendMessage("Previous").queue();
-				break;
-			}
-			case "closePage" : {
-				event.getChannel().sendMessage("Close").queue();
-				break;
-			}
-		}
-	}
+//	}
 	
 //	private SelectionMenu genActionRow(SlashCommandEvent event) {
 //		return SelectionMenu.create("menu:hentaiArrows")
